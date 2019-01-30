@@ -1,0 +1,28 @@
+{
+  "name": "bootstrap-wysiwyg-editor",
+  "description": "Simple WYSIWYG editor plugin for Bootstrap 3",
+  "main": "build/wysiwyg.js",
+  "ignore": [
+    "**/.*",
+    "LICENSE",
+    "*.json",
+    "src",
+    "*.yml",
+    "Gemfile",
+    "Gemfile.lock",
+    "*.md",
+    "bower_components",
+    "node_modules",
+    "test",
+    "composer.json",
+    "Gruntfile.js",
+    "package.json",
+    "package-lock.json"
+  ],
+  "authors": [
+    "W.D.M.Group, Ukraine <wdmg.com.ua@gmail.com>"
+  ],
+  "homepage": "http://wdmg.com.ua/",
+  "license": "MIT",
+  "version": "1.0.0"
+}

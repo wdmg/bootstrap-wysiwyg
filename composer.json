@@ -1,0 +1,33 @@
+{
+  "name": "bootstrap-wysiwyg-editor",
+  "description": "Simple WYSIWYG editor plugin for Bootstrap 3",
+  "keywords": [
+    "twitter-bootstrap",
+    "bootstrap",
+    "wysiwyg",
+    "editor"
+  ],
+  "author": "W.D.M.Group, Ukraine <wdmg.com.ua@gmail.com> (https://wdmg.com.ua/)",
+  "main": "build/wysiwyg.js",
+  "dependencies": {
+    "bootstrap": "^3.3",
+    "grunt-autoprefixer": "^3.0.4",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-cssmin": "^3.0.0",
+    "grunt-contrib-sass": "^1.0.0",
+    "grunt-contrib-uglify-es": "^3.3.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-css": "^0.5.4",
+    "jquery": "^3.3.1"
+  },
+  "devDependencies": {
+    "grunt": "latest"
+  },
+  "repository": "https://github.com/wdmg/bootstrap-wysiwyg.git",
+  "homepage": "http://wdmg.github.io/bootstrap-wysiwyg/",
+  "bugs": {
+    "url": "https://github.com/wdmg/bootstrap-wysiwyg/issues"
+  },
+  "license": "MIT",
+  "version": "1.0.0"
+}
