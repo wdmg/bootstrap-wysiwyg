@@ -424,6 +424,81 @@
 
                     });
                 }
+
+
+                _this._$content.on('mouseup keyup', function (event) {
+                    var sel = window.getSelection();
+
+
+                    /*if (sel.getRangeAt && sel.rangeCount) {
+
+                        if (sel.parentElement == '<b>' || sel.parentNode == '<b>');
+
+                        //return sel.getRangeAt(0);
+                    }*/
+
+                    //var $parents = $(sel.parentElement).parentsUntil('#' + _this._editorId);
+                    //var $parents = $(sel.parentElement).parentsUntil('#' + _this._editorId);
+
+
+
+                });
+
+                _this._$content.on('click keyup', function (event) {
+                    var sel = window.getSelection();
+
+
+                    /*if (sel.getRangeAt && sel.rangeCount) {
+
+                        if (sel.parentElement == '<b>' || sel.parentNode == '<b>');
+
+                        //return sel.getRangeAt(0);
+                    }*/
+
+                    //var $parents = $(sel.parentElement).parentsUntil('#' + _this._editorId);
+                    //var $parents = $(sel.parentElement).parentsUntil('#' + _this._editorId);
+
+
+                    /*var target = event.target;
+                    //var selector = $(target).parentsUntil(_this._$content).map(function() { return this.tagName; }).get().reverse().concat([this.nodeName]).join(">");
+                    var selector = $(target).parentsUntil(_this._$content).map(function() { console.log(this); return this.tagName; }).get().concat([this.nodeName]).join(" > ");
+
+                    selector = "body > " +selector.toLowerCase().toString();
+
+                    var target_id = $(target).attr("id");
+                    if (target_id)
+                        selector += "#" + target_id;
+
+                    var target_class = $(target).attr("class");
+                    if (target_class)
+                        selector += "." + target_class.replace(/\./g, '.');
+
+                    _this._$statusbar.text(selector);*/
+
+                    var $target = $(event.target);
+                    var pathInfo = _this._getPath($target, _this._$content);
+
+                    switch(pathInfo['tags'][0]) {
+                        case 'b' :
+                            _this._$toolbar.find('[data-action="text"]').removeClass('active');
+                            _this._$toolbar.find('[data-action="text"][data-value="bold"]').addClass('active');
+                            break;
+
+                        case 'u' :
+                            _this._$toolbar.find('[data-action="text"]').removeClass('active');
+                            _this._$toolbar.find('[data-action="text"][data-value="underline"]').addClass('active');
+                            break;
+
+                        case 'i' :
+                            _this._$toolbar.find('[data-action="text"]').removeClass('active');
+                            _this._$toolbar.find('[data-action="text"][data-value="italic"]').addClass('active');
+                            break;
+                    }
+
+
+                    _this._$statusbar.text(pathInfo['path']);
+
+                });
             }
 
             _createClass(Editor, {
@@ -431,6 +506,47 @@
                     value: function element() {
                         var _this = this;
                         return _this._$element;
+                    }
+                },
+                _getPath: {
+                    value: function getPath(node, restrict) {
+                        var path, tags = [];
+                        while (node.length) {
+                            var realNode = node[0], name = realNode.localName;
+                            var parent = node.parentsUntil(restrict);
+
+                            if (!name)
+                                break;
+                            else
+                                name = name.toLowerCase();
+
+                            /*var sameTagSiblings = parent.children(name);
+                            if (sameTagSiblings.length > 1) {
+                                var allSiblings = parent.children();
+                                var index = allSiblings.index(realNode) + 1;
+                                if (index > 1) {
+                                    name += ':nth-child(' + index + ')';
+                                }
+                            }*/
+
+                            tags.push(name);
+
+                            var id = $(realNode).attr("id");
+                            if (id)
+                                name += "#" + id;
+
+                            var classname = $(realNode).attr("class");
+                            if (classname)
+                                name += "." + classname.replace(/\./g, '.');
+
+                            path = name + (path ? ' > ' + path : '');
+                            node = parent;
+                        }
+
+                        return {
+                            path: path,
+                            tags: tags
+                        };
                     }
                 },
                 _buildTollbarButton: {
