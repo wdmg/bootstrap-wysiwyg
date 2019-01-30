@@ -97,8 +97,8 @@
 
                         if(elem[0] === 'mode') { // Editor mode switcher
 
-                            $toolbar.append(_this._buildTollbarBtn('mode', 'change', "fa fa-eye", 'editor'));
-                            $toolbar.append(_this._buildTollbarBtn('mode', 'change', "fa fa-code", 'source'));
+                            $toolbar.append(_this._buildTollbarButton('mode', 'editor', "fa fa-eye", null));
+                            $toolbar.append(_this._buildTollbarButton('mode', 'source', "fa fa-code", null));
 
                         } else if(elem[0] === 'styles') { // Editor mode switcher
 
@@ -153,96 +153,96 @@
                         } else if(elem[0] === 'text') { // Text decoration
 
                             if(elem[1].indexOf('bold', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('text', 'bold', "fa fa-bold", null));
+                                $toolbar.append(_this._buildTollbarButton('text', 'bold', "fa fa-bold", null));
 
                             if(elem[1].indexOf('italic', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('text', 'italic', "fa fa-italic", null));
+                                $toolbar.append(_this._buildTollbarButton('text', 'italic', "fa fa-italic", null));
 
                             if(elem[1].indexOf('underline', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('text', 'underline', "fa fa-underline", null));
+                                $toolbar.append(_this._buildTollbarButton('text', 'underline', "fa fa-underline", null));
 
                             if(elem[1].indexOf('color', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('text', 'color', "fa fa-font", null));
+                                $toolbar.append(_this._buildTollbarButton('text', 'color', "fa fa-font", null));
 
                         } else if(elem[0] === 'align') { // Text aligment
 
                             if(elem[1].indexOf('left', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('align', 'left', "fa fa-align-left", null));
+                                $toolbar.append(_this._buildTollbarButton('align', 'left', "fa fa-align-left", null));
 
                             if(elem[1].indexOf('center', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('align', 'center', "fa fa-align-center", null));
+                                $toolbar.append(_this._buildTollbarButton('align', 'center', "fa fa-align-center", null));
 
                             if(elem[1].indexOf('right', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('align', 'right', "fa fa-align-right", null));
+                                $toolbar.append(_this._buildTollbarButton('align', 'right', "fa fa-align-right", null));
 
                             if(elem[1].indexOf('justify', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('align', 'justify', "fa fa-align-justify", null));
+                                $toolbar.append(_this._buildTollbarButton('align', 'justify', "fa fa-align-justify", null));
 
                         } else if(elem[0] === 'lists') { // Lists
 
                             if(elem[1].indexOf('default', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('lists', 'default', "fa fa-list-ul", null));
+                                $toolbar.append(_this._buildTollbarButton('lists', 'default', "fa fa-list-ul", null));
 
                             if(elem[1].indexOf('numeric', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('lists', 'numeric', "fa fa-list-ol", null));
+                                $toolbar.append(_this._buildTollbarButton('lists', 'numeric', "fa fa-list-ol", null));
 
                             if(elem[1].indexOf('level-indent', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('lists', 'level-indent', "fa fa-indent", null));
+                                $toolbar.append(_this._buildTollbarButton('lists', 'level-indent', "fa fa-indent", null));
 
                             if(elem[1].indexOf('level-outdent', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('lists', 'level-outdent', "fa fa-outdent", null));
+                                $toolbar.append(_this._buildTollbarButton('lists', 'level-outdent', "fa fa-outdent", null));
 
                         } else if(elem[0] === 'components') { // Components
 
                             if(elem[1].indexOf('table', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('components', 'table', "fa fa-table", null));
+                                $toolbar.append(_this._buildTollbarButton('components', 'table', "fa fa-table", null));
 
                             if(elem[1].indexOf('chart', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('components', 'chart', "fa fa-pie-chart", null));
+                                $toolbar.append(_this._buildTollbarButton('components', 'chart', "fa fa-pie-chart", null));
 
                         } else if(elem[0] === 'props') { // Text properties
 
                             if(elem[1].indexOf('interval', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('props', 'interval', "fa fa-bars", null));
+                                $toolbar.append(_this._buildTollbarButton('props', 'interval', "fa fa-bars", null));
 
                             if(elem[1].indexOf('line-height', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('props', 'line-height', "fa fa-text-height", null));
+                                $toolbar.append(_this._buildTollbarButton('props', 'line-height', "fa fa-text-height", null));
 
                             if(elem[1].indexOf('letter-spacing', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('props', 'letter-spacing', "fa fa-text-width", null));
+                                $toolbar.append(_this._buildTollbarButton('props', 'letter-spacing', "fa fa-text-width", null));
 
                         } else if(elem[0] === 'insert') { // Inserts
 
                             if(elem[1].indexOf('emoji', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('insert', 'emoji', "fa fa-smile-o", null));
+                                $toolbar.append(_this._buildTollbarButton('insert', 'emoji', "fa fa-smile-o", null));
 
                             if(elem[1].indexOf('link', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('insert', 'link', "fa fa-link", null));
+                                $toolbar.append(_this._buildTollbarButton('insert', 'link', "fa fa-link", null));
 
                             if(elem[1].indexOf('image', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('insert', 'image', "fa fa-image", null));
+                                $toolbar.append(_this._buildTollbarButton('insert', 'image', "fa fa-image", null));
 
                             if(elem[1].indexOf('video', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('insert', 'video', "fa fa-video-camera", null));
+                                $toolbar.append(_this._buildTollbarButton('insert', 'video', "fa fa-video-camera", null));
 
                             if(elem[1].indexOf('symbol', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('insert', 'symbol', "fa fa-hashtag", null));
+                                $toolbar.append(_this._buildTollbarButton('insert', 'symbol', "fa fa-hashtag", null));
 
                             if(elem[1].indexOf('bookmark', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('insert', 'bookmark', "fa fa-bookmark", null));
+                                $toolbar.append(_this._buildTollbarButton('insert', 'bookmark', "fa fa-bookmark", null));
 
                         } else if(elem[0] === 'special') { // Inserts
 
                             if(elem[1].indexOf('print', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('special', 'print', "fa fa-print", null));
+                                $toolbar.append(_this._buildTollbarButton('special', 'print', "fa fa-print", null));
 
                             if(elem[1].indexOf('clean', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarBtn('special', 'clean', "fa fa-eraser", null));
+                                $toolbar.append(_this._buildTollbarButton('special', 'clean', "fa fa-eraser", null));
 
                         } else if(elem[0] === 'fullscreen') { // Fullscreen mode
 
                             $toolbar.addClass('pull-right');
-                            $toolbar.append(_this._buildTollbarBtn('fullscreen', null, "fa fa-arrows-alt", null));
+                            $toolbar.append(_this._buildTollbarButton('fullscreen', true, "fa fa-arrows-alt", null));
 
                         }
 
@@ -251,6 +251,179 @@
                     });
                 }
 
+                // Set behavior for toolbar buttons
+                if(_this._$toolbar.length) {
+                    _this._$toolbar.on('click', '[data-action]', function(event) {
+                        var $target = $(event.currentTarget);
+                        var action = $target.data('action');
+                        var value = $target.data('value');
+
+                        if (action && value) {
+
+                            switch (action) {
+
+                                case 'mode':
+                                    switch (value) {
+                                        case 'editor':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+
+                                        case 'source':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+                                    }
+                                    break;
+
+                                case 'wrap':
+                                    console.log('Fire action: ' + action + ' with value: ' + value);
+                                    break;
+
+                                case 'style':
+                                    console.log('Fire action: ' + action + ' with value: ' + value);
+                                    break;
+
+                                case 'fullscreen':
+                                    console.log('Fire action: ' + action + ' with value: ' + value);
+                                    break;
+
+                                case 'text':
+                                    switch (value) {
+                                        case 'bold':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+
+                                        case 'italic':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+
+                                        case 'underline':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+
+                                        case 'color':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+                                    }
+                                    break;
+
+                                case 'align':
+                                    switch (value) {
+                                        case 'left':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+
+                                        case 'center':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+
+                                        case 'right':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+
+                                        case 'justify':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+                                    }
+                                    break;
+
+
+                                case 'lists':
+                                    switch (value) {
+                                        case 'default':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+
+                                        case 'numeric':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+
+                                        case 'level-indent':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+
+                                        case 'level-outdent':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+                                    }
+                                    break;
+
+                                case 'components':
+                                    switch (value) {
+                                        case 'table':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+
+                                        case 'chart':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+                                    }
+                                    break;
+
+                                case 'props':
+                                    switch (value) {
+                                        case 'interval':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+
+                                        case 'line-height':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+
+                                        case 'letter-spacing':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+                                    }
+                                    break;
+
+                                case 'insert':
+                                    switch (value) {
+                                        case 'emoji':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+
+                                        case 'link':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+
+                                        case 'image':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+
+                                        case 'video':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+
+                                        case 'symbol':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+
+                                        case 'bookmark':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+                                    }
+                                    break;
+
+                                case 'special':
+                                    switch (value) {
+                                        case 'print':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+
+                                        case 'clean':
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            break;
+                                    }
+                                    break;
+
+                                default:
+                                    console.warn('Unrecognized action: ' + action + ' with value: ' + value);
+                                    break;
+                            }
+
+                        }
+
+                    });
+                }
             }
 
             _createClass(Editor, {
@@ -260,19 +433,19 @@
                         return _this._$element;
                     }
                 },
-                _buildTollbarBtn: {
-                    value: function buildTollbarBtn(action, value, icon, hotkey) {
+                _buildTollbarButton: {
+                    value: function buildTollbarButton(action, value, icon, hotkey) {
 
                         var $button = $('<button type="button" class="btn btn-default" tabindex="-1" />');
 
                         if (action)
-                            $button.data('action', action);
+                            $button.attr('data-action', action);
 
                         if (value)
-                            $button.data('value', value);
+                            $button.attr('data-value', value);
 
                         if (hotkey)
-                            $button.data('hotkey', hotkey);
+                            $button.attr('data-hotkey', hotkey);
 
                         if (icon)
                             $button.append('<span class="' + icon + '" />');
@@ -319,7 +492,7 @@
                                     $dropdownMenu.append($item);
 
                                 } else {
-                                    
+
                                     $link.text(elem);
                                     $link.attr('data-action', action);
                                     $link.attr('data-value', elem);
