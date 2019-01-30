@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Bootstrap WYSIWYG editor</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="../src/css/wysiwyg.css" rel="stylesheet">
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1">&nbsp;</div>
+                <div class="col-md-10">
+                    <div class="well" style="margin: 2rem 0;">
+                        <div class="form-group">
+                            <label class="control-label" for="editor">You message here:</label>
+                            <textarea id="editor" class="form-control" rows="3">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad <u>minim veniam</u>, quis nostrud exercitation ullamco <i>laboris nisi ut aliquip</i> ex ea commodo consequat.</p>
+                                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur <b>sint occaecat cupidatat</b> non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p>Lorem ipsum dolor sit amet, <a href="http://example.com/" target="_blank">consectetur adipiscing elit</a>, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+                                <ul>
+                                    <li>Lorem ipsum</li>
+                                    <li>Duis aute irure</li>
+                                    <li>Excepteur sint occaecat</li>
+                                    <li>Ut enim ad minim veniam</li>
+                                </ul>
+                            </textarea>
+                        </div>
+                </div>
+                <div class="col-md-1">&nbsp;</div>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="../src/js/wysiwyg.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#editor').wysiwyg({
+
+                });
+            });
+        </script>
+    </body>
+</html>
