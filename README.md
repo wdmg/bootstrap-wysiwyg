@@ -1,2 +1,2 @@
-# bootstrap-wysiwyg
-WYSIWYG editor plugin for Bootstrap framework
+# Bootstrap WYSIWYG
+Simple editor plugin for Bootstrap
