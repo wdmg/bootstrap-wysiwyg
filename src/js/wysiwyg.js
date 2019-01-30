@@ -48,7 +48,11 @@
                 ['insert', ['emoji', 'link', 'image', 'video', 'symbol', 'bookmark']],
                 ['special', ['print', 'clean']],
                 ['fullscreen'],
-            ]
+            ],
+            fontSizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '16px', '17px', '18px'],
+            fontSizeDefault: ['12px'],
+            fontFamilies: ['Open Sans', 'Arial', 'Arial Black', 'Courier', 'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times', 'Times New Roman', 'Verdana'],
+            fontFamilyDefault: ['Open Sans'],
         };
 
         var Editor = (function() {
@@ -69,269 +73,183 @@
                 _this._$editor = $('<div id="' + _this._editorId + '" aria-describedby="#' + _this._inputId + '" class="wysiwyg-editor" />');
                 _this._$element.wrap(_this._$editor);
 
-                // Add to editor toolbar
-                _this._$toolbar = $('<div class="wysiwyg-toolbar btn-toolbar" />');
-                _this._$element.before(_this._$toolbar);
-
+                // Add content to editor
                 _this._$content = $('<div class="editor-content" contenteditable="true" />');
                 _this._$content.html(_this._$element.val());
                 _this._$element.before(_this._$content);
+
+                // Add toolbar to editor
+                _this._$toolbar = $('<div class="wysiwyg-toolbar btn-toolbar" />');
+                _this._$content.before(_this._$toolbar);
+
+                // Add statusbar to editor
+                _this._$statusbar = $('<div class="editor-statusbar" />');
+                _this._$content.after(_this._$statusbar);
 
                 // Hide input editor
                 _this._$element.addClass('hide');
 
                 // Build toolbar by config
                 if(typeof (_this._config.toolbar) == 'object') {
-
                     $.each(_this._config.toolbar, function (index, elem) {
                         //console.log(elem + ' comes at ' + index);
                         var $toolbar = $('<div class="btn-group" role="group" aria-label="..." />');
 
                         if(elem[0] === 'mode') { // Editor mode switcher
 
-                            $toolbar.append($('<button class="btn btn-default" data-action="change-view" data-value="editor">' +
-                                '              <span class="fa fa-eye"></span>' +
-                                '            </button>'));
-
-                            $toolbar.append($('<button class="btn btn-default" data-action="change-view" data-value="source">' +
-                                '              <span class="fa fa-code"></span>' +
-                                '            </button>'));
-
-                            _this._$toolbar.append($toolbar);
+                            $toolbar.append(_this._buildTollbarBtn('mode', 'change', "fa fa-eye", 'editor'));
+                            $toolbar.append(_this._buildTollbarBtn('mode', 'change', "fa fa-code", 'source'));
 
                         } else if(elem[0] === 'styles') { // Editor mode switcher
 
-                            $toolbar.append($('<div class="dropdown">' +
-                                '            <a class="btn btn-default dropdown-toggle " data-toggle="dropdown">' +
-                                '              <span class="fa fa-header"></span>' +
-                                '              <b class="caret"></b>' +
-                                '            </a>' +
-                                '            <ul class="dropdown-menu">' +
-                                '              <li>' +
-                                '                <a data-action="" data-value="" tabindex="-1">' +
-                                '                Open Sans' +
-                                '                </a>' +
-                                '              </li>' +
-                                '            </ul>' +
-                                '          </div>'));
+                            var styles = {
+                                'Header H1': {
+                                    'action': 'wrap',
+                                    'value': '<h1 />',
+                                },
+                                'Header H2': {
+                                    'action': 'wrap',
+                                    'value': '<h2 />',
+                                },
+                                'Header H3': {
+                                    'action': 'wrap',
+                                    'value': '<h3 />',
+                                },
+                            };
 
-                            _this._$toolbar.append($toolbar);
+                            $toolbar.append(_this._buildTollbarDropdown('select-style', styles, "fa fa-header", "Style"));
 
                         } else if(elem[0] === 'fonts') { // Font select and size
 
-                            if(elem[1].indexOf('select', 0) !== -1)
-                                $toolbar.append($('<div class="dropdown">' +
-                                    '            <a class="btn btn-default dropdown-toggle " data-toggle="dropdown">' +
-                                    '              <span class="current-font">Font Name</span>' +
-                                    '              <b class="caret"></b>' +
-                                    '            </a>' +
-                                    '            <ul class="dropdown-menu">' +
-                                    '              <li>' +
-                                    '                <a data-action="" data-value="" tabindex="-1">' +
-                                    '                Open Sans' +
-                                    '                </a>' +
-                                    '              </li>' +
-                                    '            </ul>' +
-                                    '          </div>'));
+                            if(elem[1].indexOf('select', 0) !== -1) {
 
-                            if(elem[1].indexOf('size', 0) !== -1)
-                                $toolbar.append($('<div class="dropdown">' +
-                                    '            <a class="btn btn-default dropdown-toggle " data-toggle="dropdown">' +
-                                    '              <span class="current-font">12 px</span>' +
-                                    '              <b class="caret"></b>' +
-                                    '            </a>' +
-                                    '            <ul class="dropdown-menu">' +
-                                    '              <li>' +
-                                    '                <a data-action="" data-value="" tabindex="-1">' +
-                                    '                12 px' +
-                                    '                </a>' +
-                                    '              </li>' +
-                                    '            </ul>' +
-                                    '          </div>'));
+                                var fonts = {};
+                                $.each(_this._config.fontFamilies, function(index, value) {
+                                    fonts[value] = {
+                                        'action': 'style',
+                                        'value': "font-family:'" + value + "';"
+                                    };
+                                });
 
-                            if(_this._$toolbar)
-                                _this._$toolbar.append($toolbar);
+                                $toolbar.append(_this._buildTollbarDropdown('font-select', fonts, "fa fa-underline", _this._config.fontFamilyDefault));
+                            }
+
+                            if(elem[1].indexOf('size', 0) !== -1) {
+                                var sizes = {};
+                                $.each(_this._config.fontSizes, function(index, value) {
+                                    sizes[value] = {
+                                        'action': 'style',
+                                        'value': "font-size: " + value + ";"
+                                    };
+                                });
+                                $toolbar.append(_this._buildTollbarDropdown('font-size', sizes, null, _this._config.fontSizeDefault));
+                            }
+
+
+                                var test = ['test1', 'test2', 'test3', 'test4', 'test5'];
+                                $toolbar.append(_this._buildTollbarDropdown('font-size', test, "fa fa-underline", 'test3'));
+
 
                         } else if(elem[0] === 'text') { // Text decoration
 
                             if(elem[1].indexOf('bold', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-bold"></span>' +
-                                    '            </button>'));
+                                $toolbar.append(_this._buildTollbarBtn('text', 'bold', "fa fa-bold", null));
 
                             if(elem[1].indexOf('italic', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-italic"></span>' +
-                                    '            </button>'));
+                                $toolbar.append(_this._buildTollbarBtn('text', 'italic', "fa fa-italic", null));
 
                             if(elem[1].indexOf('underline', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-underline"></span>' +
-                                    '            </button>'));
+                                $toolbar.append(_this._buildTollbarBtn('text', 'underline', "fa fa-underline", null));
 
                             if(elem[1].indexOf('color', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-font"></span>' +
-                                    '            </button>'));
-
-                            if(_this._$toolbar)
-                                _this._$toolbar.append($toolbar);
+                                $toolbar.append(_this._buildTollbarBtn('text', 'color', "fa fa-font", null));
 
                         } else if(elem[0] === 'align') { // Text aligment
 
                             if(elem[1].indexOf('left', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-align-left"></span>' +
-                                    '            </button>'));
+                                $toolbar.append(_this._buildTollbarBtn('align', 'left', "fa fa-align-left", null));
 
                             if(elem[1].indexOf('center', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-align-center"></span>' +
-                                    '            </button>'));
+                                $toolbar.append(_this._buildTollbarBtn('align', 'center', "fa fa-align-center", null));
 
                             if(elem[1].indexOf('right', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-align-right"></span>' +
-                                    '            </button>'));
+                                $toolbar.append(_this._buildTollbarBtn('align', 'right', "fa fa-align-right", null));
 
                             if(elem[1].indexOf('justify', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-align-justify"></span>' +
-                                    '            </button>'));
-
-                            if(_this._$toolbar)
-                                _this._$toolbar.append($toolbar);
+                                $toolbar.append(_this._buildTollbarBtn('align', 'justify', "fa fa-align-justify", null));
 
                         } else if(elem[0] === 'lists') { // Lists
 
                             if(elem[1].indexOf('default', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-list-ul"></span>' +
-                                    '            </button>'));
+                                $toolbar.append(_this._buildTollbarBtn('lists', 'default', "fa fa-list-ul", null));
 
                             if(elem[1].indexOf('numeric', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-list-ol"></span>' +
-                                    '            </button>'));
+                                $toolbar.append(_this._buildTollbarBtn('lists', 'numeric', "fa fa-list-ol", null));
 
                             if(elem[1].indexOf('level-indent', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-indent"></span>' +
-                                    '            </button>'));
+                                $toolbar.append(_this._buildTollbarBtn('lists', 'level-indent', "fa fa-indent", null));
 
                             if(elem[1].indexOf('level-outdent', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-outdent"></span>' +
-                                    '            </button>'));
-
-                            if(_this._$toolbar)
-                                _this._$toolbar.append($toolbar);
+                                $toolbar.append(_this._buildTollbarBtn('lists', 'level-outdent', "fa fa-outdent", null));
 
                         } else if(elem[0] === 'components') { // Components
 
                             if(elem[1].indexOf('table', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-table"></span>' +
-                                    '            </button>'));
+                                $toolbar.append(_this._buildTollbarBtn('components', 'table', "fa fa-table", null));
 
                             if(elem[1].indexOf('chart', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-pie-chart"></span>' +
-                                    '            </button>'));
-
-                            if(_this._$toolbar)
-                                _this._$toolbar.append($toolbar);
+                                $toolbar.append(_this._buildTollbarBtn('components', 'chart', "fa fa-pie-chart", null));
 
                         } else if(elem[0] === 'props') { // Text properties
 
                             if(elem[1].indexOf('interval', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-bars"></span>' +
-                                    '            </button>'));
+                                $toolbar.append(_this._buildTollbarBtn('props', 'interval', "fa fa-bars", null));
 
                             if(elem[1].indexOf('line-height', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-text-height"></span>' +
-                                    '            </button>'));
+                                $toolbar.append(_this._buildTollbarBtn('props', 'line-height', "fa fa-text-height", null));
 
                             if(elem[1].indexOf('letter-spacing', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-text-width"></span>' +
-                                    '            </button>'));
-
-                            if(_this._$toolbar)
-                                _this._$toolbar.append($toolbar);
+                                $toolbar.append(_this._buildTollbarBtn('props', 'letter-spacing', "fa fa-text-width", null));
 
                         } else if(elem[0] === 'insert') { // Inserts
 
                             if(elem[1].indexOf('emoji', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-smile-o"></span>' +
-                                    '            </button>'));
+                                $toolbar.append(_this._buildTollbarBtn('insert', 'emoji', "fa fa-smile-o", null));
 
                             if(elem[1].indexOf('link', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-link"></span>' +
-                                    '            </button>'));
+                                $toolbar.append(_this._buildTollbarBtn('insert', 'link', "fa fa-link", null));
 
                             if(elem[1].indexOf('image', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-image"></span>' +
-                                    '            </button>'));
+                                $toolbar.append(_this._buildTollbarBtn('insert', 'image', "fa fa-image", null));
 
                             if(elem[1].indexOf('video', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-video-camera"></span>' +
-                                    '            </button>'));
+                                $toolbar.append(_this._buildTollbarBtn('insert', 'video', "fa fa-video-camera", null));
 
                             if(elem[1].indexOf('symbol', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-code fa-hashtag"></span>' +
-                                    '            </button>'));
+                                $toolbar.append(_this._buildTollbarBtn('insert', 'symbol', "fa fa-hashtag", null));
 
                             if(elem[1].indexOf('bookmark', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-bookmark"></span>' +
-                                    '            </button>'));
-
-                            if(_this._$toolbar)
-                                _this._$toolbar.append($toolbar);
+                                $toolbar.append(_this._buildTollbarBtn('insert', 'bookmark', "fa fa-bookmark", null));
 
                         } else if(elem[0] === 'special') { // Inserts
 
                             if(elem[1].indexOf('print', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-print"></span>' +
-                                    '            </button>'));
+                                $toolbar.append(_this._buildTollbarBtn('special', 'print', "fa fa-print", null));
 
                             if(elem[1].indexOf('clean', 0) !== -1)
-                                $toolbar.append($('<button class="btn btn-default" data-action="" tabindex="-1">' +
-                                    '              <span class="fa fa-eraser"></span>' +
-                                    '            </button>'));
-
-                            if(_this._$toolbar)
-                                _this._$toolbar.append($toolbar);
+                                $toolbar.append(_this._buildTollbarBtn('special', 'clean', "fa fa-eraser", null));
 
                         } else if(elem[0] === 'fullscreen') { // Fullscreen mode
 
-                            $toolbar.append($('<button class="btn btn-default" data-action="change-view" data-value="editor">' +
-                                '              <span class="fa fa-arrows-alt"></span>' +
-                                '            </button>'));
-
                             $toolbar.addClass('pull-right');
-                            _this._$toolbar.append($toolbar);
+                            $toolbar.append(_this._buildTollbarBtn('fullscreen', null, "fa fa-arrows-alt", null));
 
                         }
 
+                        _this._$toolbar.append($toolbar);
+
                     });
                 }
-
-
-                /*
-                _this._$toolbar.append($('<a href="#" class="btn btn-default" />'));
-*/
-
-
 
             }
 
@@ -341,7 +259,96 @@
                         var _this = this;
                         return _this._$element;
                     }
-                }
+                },
+                _buildTollbarBtn: {
+                    value: function buildTollbarBtn(action, value, icon, hotkey) {
+
+                        var $button = $('<button type="button" class="btn btn-default" tabindex="-1" />');
+
+                        if (action)
+                            $button.data('action', action);
+
+                        if (value)
+                            $button.data('value', value);
+
+                        if (hotkey)
+                            $button.data('hotkey', hotkey);
+
+                        if (icon)
+                            $button.append('<span class="' + icon + '" />');
+
+                        return $button;
+                    }
+                },
+                _buildTollbarDropdown: {
+                    value: function buildTollbarDropdown(action, list, icon, label) {
+
+                        var $dropdown = $('<div class="dropdown" />');
+                        var $dropdownBtn = $('<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" />');
+                        var $dropdownMenu = $('<ul class="dropdown-menu" />');
+                        var $dropdownItem = $('<li />');
+                        var $dropdownLink = $('<a href="#" tabindex="-1" />');
+
+                        if (typeof (list) == "object") {
+
+                            $.each(list, function(index, elem) {
+
+                                var $link = $dropdownLink.clone();
+                                var $item = $dropdownItem.clone();
+
+                                if (typeof (elem) == 'object') {
+
+                                    if (elem['action'])
+                                        $link.attr('data-action', elem['action']);
+
+                                    if (elem['value'])
+                                        $link.attr('data-value', elem['value']);
+
+                                    if (elem['action'] == 'wrap')
+                                        $link.html($(elem['value']).text(index));
+                                    else
+                                        $link.text(index);
+
+                                    if (elem['action'] == 'style')
+                                        $link.attr('style', elem['value'].toString());
+
+                                    if(index == label)
+                                        $item.addClass('active');
+
+                                    $item.append($link);
+                                    $dropdownMenu.append($item);
+
+                                } else {
+                                    
+                                    $link.text(elem);
+                                    $link.attr('data-action', action);
+                                    $link.attr('data-value', elem);
+
+                                    if(elem == label)
+                                        $item.addClass('active');
+
+                                    $item.append($link);
+                                    $dropdownMenu.append($item);
+                                }
+
+                            });
+                        }
+
+                        if (icon)
+                            $dropdownBtn.prepend('<span class="' + icon + '" /> ');
+
+                        if (label)
+                            $dropdownBtn.text(label + ' ');
+                        else
+                            $dropdownBtn.text('Dropdown ');
+
+                        $dropdownBtn.append('<b class="caret" />');
+
+                        $dropdown.append($dropdownBtn);
+                        $dropdown.append($dropdownMenu);
+                        return $dropdown;
+                    }
+                },
             }, {
                 Default: {
                     get: function() {

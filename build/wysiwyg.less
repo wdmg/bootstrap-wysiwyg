@@ -5,8 +5,10 @@
     .dropdown {
       position: relative;
       display: inline-block;
-      margin-right: 0.5rem;
       float: left;
+      & + .dropdown {
+        margin-left: 0.5rem;
+      }
       & > .btn {
         padding: 5px 10px;
         text-align: center;
@@ -43,6 +45,7 @@
     margin-bottom: 0px;
     background-color: #f7f7f7;
     border: 1px solid #e3e3e3;
+    min-height: 1rem;
     border-top: none;
     border-radius: 0px 0px 4px 4px;
   }

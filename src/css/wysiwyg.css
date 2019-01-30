@@ -8,8 +8,10 @@
 .wysiwyg-editor .btn-toolbar .dropdown {
   position: relative;
   display: inline-block;
-  margin-right: 0.5rem;
   float: left;
+}
+.wysiwyg-editor .btn-toolbar .dropdown + .dropdown {
+  margin-left: 0.5rem;
 }
 .wysiwyg-editor .btn-toolbar .dropdown > .btn {
   padding: 5px 10px;
@@ -45,6 +47,7 @@
   margin-bottom: 0px;
   background-color: #f7f7f7;
   border: 1px solid #e3e3e3;
+  min-height: 1rem;
   border-top: none;
   border-radius: 0px 0px 4px 4px;
 }
