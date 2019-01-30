@@ -1,3 +1,49 @@
 .wysiwyg-editor {
-  user-select: none;
+  .btn-toolbar {
+    margin-left: 0px;
+    user-select: none;
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      margin-right: 0.5rem;
+      float: left;
+      & > .btn {
+        padding: 5px 10px;
+        text-align: center;
+        min-width: 34px
+      }
+    }
+    .btn-group {
+      margin-left: 0;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+      & + .btn-group {
+        margin-left: 0;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+      & > .btn {
+        padding: 5px 10px;
+        text-align: center;
+        min-width: 34px
+      }
+    }
+  }
+  .editor-content {
+    min-height: 120px;
+    padding: 15px;
+    margin-bottom: 0px;
+    background-color: #fff;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px 4px 0px 0px;
+  }
+  .editor-statusbar {
+    padding: 5px 8px;
+    margin-bottom: 0px;
+    background-color: #f7f7f7;
+    border: 1px solid #e3e3e3;
+    border-top: none;
+    border-radius: 0px 0px 4px 4px;
+  }
 }
