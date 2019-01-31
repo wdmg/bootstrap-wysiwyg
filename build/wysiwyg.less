@@ -39,6 +39,7 @@
     background-color: #fff;
     border: 1px solid #e3e3e3;
     border-radius: 4px 4px 0px 0px;
+    outline: none;
     &.source-mode {
       white-space: pre-line;
       word-break: break-all;
@@ -55,6 +56,9 @@
     }
   }
   .editor-statusbar {
+    display: inline-block;
+    position: relative;
+    width: 100%;
     padding: 5px 8px;
     margin-bottom: 0px;
     background-color: #f7f7f7;
@@ -62,5 +66,21 @@
     min-height: 1rem;
     border-top: none;
     border-radius: 0px 0px 4px 4px;
+
+    .editor-statusbar-path {
+      display: inline-block;
+      width: 50%;
+      float: left;
+      padding: 0px;
+      margin: 0px;
+    }
+    .editor-statusbar-stat {
+      display: inline-block;
+      width: 50%;
+      text-align: right;
+      float: right;
+      padding: 0px;
+      margin: 0px;
+    }
   }
 }

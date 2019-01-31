@@ -86,6 +86,10 @@
 
                 // Add statusbar to editor
                 _this._$statusbar = $('<div class="editor-statusbar" />');
+                _this._$statusbar.stat = $('<span class="editor-statusbar-stat" />');
+                _this._$statusbar.path = $('<span class="editor-statusbar-path" />');
+                _this._$statusbar.append(_this._$statusbar.stat);
+                _this._$statusbar.append(_this._$statusbar.path);
                 _this._$content.after(_this._$statusbar);
 
                 // Hide input editor
@@ -475,49 +479,57 @@
                     var sel = window.getSelection();
 
                     var $target = $(event.target);
-                    var pathInfo = _this._getPath($target, _this._$content);
+                    if (_this._config.mode == 'editor') {
+                        var statInfo = _this._getTextStat(_this._$content.get(0));
+                        var pathInfo = _this._getPath($target, _this._$content);
+                        switch(pathInfo['tags'][0]) {
+                            case 'b' :
+                                _this._$toolbar.find('[data-action="text"]').removeClass('active');
+                                _this._$toolbar.find('[data-action="text"][data-value="bold"]').addClass('active');
+                                break;
 
-                    switch(pathInfo['tags'][0]) {
-                        case 'b' :
-                            _this._$toolbar.find('[data-action="text"]').removeClass('active');
-                            _this._$toolbar.find('[data-action="text"][data-value="bold"]').addClass('active');
-                            break;
+                            case 'u' :
+                                _this._$toolbar.find('[data-action="text"]').removeClass('active');
+                                _this._$toolbar.find('[data-action="text"][data-value="underline"]').addClass('active');
+                                break;
 
-                        case 'u' :
-                            _this._$toolbar.find('[data-action="text"]').removeClass('active');
-                            _this._$toolbar.find('[data-action="text"][data-value="underline"]').addClass('active');
-                            break;
+                            case 'i' :
+                                _this._$toolbar.find('[data-action="text"]').removeClass('active');
+                                _this._$toolbar.find('[data-action="text"][data-value="italic"]').addClass('active');
+                                break;
 
-                        case 'i' :
-                            _this._$toolbar.find('[data-action="text"]').removeClass('active');
-                            _this._$toolbar.find('[data-action="text"][data-value="italic"]').addClass('active');
-                            break;
+                            case 'a' :
+                                _this._$toolbar.find('[data-action="insert"]').removeClass('active');
+                                _this._$toolbar.find('[data-action="insert"][data-value="link"]').addClass('active');
+                                break;
 
-                        case 'a' :
-                            _this._$toolbar.find('[data-action="insert"]').removeClass('active');
-                            _this._$toolbar.find('[data-action="insert"][data-value="link"]').addClass('active');
-                            break;
+                            case 'p' :
+                                _this._$toolbar.find('[data-action="align"]').removeClass('active');
 
-                        case 'p' :
-                            _this._$toolbar.find('[data-action="align"]').removeClass('active');
+                                if ($target.css('text-align') == 'center')
+                                    _this._$toolbar.find('[data-action="align"][data-value="center"]').addClass('active');
+                                else if ($target.css('text-align') == 'right')
+                                    _this._$toolbar.find('[data-action="align"][data-value="right"]').addClass('active');
+                                else if ($target.css('text-align') == 'justify')
+                                    _this._$toolbar.find('[data-action="align"][data-value="justify"]').addClass('active');
+                                else
+                                    _this._$toolbar.find('[data-action="align"][data-value="left"]').addClass('active');
 
-                            if ($target.css('text-align') == 'center')
-                                _this._$toolbar.find('[data-action="align"][data-value="center"]').addClass('active');
-                            else if ($target.css('text-align') == 'right')
-                                _this._$toolbar.find('[data-action="align"][data-value="right"]').addClass('active');
-                            else if ($target.css('text-align') == 'justify')
-                                _this._$toolbar.find('[data-action="align"][data-value="justify"]').addClass('active');
-                            else
-                                _this._$toolbar.find('[data-action="align"][data-value="left"]').addClass('active');
+                                break;
 
-                            break;
-
-                        default :
-                            _this._$toolbar.find('[data-action="insert"]').removeClass('active');
-                            break;
+                            default :
+                                _this._$toolbar.find('[data-action="insert"]').removeClass('active');
+                                break;
+                        }
+                        _this._$statusbar.path.text(pathInfo['path']);
+                        _this._$statusbar.stat.text('Words: ' + statInfo['words'] + ', length: ' + statInfo['length']);
+                    } else {
+                        var position = _this._getTextPosition(_this._$content.get(0));
+                        _this._$statusbar.path.empty();
+                        _this._$statusbar.stat.text('Line: ' + position['line'] + ', column: ' + position['end']);
+                        console.log(position);
                     }
 
-                    _this._$statusbar.text(pathInfo['path']);
                     $this.trigger('change');
 
                 });
@@ -532,6 +544,14 @@
                         _this._source = $this.text();
 
                     _this._$element.val(_this._source);
+                });
+
+                // On content change
+                _this._$element.on('click keyup', function(event) {
+                    const $this = $(this);
+
+                    var position2 = _this._getTextPosition(_this._$element.get(0));
+                    console.log(position2);
                 });
 
             }
@@ -590,6 +610,95 @@
                             path: path,
                             tags: tags
                         };
+                    }
+                },
+                _getTextStat: {
+                    value: function getTextStat(el) {
+
+                        var words = 0, length = 0, normalizedValue;
+                        var isContentEditable = el && el.contentEditable;
+
+                        if (isContentEditable)
+                            normalizedValue = el.innerText.replace(/\r\n/g, "\n");
+                        else
+                            normalizedValue = el.value.replace(/\r\n/g, "\n");
+
+                        words = normalizedValue.split(' ').length;
+                        length = normalizedValue.length;
+
+                        return {
+                            words: words,
+                            length: length
+                        }
+                    }
+                },
+                _getTextPosition: {
+                    value: function getCursorPosition(el) {
+
+                        var line = 0, start = 0, end = 0, normalizedValue, range, textInputRange, len, endRange;
+                        var isContentEditable = el && el.contentEditable;
+
+                        if ("selectionStart" in el && document.activeElement == el) {
+
+                            start = el.selectionStart;
+                            end = el.selectionEnd;
+                            normalizedValue = el.value.replace(/\r\n/g, "\n");
+                            line = normalizedValue.substr(0, el.selectionStart).split("\n").length;
+
+                        } else if (isContentEditable) {
+
+                            start = window.getSelection().getRangeAt(0).startOffset;
+                            end = window.getSelection().getRangeAt(0).endOffset;
+
+                            normalizedValue = el.innerText.replace(/\r\n/g, "\n");
+                            line = (normalizedValue.substr(0, el.selectionStart).split("\n").length - 1);
+
+                            if(line == 0)
+                                line = 1;
+
+                        } else {
+
+                            range = document.selection.createRange();
+
+                            if (range && range.parentElement() == el) {
+                                len = el.value.length;
+                                normalizedValue = el.value.replace(/\r\n/g, "\n");
+
+                                // Create a working TextRange that lives only in the input
+                                textInputRange = el.createTextRange();
+                                textInputRange.moveToBookmark(range.getBookmark());
+
+                                // Check if the start and end of the selection are at the very end
+                                // of the input, since moveStart/moveEnd doesn't return what we want
+                                // in those cases
+                                endRange = el.createTextRange();
+                                endRange.collapse(false);
+
+                                if (textInputRange.compareEndPoints("StartToEnd", endRange) > -1) {
+                                    start = end = len;
+                                } else {
+                                    start = -textInputRange.moveStart("character", -len);
+                                    start += normalizedValue.slice(0, start).split("\n").length - 1;
+
+                                    if (textInputRange.compareEndPoints("EndToEnd", endRange) > -1) {
+                                        end = len;
+                                    } else {
+                                        end = -textInputRange.moveEnd("character", -len);
+                                        end += normalizedValue.slice(0, end).split("\n").length - 1;
+                                    }
+                                }
+                            }
+                        }
+                        return {
+                            line: line,
+                            start: start,
+                            end: end
+                        }
+                    }
+                },
+                _insertText: {
+                    value: function insertText(content) {
+                        document.execCommand('insertText', false, content)
                     }
                 },
                 _buildTollbarButton: {
