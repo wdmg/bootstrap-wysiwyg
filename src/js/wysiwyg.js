@@ -49,6 +49,7 @@
                 ['special', ['print', 'clean']],
                 ['fullscreen'],
             ],
+            mode: 'editor',
             fontSizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '16px', '17px', '18px'],
             fontSizeDefault: ['12px'],
             fontFamilies: ['Open Sans', 'Arial', 'Arial Black', 'Courier', 'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times', 'Times New Roman', 'Verdana'],
@@ -77,6 +78,7 @@
                 _this._$content = $('<div class="editor-content" contenteditable="true" />');
                 _this._$content.html(_this._$element.val());
                 _this._$element.before(_this._$content);
+                _this._source = _this._$element.val();
 
                 // Add toolbar to editor
                 _this._$toolbar = $('<div class="wysiwyg-toolbar btn-toolbar" />');
@@ -265,11 +267,33 @@
                                 case 'mode':
                                     switch (value) {
                                         case 'editor':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            if (_this._config.mode !== value) {
+                                                _this._config.mode = value;
+                                                _this._$content.html(_this._source);
+                                                _this._$toolbar.find('[data-action="mode"]').removeClass('active');
+                                                _this._$toolbar.find('[data-action="mode"][data-value="editor"]').addClass('active');
+                                                _this._$content.addClass('editor-mode').removeClass('source-mode');
+                                                _this._$content.focus();
+                                            }
                                             break;
 
                                         case 'source':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            if (_this._config.mode !== value) {
+
+                                                _this._config.mode = value;
+                                                _this._source = _this._$content.html();
+
+                                                var $source = $('<pre />');
+                                                $source.text(_this._source);
+                                                //_this._$content.html($source.get(0).outerHTML);
+                                                _this._$content.html($source.html());
+
+                                                _this._$toolbar.find('[data-action="mode"]').removeClass('active');
+                                                _this._$toolbar.find('[data-action="mode"][data-value="source"]').addClass('active');
+
+                                                _this._$content.removeClass('editor-mode').addClass('source-mode');
+                                                _this._$content.focus();
+                                            }
                                             break;
                                     }
                                     break;
@@ -445,35 +469,8 @@
                 });
 
                 _this._$content.on('click keyup', function (event) {
+                    const $this = $(this);
                     var sel = window.getSelection();
-
-
-                    /*if (sel.getRangeAt && sel.rangeCount) {
-
-                        if (sel.parentElement == '<b>' || sel.parentNode == '<b>');
-
-                        //return sel.getRangeAt(0);
-                    }*/
-
-                    //var $parents = $(sel.parentElement).parentsUntil('#' + _this._editorId);
-                    //var $parents = $(sel.parentElement).parentsUntil('#' + _this._editorId);
-
-
-                    /*var target = event.target;
-                    //var selector = $(target).parentsUntil(_this._$content).map(function() { return this.tagName; }).get().reverse().concat([this.nodeName]).join(">");
-                    var selector = $(target).parentsUntil(_this._$content).map(function() { console.log(this); return this.tagName; }).get().concat([this.nodeName]).join(" > ");
-
-                    selector = "body > " +selector.toLowerCase().toString();
-
-                    var target_id = $(target).attr("id");
-                    if (target_id)
-                        selector += "#" + target_id;
-
-                    var target_class = $(target).attr("class");
-                    if (target_class)
-                        selector += "." + target_class.replace(/\./g, '.');
-
-                    _this._$statusbar.text(selector);*/
 
                     var $target = $(event.target);
                     var pathInfo = _this._getPath($target, _this._$content);
@@ -495,10 +492,24 @@
                             break;
                     }
 
-
                     _this._$statusbar.text(pathInfo['path']);
+                    $this.trigger('change');
 
                 });
+
+                // If content change
+                _this._$content.on('change', function() {
+                    const $this = $(this);
+
+                    if (_this._config.mode == 'editor')
+                        _this._source = $this.html();
+                    else
+                        _this._source = $this.text();
+
+                    _this._$element.val(_this._source);
+                });
+
+
             }
 
             _createClass(Editor, {
