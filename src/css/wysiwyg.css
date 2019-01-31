@@ -43,7 +43,18 @@
   border-radius: 4px 4px 0px 0px;
 }
 .wysiwyg-editor .editor-content.source-mode {
-  white-space: pre;
+  white-space: pre-line;
+  word-break: break-all;
+  font-family: 'Monaco', monospace;
+  /*line-height: 1em;
+      letter-spacing: normal;
+      overflow: auto;
+      background-color: #f5f5f5;
+      padding: 0.2em;*/
+  /*
+
+      letter-spacing: -0.05em;
+      word-break: normal;*/
 }
 .wysiwyg-editor .editor-statusbar {
   padding: 5px 8px;

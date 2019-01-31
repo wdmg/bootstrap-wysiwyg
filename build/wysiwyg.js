@@ -286,7 +286,8 @@
                                                 var $source = $('<pre />');
                                                 $source.text(_this._source);
                                                 //_this._$content.html($source.get(0).outerHTML);
-                                                _this._$content.html($source.html());
+                                                //_this._$content.html($source.html());
+                                                _this._$content.html(_this._trimSource($source.html()));
 
                                                 _this._$toolbar.find('[data-action="mode"]').removeClass('active');
                                                 _this._$toolbar.find('[data-action="mode"][data-value="source"]').addClass('active');
@@ -449,7 +450,7 @@
                     });
                 }
 
-
+                // On selected content
                 _this._$content.on('mouseup keyup', function (event) {
                     var sel = window.getSelection();
 
@@ -468,6 +469,7 @@
 
                 });
 
+                // On click or keyup from content area
                 _this._$content.on('click keyup', function (event) {
                     const $this = $(this);
                     var sel = window.getSelection();
@@ -490,6 +492,29 @@
                             _this._$toolbar.find('[data-action="text"]').removeClass('active');
                             _this._$toolbar.find('[data-action="text"][data-value="italic"]').addClass('active');
                             break;
+
+                        case 'a' :
+                            _this._$toolbar.find('[data-action="insert"]').removeClass('active');
+                            _this._$toolbar.find('[data-action="insert"][data-value="link"]').addClass('active');
+                            break;
+
+                        case 'p' :
+                            _this._$toolbar.find('[data-action="align"]').removeClass('active');
+
+                            if ($target.css('text-align') == 'center')
+                                _this._$toolbar.find('[data-action="align"][data-value="center"]').addClass('active');
+                            else if ($target.css('text-align') == 'right')
+                                _this._$toolbar.find('[data-action="align"][data-value="right"]').addClass('active');
+                            else if ($target.css('text-align') == 'justify')
+                                _this._$toolbar.find('[data-action="align"][data-value="justify"]').addClass('active');
+                            else
+                                _this._$toolbar.find('[data-action="align"][data-value="left"]').addClass('active');
+
+                            break;
+
+                        default :
+                            _this._$toolbar.find('[data-action="insert"]').removeClass('active');
+                            break;
                     }
 
                     _this._$statusbar.text(pathInfo['path']);
@@ -497,8 +522,8 @@
 
                 });
 
-                // If content change
-                _this._$content.on('change', function() {
+                // On content change
+                _this._$content.on('change', function(event) {
                     const $this = $(this);
 
                     if (_this._config.mode == 'editor')
@@ -509,7 +534,6 @@
                     _this._$element.val(_this._source);
                 });
 
-
             }
 
             _createClass(Editor, {
@@ -517,6 +541,14 @@
                     value: function element() {
                         var _this = this;
                         return _this._$element;
+                    }
+                },
+                _trimSource: {
+                    value: function trimSource(str) {
+                        str = str.replace(/\s{4,}/g, "");
+                        str = str.replace(/\t/g, ' ');
+                        str = str.toString().trim().replace(/(\r\n|\n|\r)/g,"");
+                        return str;
                     }
                 },
                 _getPath: {
