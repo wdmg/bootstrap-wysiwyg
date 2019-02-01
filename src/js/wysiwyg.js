@@ -278,6 +278,10 @@
                                 $toolbar.append(_this._buildTollbarButton('interval', 'letter-spacing', "fa fa-text-width", null, "Letter spacing", function() {
 
                                     var content = '<ul class="nav nav-pills nav-stacked">\n' +
+                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="-5">-5</a></li>\n' +
+                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="-3">-3</a></li>\n' +
+                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="-2">-2</a></li>\n' +
+                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="-1">-1</a></li>\n' +
                                         '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="0">0</a></li>\n' +
                                         '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="1">1</a></li>\n' +
                                         '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="2">2</a></li>\n' +
@@ -1069,7 +1073,10 @@
                             } else {
                                 _this._$toolbar.find('button[data-action]').removeClass('active');
                             }
-                            _this._$statusbar.path.text(pathInfo['path']);
+
+                            if (pathInfo['path'].search(this._editorId) == -1)
+                                _this._$statusbar.path.text(pathInfo['path']);
+
                             _this._$statusbar.stat.text('Length: ' + statInfo['length'] + ', chars: ' + statInfo['chars'] + ', words: ' +  statInfo['words']);
 
                         } else {
