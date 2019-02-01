@@ -41,17 +41,17 @@
                 ['operations', ['undo', 'rendo', 'cut', 'copy', 'paste']],
                 ['styles'],
                 ['fonts', ['select', 'size']],
-                ['text', ['bold', 'italic', 'underline', 'subscript', 'superscript', 'color']],
+                ['text', ['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript', 'color']],
                 ['align', ['left', 'center', 'right', 'justify']],
                 ['lists', ['unordered', 'ordered', 'indent', 'outdent']],
                 ['components', ['table', 'chart']],
-                ['props', ['interval', 'line-height', 'letter-spacing']],
+                ['intervals', ['line-height', 'letter-spacing']],
                 ['insert', ['emoji', 'link', 'image', 'video', 'symbol', 'bookmark']],
-                ['special', ['print', 'clean']],
+                ['special', ['print', 'unformat', 'clean']],
                 ['fullscreen'],
             ],
             mode: 'editor',
-            fontSizes: ['8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px', '16px', '17px', '18px'],
+            fontSizes: ['8px', '9px', '10px', '11px', '12px', '14px', '15px', '16px', '18px', '20px', '24px', '30px', '32px', '36px', '48px'],
             fontSizeDefault: ['12px'],
             fontFamilies: ['Open Sans', 'Arial', 'Arial Black', 'Courier', 'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times', 'Times New Roman', 'Verdana'],
             fontFamilyDefault: ['Open Sans'],
@@ -170,7 +170,7 @@
                                 }
                             }
 
-                            $toolbar.append(_this._buildTollbarDropdown('select-style', styles, "fa fa-header", "Style"));
+                            $toolbar.append(_this._buildTollbarDropdown('select-style', styles, "Paragraph"));
 
                         } else if(elem[0] === 'fonts') { // Font select and size
 
@@ -185,7 +185,7 @@
                                     };
                                 });
 
-                                $toolbar.append(_this._buildTollbarDropdown('font-select', fonts, "fa fa-underline", _this._config.fontFamilyDefault));
+                                $toolbar.append(_this._buildTollbarDropdown('font-select', fonts, _this._config.fontFamilyDefault));
                             }
 
                             if(elem[1].indexOf('size', 0) !== -1) {
@@ -193,11 +193,10 @@
                                 $.each(_this._config.fontSizes, function(index, value) {
                                     sizes[value] = {
                                         'action': 'fontsize',
-                                        'value': value,
-                                        'style': "font-size: " + value + ";"
+                                        'value': value
                                     };
                                 });
-                                $toolbar.append(_this._buildTollbarDropdown('font-size', sizes, null, _this._config.fontSizeDefault));
+                                $toolbar.append(_this._buildTollbarDropdown('font-size', sizes, _this._config.fontSizeDefault));
                             }
 
                         } else if(elem[0] === 'text') { // Text decoration
@@ -211,6 +210,9 @@
                             if(elem[1].indexOf('underline', 0) !== -1)
                                 $toolbar.append(_this._buildTollbarButton('text', 'underline', "fa fa-underline", null));
 
+                            if(elem[1].indexOf('strike', 0) !== -1)
+                                $toolbar.append(_this._buildTollbarButton('text', 'strike', "fa fa-strikethrough", null));
+
                             if(elem[1].indexOf('subscript', 0) !== -1)
                                 $toolbar.append(_this._buildTollbarButton('text', 'subscript', "fa fa-subscript", null));
 
@@ -223,16 +225,16 @@
                         } else if(elem[0] === 'align') { // Text aligment
 
                             if(elem[1].indexOf('left', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('align', 'left', "fa fa-align-left", "Align left", null));
+                                $toolbar.append(_this._buildTollbarButton('align', 'left', "fa fa-align-left", null, "Align left", null));
 
                             if(elem[1].indexOf('center', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('align', 'center', "fa fa-align-center", "Align center", null));
+                                $toolbar.append(_this._buildTollbarButton('align', 'center', "fa fa-align-center", null, "Align center", null));
 
                             if(elem[1].indexOf('right', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('align', 'right', "fa fa-align-right", "Align right", null));
+                                $toolbar.append(_this._buildTollbarButton('align', 'right', "fa fa-align-right", null, "Align right", null));
 
                             if(elem[1].indexOf('justify', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('align', 'justify', "fa fa-align-justify", "Justify content", null));
+                                $toolbar.append(_this._buildTollbarButton('align', 'justify', "fa fa-align-justify", null, "Justify content", null));
 
                         } else if(elem[0] === 'lists') { // Lists && outdent
 
@@ -256,16 +258,41 @@
                             if(elem[1].indexOf('chart', 0) !== -1)
                                 $toolbar.append(_this._buildTollbarButton('components', 'chart', "fa fa-pie-chart", null));
 
-                        } else if(elem[0] === 'props') { // Text properties
-
-                            if(elem[1].indexOf('interval', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('props', 'interval', "fa fa-bars", null));
+                        } else if(elem[0] === 'intervals') { // Text properties
 
                             if(elem[1].indexOf('line-height', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('props', 'line-height', "fa fa-text-height", null));
+                                $toolbar.append(_this._buildTollbarButton('interval', 'line-height', "fa fa-text-height", null, "Lines interval", function() {
+
+                                    var content = '<ul class="nav nav-pills nav-stacked">\n' +
+                                        '  <li role="presentation"><a href="#" data-action="line-height" data-value="0.5">0.5</a></li>\n' +
+                                        '  <li role="presentation"><a href="#" data-action="line-height" data-value="1.0">1.0</a></li>\n' +
+                                        '  <li role="presentation"><a href="#" data-action="line-height" data-value="1.15">1.15</a></li>\n' +
+                                        '  <li role="presentation"><a href="#" data-action="line-height" data-value="1.5">1.5</a></li>\n' +
+                                        '  <li role="presentation"><a href="#" data-action="line-height" data-value="2.0">2.0</a></li>\n' +
+                                        '</ul>';
+
+                                    return content;
+                                }));
 
                             if(elem[1].indexOf('letter-spacing', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('props', 'letter-spacing', "fa fa-text-width", null));
+                                $toolbar.append(_this._buildTollbarButton('interval', 'letter-spacing', "fa fa-text-width", null, "Letter spacing", function() {
+
+                                    var content = '<ul class="nav nav-pills nav-stacked">\n' +
+                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="0">0</a></li>\n' +
+                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="1">1</a></li>\n' +
+                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="2">2</a></li>\n' +
+                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="3">3</a></li>\n' +
+                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="5">5</a></li>\n' +
+                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="8">8</a></li>\n' +
+                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="10">10</a></li>\n' +
+                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="12">12</a></li>\n' +
+                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="15">15</a></li>\n' +
+                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="25">25</a></li>\n' +
+                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="50">50</a></li>\n' +
+                                        '</ul>';
+
+                                    return content;
+                                }));
 
                         } else if(elem[0] === 'insert') { // Inserts
 
@@ -295,6 +322,9 @@
                             if(elem[1].indexOf('clean', 0) !== -1)
                                 $toolbar.append(_this._buildTollbarButton('special', 'clean', "fa fa-eraser", null));
 
+                            if(elem[1].indexOf('unformat', 0) !== -1)
+                                $toolbar.append(_this._buildTollbarButton('special', 'unformat', "fa fa-trash-o", null));
+
                         } else if(elem[0] === 'fullscreen') { // Fullscreen mode
 
                             $toolbar.addClass('pull-right');
@@ -310,18 +340,12 @@
                 // Set behavior for toolbar buttons
                 if(_this._$toolbar.length) {
 
-                    if (_this._$toolbar.find('[data-toggle="tooltip"]').length) {
-                        _this._$toolbar.find('[data-toggle="tooltip"]').tooltip({
-                            placement: "bottom"
-                        });
-                    }
-
                     _this._$toolbar.on('click', '[data-action]', function(event) {
                         var $target = $(event.currentTarget);
                         var action = $target.data('action');
                         var value = $target.data('value');
 
-                        if (action && value) {
+                        if (typeof (action) !== 'undefined' && typeof (value) !== 'undefined') {
 
                             switch (action) {
 
@@ -428,6 +452,10 @@
                                             _this._formatDoc('underline');
                                             break;
 
+                                        case 'strike':
+                                            _this._formatDoc('strikeThrough');
+                                            break;
+
                                         case 'subscript':
                                             _this._formatDoc('subscript');
                                             break;
@@ -495,20 +523,35 @@
                                     }
                                     break;
 
-                                case 'props':
-                                    switch (value) {
-                                        case 'interval':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
-                                            break;
+                                case 'line-height':
 
-                                        case 'line-height':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
-                                            break;
+                                    console.log(parseFloat(value));
 
-                                        case 'letter-spacing':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
-                                            break;
-                                    }
+                                    var selection = document.getSelection();
+                                    var lineHeight = parseFloat(value) * 100 + "%";
+
+                                    if(parseFloat(value) == 0)
+                                        selection.anchorNode.parentElement.style.letterSpacing = "inherit";
+
+                                    if(selection.anchorNode)
+                                        selection.anchorNode.parentElement.style.lineHeight = lineHeight;
+
+                                    break;
+
+                                case 'letter-spacing':
+
+                                    console.log(parseFloat(value));
+
+                                    var selection = document.getSelection();
+                                    var letterSpacing = parseFloat(value) + "px";
+
+                                    if(parseFloat(value) == 0)
+                                        selection.anchorNode.parentElement.style.letterSpacing = "inherit";
+
+                                    if(selection.anchorNode)
+                                        selection.anchorNode.parentElement.style.letterSpacing = letterSpacing;
+
+
                                     break;
 
                                 case 'insert':
@@ -547,6 +590,16 @@
 
                                         case 'clean':
                                             _this._formatDoc('removeFormat');
+                                            break;
+
+                                        case 'unformat':
+                                            _this._formatDoc('selectAll');
+                                            _this._formatDoc('removeFormat');
+                                            var string = _this._$content.html();
+                                            string = _this._stripTags(string);
+                                            string = string.replace(/(\r\n|\n|\r)/g, '<!-- br -->');
+                                            string = string.replace(/<!-- br -->/g, '<br/>');
+                                            _this._$content.html(string);
                                             break;
                                     }
                                     break;
@@ -852,7 +905,7 @@
                     }
                 },
                 _buildTollbarButton: {
-                    value: function buildTollbarButton(action, value, icon, tooltip, hotkey) {
+                    value: function buildTollbarButton(action, value, icon, hotkey, tooltip, popover) {
 
                         var $button = $('<button type="button" class="btn btn-default" tabindex="-1" />');
 
@@ -862,13 +915,25 @@
                         if (value)
                             $button.attr('data-value', value);
 
-                        if (tooltip) {
-                            $button.attr('data-toggle', "tooltip");
-                            $button.attr('title', tooltip.toString().trim());
-                        }
-
                         if (hotkey)
                             $button.attr('data-hotkey', hotkey);
+
+                        if (tooltip) {
+                            $button.tooltip({
+                                html: true,
+                                placement: 'top',
+                                title: tooltip.toString().trim()
+                            });
+                        }
+
+                        if (popover) {
+                            $button.popover({
+                                html: true,
+                                placement: 'bottom',
+                                content: popover
+                            });
+                        }
+
 
                         if (icon)
                             $button.append('<span class="' + icon + '" />');
@@ -877,7 +942,7 @@
                     }
                 },
                 _buildTollbarDropdown: {
-                    value: function buildTollbarDropdown(action, list, icon, label) {
+                    value: function buildTollbarDropdown(action, list, label) {
 
                         var $dropdown = $('<div class="dropdown" />');
                         var $dropdownBtn = $('<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" />');
@@ -929,9 +994,6 @@
 
                             });
                         }
-
-                        if (icon)
-                            $dropdownBtn.prepend('<span class="' + icon + '" /> ');
 
                         if (label)
                             $dropdownBtn.text(label + ' ');
