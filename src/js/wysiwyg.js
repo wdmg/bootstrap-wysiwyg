@@ -38,11 +38,12 @@
         var defaults = {
             toolbar: [
                 ['mode'],
+                ['operations', ['undo', 'rendo', 'cut', 'copy', 'paste']],
                 ['styles'],
                 ['fonts', ['select', 'size']],
-                ['text', ['bold', 'italic', 'underline', 'color']],
+                ['text', ['bold', 'italic', 'underline', 'subscript', 'superscript', 'color']],
                 ['align', ['left', 'center', 'right', 'justify']],
-                ['lists', ['default', 'numeric', 'level-indent', 'level-outdent']],
+                ['lists', ['unordered', 'ordered', 'indent', 'outdent']],
                 ['components', ['table', 'chart']],
                 ['props', ['interval', 'line-height', 'letter-spacing']],
                 ['insert', ['emoji', 'link', 'image', 'video', 'symbol', 'bookmark']],
@@ -106,22 +107,68 @@
                             $toolbar.append(_this._buildTollbarButton('mode', 'editor', "fa fa-eye", null));
                             $toolbar.append(_this._buildTollbarButton('mode', 'source', "fa fa-code", null));
 
+                        } else if(elem[0] === 'operations') { // Operations editor controls
+
+                            $toolbar.append(_this._buildTollbarButton('operations', 'undo', "fa fa-mail-reply", null));
+                            $toolbar.append(_this._buildTollbarButton('operations', 'rendo', "fa fa-mail-forward", null));
+                            $toolbar.append(_this._buildTollbarButton('operations', 'cut', "fa fa-cut", null));
+                            $toolbar.append(_this._buildTollbarButton('operations', 'copy', "fa fa-copy", null));
+                            $toolbar.append(_this._buildTollbarButton('operations', 'paste', "fa fa-clipboard", null));
+
                         } else if(elem[0] === 'styles') { // Editor mode switcher
 
                             var styles = {
                                 'Header H1': {
-                                    'action': 'wrap',
-                                    'value': '<h1 />',
+                                    'action': 'formatblock',
+                                    'value': 'h1',
+                                    'wrap': '<h1 />',
                                 },
                                 'Header H2': {
-                                    'action': 'wrap',
-                                    'value': '<h2 />',
+                                    'action': 'formatblock',
+                                    'value': 'h2',
+                                    'wrap': '<h2 />',
                                 },
                                 'Header H3': {
-                                    'action': 'wrap',
-                                    'value': '<h3 />',
+                                    'action': 'formatblock',
+                                    'value': 'h3',
+                                    'wrap': '<h3 />',
                                 },
-                            };
+                                'Header H4': {
+                                    'action': 'formatblock',
+                                    'value': 'h4',
+                                    'wrap': '<h4 />',
+                                },
+                                'Header H5': {
+                                    'action': 'formatblock',
+                                    'value': 'h5',
+                                    'wrap': '<h5 />',
+                                },
+                                'Header H6': {
+                                    'action': 'formatblock',
+                                    'value': 'h6',
+                                    'wrap': '<h6 />',
+                                },
+                                'Paragraph': {
+                                    'action': 'formatblock',
+                                    'value': 'p',
+                                    'wrap': '<p />',
+                                },
+                                'Blockquote': {
+                                    'action': 'formatblock',
+                                    'value': 'blockquote',
+                                    'wrap': '<blockquote />',
+                                },
+                                'Preformatted': {
+                                    'action': 'formatblock',
+                                    'value': 'pre',
+                                    'wrap': '<pre />',
+                                },
+                                'Div block': {
+                                    'action': 'formatblock',
+                                    'value': 'div',
+                                    'wrap': '<div />',
+                                }
+                            }
 
                             $toolbar.append(_this._buildTollbarDropdown('select-style', styles, "fa fa-header", "Style"));
 
@@ -132,8 +179,9 @@
                                 var fonts = {};
                                 $.each(_this._config.fontFamilies, function(index, value) {
                                     fonts[value] = {
-                                        'action': 'style',
-                                        'value': "font-family:'" + value + "';"
+                                        'action': 'fontname',
+                                        'value': value,
+                                        'style': "font-family: " + value + ";"
                                     };
                                 });
 
@@ -144,17 +192,13 @@
                                 var sizes = {};
                                 $.each(_this._config.fontSizes, function(index, value) {
                                     sizes[value] = {
-                                        'action': 'style',
-                                        'value': "font-size: " + value + ";"
+                                        'action': 'fontsize',
+                                        'value': value,
+                                        'style': "font-size: " + value + ";"
                                     };
                                 });
                                 $toolbar.append(_this._buildTollbarDropdown('font-size', sizes, null, _this._config.fontSizeDefault));
                             }
-
-
-                                var test = ['test1', 'test2', 'test3', 'test4', 'test5'];
-                                $toolbar.append(_this._buildTollbarDropdown('font-size', test, "fa fa-underline", 'test3'));
-
 
                         } else if(elem[0] === 'text') { // Text decoration
 
@@ -167,36 +211,42 @@
                             if(elem[1].indexOf('underline', 0) !== -1)
                                 $toolbar.append(_this._buildTollbarButton('text', 'underline', "fa fa-underline", null));
 
+                            if(elem[1].indexOf('subscript', 0) !== -1)
+                                $toolbar.append(_this._buildTollbarButton('text', 'subscript', "fa fa-subscript", null));
+
+                            if(elem[1].indexOf('superscript', 0) !== -1)
+                                $toolbar.append(_this._buildTollbarButton('text', 'superscript', "fa fa-superscript", null));
+
                             if(elem[1].indexOf('color', 0) !== -1)
                                 $toolbar.append(_this._buildTollbarButton('text', 'color', "fa fa-font", null));
 
                         } else if(elem[0] === 'align') { // Text aligment
 
                             if(elem[1].indexOf('left', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('align', 'left', "fa fa-align-left", null));
+                                $toolbar.append(_this._buildTollbarButton('align', 'left', "fa fa-align-left", "Align left", null));
 
                             if(elem[1].indexOf('center', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('align', 'center', "fa fa-align-center", null));
+                                $toolbar.append(_this._buildTollbarButton('align', 'center', "fa fa-align-center", "Align center", null));
 
                             if(elem[1].indexOf('right', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('align', 'right', "fa fa-align-right", null));
+                                $toolbar.append(_this._buildTollbarButton('align', 'right', "fa fa-align-right", "Align right", null));
 
                             if(elem[1].indexOf('justify', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('align', 'justify', "fa fa-align-justify", null));
+                                $toolbar.append(_this._buildTollbarButton('align', 'justify', "fa fa-align-justify", "Justify content", null));
 
-                        } else if(elem[0] === 'lists') { // Lists
+                        } else if(elem[0] === 'lists') { // Lists && outdent
 
-                            if(elem[1].indexOf('default', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('lists', 'default', "fa fa-list-ul", null));
+                            if(elem[1].indexOf('unordered', 0) !== -1)
+                                $toolbar.append(_this._buildTollbarButton('lists', 'unordered', "fa fa-list-ul", null));
 
-                            if(elem[1].indexOf('numeric', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('lists', 'numeric', "fa fa-list-ol", null));
+                            if(elem[1].indexOf('ordered', 0) !== -1)
+                                $toolbar.append(_this._buildTollbarButton('lists', 'ordered', "fa fa-list-ol", null));
 
-                            if(elem[1].indexOf('level-indent', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('lists', 'level-indent', "fa fa-indent", null));
+                            if(elem[1].indexOf('indent', 0) !== -1)
+                                $toolbar.append(_this._buildTollbarButton('lists', 'indent', "fa fa-indent", null));
 
-                            if(elem[1].indexOf('level-outdent', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('lists', 'level-outdent', "fa fa-outdent", null));
+                            if(elem[1].indexOf('outdent', 0) !== -1)
+                                $toolbar.append(_this._buildTollbarButton('lists', 'outdent', "fa fa-outdent", null));
 
                         } else if(elem[0] === 'components') { // Components
 
@@ -259,6 +309,13 @@
 
                 // Set behavior for toolbar buttons
                 if(_this._$toolbar.length) {
+
+                    if (_this._$toolbar.find('[data-toggle="tooltip"]').length) {
+                        _this._$toolbar.find('[data-toggle="tooltip"]').tooltip({
+                            placement: "bottom"
+                        });
+                    }
+
                     _this._$toolbar.on('click', '[data-action]', function(event) {
                         var $target = $(event.currentTarget);
                         var action = $target.data('action');
@@ -303,30 +360,80 @@
                                     }
                                     break;
 
-                                case 'wrap':
-                                    console.log('Fire action: ' + action + ' with value: ' + value);
+                                case 'formatblock':
+                                    _this._formatDoc('formatblock', value);
+                                    break;
+
+                                case 'fontname':
+                                    _this._formatDoc('fontname', value);
+                                    break;
+
+                                case 'fontsize':
+                                    var selection = document.getSelection();
+                                    selection.anchorNode.parentElement.removeAttribute("size");
+                                    selection.anchorNode.parentElement.style.fontSize = value;
                                     break;
 
                                 case 'style':
-                                    console.log('Fire action: ' + action + ' with value: ' + value);
+                                    var selection = document.getSelection();
+                                    var styles = selection.anchorNode.parentElement.style.cssText;
+
+                                    if(styles)
+                                        styles += value;
+                                    else
+                                        styles = value;
+
+                                    selection.anchorNode.parentElement.removeAttribute("style");
+                                    selection.anchorNode.parentElement.style = styles;
                                     break;
 
                                 case 'fullscreen':
                                     console.log('Fire action: ' + action + ' with value: ' + value);
                                     break;
 
+                                case 'operations':
+                                    switch (value) {
+                                        case 'undo':
+                                            _this._formatDoc('undo');
+                                            break;
+
+                                        case 'rendo':
+                                            _this._formatDoc('rendo');
+                                            break;
+                                        case 'cut':
+                                            _this._formatDoc('cut');
+                                            break;
+
+                                        case 'copy':
+                                            _this._formatDoc('copy');
+                                            break;
+
+                                        case 'paste':
+                                            _this._formatDoc('paste');
+                                            break;
+                                    }
+                                    break;
+
                                 case 'text':
                                     switch (value) {
                                         case 'bold':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            _this._formatDoc('bold');
                                             break;
 
                                         case 'italic':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            _this._formatDoc('italic');
                                             break;
 
                                         case 'underline':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            _this._formatDoc('underline');
+                                            break;
+
+                                        case 'subscript':
+                                            _this._formatDoc('subscript');
+                                            break;
+
+                                        case 'superscript':
+                                            _this._formatDoc('superscript');
                                             break;
 
                                         case 'color':
@@ -338,19 +445,19 @@
                                 case 'align':
                                     switch (value) {
                                         case 'left':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            _this._formatDoc('justifyLeft');
                                             break;
 
                                         case 'center':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            _this._formatDoc('justifyCenter');
                                             break;
 
                                         case 'right':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            _this._formatDoc('justifyRight');
                                             break;
 
                                         case 'justify':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            _this._formatDoc('justifyFull');
                                             break;
                                     }
                                     break;
@@ -358,20 +465,20 @@
 
                                 case 'lists':
                                     switch (value) {
-                                        case 'default':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                        case 'unordered':
+                                            _this._formatDoc('insertUnorderedList');
                                             break;
 
-                                        case 'numeric':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                        case 'ordered':
+                                            _this._formatDoc('insertOrderedList');
                                             break;
 
-                                        case 'level-indent':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                        case 'indent':
+                                            _this._formatDoc('indent');
                                             break;
 
-                                        case 'level-outdent':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                        case 'outdent':
+                                            _this._formatDoc('outdent');
                                             break;
                                     }
                                     break;
@@ -435,11 +542,11 @@
                                 case 'special':
                                     switch (value) {
                                         case 'print':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            _this._printDoc();
                                             break;
 
                                         case 'clean':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            _this._formatDoc('removeFormat');
                                             break;
                                     }
                                     break;
@@ -452,83 +559,52 @@
                         }
 
                     });
+
                 }
 
                 // On selected content
                 _this._$content.on('mouseup keyup', function (event) {
                     var sel = window.getSelection();
 
+                    if (sel.getRangeAt && sel.rangeCount) {
 
-                    /*if (sel.getRangeAt && sel.rangeCount) {
+                        /*if (sel.parentElement) {
+                            var $target = $(sel.parentElement);
+                            _this._updateState($target);
+                        } else if (sel.parentNode) {
+                            var $target = $(sel.parentNode);
+                            _this._updateState($target);
+                        }*/
 
-                        if (sel.parentElement == '<b>' || sel.parentNode == '<b>');
+                        if (sel.parentNode) {
+                            var $target = $(sel.parentNode);
+                            _this._updateState($target);
+                        } else if (sel.parentElement) {
+                            var $target = $(sel.parentElement);
+                            _this._updateState($target);
+                        }/* else {
+                            _this._$toolbar.find('[data-action="text"]').removeClass('active');
+                            _this._$toolbar.find('[data-action="align"]').removeClass('active');
+                            _this._$toolbar.find('[data-action="insert"]').removeClass('active');
+                        }*/
 
                         //return sel.getRangeAt(0);
-                    }*/
+                    }
 
                     //var $parents = $(sel.parentElement).parentsUntil('#' + _this._editorId);
                     //var $parents = $(sel.parentElement).parentsUntil('#' + _this._editorId);
-
-
 
                 });
 
                 // On click or keyup from content area
                 _this._$content.on('click keyup', function (event) {
                     const $this = $(this);
+
                     var sel = window.getSelection();
 
                     var $target = $(event.target);
-                    if (_this._config.mode == 'editor') {
-                        var statInfo = _this._getTextStat(_this._$content.get(0));
-                        var pathInfo = _this._getPath($target, _this._$content);
-                        switch(pathInfo['tags'][0]) {
-                            case 'b' :
-                                _this._$toolbar.find('[data-action="text"]').removeClass('active');
-                                _this._$toolbar.find('[data-action="text"][data-value="bold"]').addClass('active');
-                                break;
-
-                            case 'u' :
-                                _this._$toolbar.find('[data-action="text"]').removeClass('active');
-                                _this._$toolbar.find('[data-action="text"][data-value="underline"]').addClass('active');
-                                break;
-
-                            case 'i' :
-                                _this._$toolbar.find('[data-action="text"]').removeClass('active');
-                                _this._$toolbar.find('[data-action="text"][data-value="italic"]').addClass('active');
-                                break;
-
-                            case 'a' :
-                                _this._$toolbar.find('[data-action="insert"]').removeClass('active');
-                                _this._$toolbar.find('[data-action="insert"][data-value="link"]').addClass('active');
-                                break;
-
-                            case 'p' :
-                                _this._$toolbar.find('[data-action="align"]').removeClass('active');
-
-                                if ($target.css('text-align') == 'center')
-                                    _this._$toolbar.find('[data-action="align"][data-value="center"]').addClass('active');
-                                else if ($target.css('text-align') == 'right')
-                                    _this._$toolbar.find('[data-action="align"][data-value="right"]').addClass('active');
-                                else if ($target.css('text-align') == 'justify')
-                                    _this._$toolbar.find('[data-action="align"][data-value="justify"]').addClass('active');
-                                else
-                                    _this._$toolbar.find('[data-action="align"][data-value="left"]').addClass('active');
-
-                                break;
-
-                            default :
-                                _this._$toolbar.find('[data-action="insert"]').removeClass('active');
-                                break;
-                        }
-                        _this._$statusbar.path.text(pathInfo['path']);
-                        _this._$statusbar.stat.text('Words: ' + statInfo['words'] + ', length: ' + statInfo['length']);
-                    } else {
-                        var position = _this._getTextPosition(_this._$content.get(0));
-                        _this._$statusbar.path.empty();
-                        _this._$statusbar.stat.text('Line: ' + position['line'] + ', column: ' + position['end']);
-                        console.log(position);
-                    }
+                    _this._updateState($target);
+                    $this.focus();
 
                     $this.trigger('change');
 
@@ -544,15 +620,16 @@
                         _this._source = $this.text();
 
                     _this._$element.val(_this._source);
+
                 });
 
                 // On content change
-                _this._$element.on('click keyup', function(event) {
+                /*_this._$element.on('click keyup', function(event) {
                     const $this = $(this);
 
                     var position2 = _this._getTextPosition(_this._$element.get(0));
                     console.log(position2);
-                });
+                });*/
 
             }
 
@@ -561,6 +638,68 @@
                     value: function element() {
                         var _this = this;
                         return _this._$element;
+                    }
+                },
+                _stripTags: {
+                    value: function stripTags(str, allowed_tags) {
+                        var key = '', allowed = false;
+                        var matches = [];
+                        var allowed_array = [];
+                        var allowed_tag = '';
+                        var i = 0;
+                        var k = '';
+                        var html = '';
+
+                        var replacer = function(search, replace, str) {
+                            return str.split(search).join(replace);
+                        };
+
+                        // Build allowes tags associative array
+                        if (allowed_tags) {
+                            allowed_array = allowed_tags.match(/([a-zA-Z]+)/gi);
+                        }
+
+                        str += '';
+
+                        // Match tags
+                        matches = str.match(/(<\/?[\S][^>]*>)/gi);
+
+                        // Go through all HTML tags
+                        for (key in matches) {
+                            if (isNaN(key)) {
+                                // IE7 Hack
+                                continue;
+                            }
+
+                            // Save HTML tag
+                            html = matches[key].toString();
+
+                            // Is tag not in allowed list? Remove from str!
+                            allowed = false;
+
+                            // Go through all allowed tags
+                            for (k in allowed_array) {
+                                // Init
+                                allowed_tag = allowed_array[k];
+                                i = -1;
+
+                                if (i != 0) { i = html.toLowerCase().indexOf('<'+allowed_tag+'>');}
+                                if (i != 0) { i = html.toLowerCase().indexOf('<'+allowed_tag+' ');}
+                                if (i != 0) { i = html.toLowerCase().indexOf('</'+allowed_tag)   ;}
+
+                                // Determine
+                                if (i == 0) {
+                                    allowed = true;
+                                    break;
+                                }
+                            }
+
+                            if (!allowed) {
+                                str = replacer(html, "", str); // Custom replace. No regexing
+                            }
+                        }
+
+                        return str;
                     }
                 },
                 _trimSource: {
@@ -615,7 +754,7 @@
                 _getTextStat: {
                     value: function getTextStat(el) {
 
-                        var words = 0, length = 0, normalizedValue;
+                        var words = 0, length = 0, chars = 0, normalizedValue;
                         var isContentEditable = el && el.contentEditable;
 
                         if (isContentEditable)
@@ -623,12 +762,14 @@
                         else
                             normalizedValue = el.value.replace(/\r\n/g, "\n");
 
-                        words = normalizedValue.split(' ').length;
+                        words = this._stripTags(normalizedValue).split(' ').length;
                         length = normalizedValue.length;
+                        chars = this._trimSource(normalizedValue.replace(/\s/g, "")).length;
 
                         return {
                             words: words,
-                            length: length
+                            length: length,
+                            chars: chars
                         }
                     }
                 },
@@ -696,13 +837,22 @@
                         }
                     }
                 },
-                _insertText: {
-                    value: function insertText(content) {
-                        document.execCommand('insertText', false, content)
+                _formatDoc: {
+                    value: function formatDoc(command, value) {
+                        document.execCommand(command, false, value);
+                        this._$content.focus();
+                    }
+                },
+                _printDoc: {
+                    value: function printDoc() {
+                        var print = window.open("","_blank","width=450,height=470,left=400,top=100,menubar=yes,toolbar=no,location=no,scrollbars=yes");
+                        print.document.open();
+                        print.document.write("<!doctype html><html><head><title>Print<\/title><\/head><body onload=\"print();\">" + this._$content.get(0).innerHTML + "<\/body><\/html>");
+                        print.document.close();
                     }
                 },
                 _buildTollbarButton: {
-                    value: function buildTollbarButton(action, value, icon, hotkey) {
+                    value: function buildTollbarButton(action, value, icon, tooltip, hotkey) {
 
                         var $button = $('<button type="button" class="btn btn-default" tabindex="-1" />');
 
@@ -711,6 +861,11 @@
 
                         if (value)
                             $button.attr('data-value', value);
+
+                        if (tooltip) {
+                            $button.attr('data-toggle', "tooltip");
+                            $button.attr('title', tooltip.toString().trim());
+                        }
 
                         if (hotkey)
                             $button.attr('data-hotkey', hotkey);
@@ -745,13 +900,13 @@
                                     if (elem['value'])
                                         $link.attr('data-value', elem['value']);
 
-                                    if (elem['action'] == 'wrap')
-                                        $link.html($(elem['value']).text(index));
+                                    if (elem['wrap'])
+                                        $link.html($(elem['wrap']).text(index));
                                     else
                                         $link.text(index);
 
-                                    if (elem['action'] == 'style')
-                                        $link.attr('style', elem['value'].toString());
+                                    if (elem['style'])
+                                        $link.attr('style', elem['style'].toString());
 
                                     if(index == label)
                                         $item.addClass('active');
@@ -788,6 +943,83 @@
                         $dropdown.append($dropdownBtn);
                         $dropdown.append($dropdownMenu);
                         return $dropdown;
+                    }
+                },
+                _updateState: {
+                    value: function updateState($target, reset) {
+                        var _this = this;
+                        if (_this._config.mode == 'editor') {
+                            var statInfo = _this._getTextStat(_this._$content.get(0));
+                            var pathInfo = _this._getPath($target, _this._$content);
+
+                            if(!reset) {
+                                switch (pathInfo['tags'][0]) {
+                                    case 'b' :
+                                        _this._$toolbar.find('[data-action="text"]').removeClass('active');
+                                        _this._$toolbar.find('[data-action="text"][data-value="bold"]').addClass('active');
+                                        break;
+
+                                    case 'u' :
+                                        _this._$toolbar.find('[data-action="text"]').removeClass('active');
+                                        _this._$toolbar.find('[data-action="text"][data-value="underline"]').addClass('active');
+                                        break;
+
+                                    case 'sub' :
+                                        _this._$toolbar.find('[data-action="text"]').removeClass('active');
+                                        _this._$toolbar.find('[data-action="text"][data-value="subscript"]').addClass('active');
+                                        break;
+
+                                    case 'sup' :
+                                        _this._$toolbar.find('[data-action="text"]').removeClass('active');
+                                        _this._$toolbar.find('[data-action="text"][data-value="superscript"]').addClass('active');
+                                        break;
+
+                                    case 'i' :
+                                        _this._$toolbar.find('[data-action="text"]').removeClass('active');
+                                        _this._$toolbar.find('[data-action="text"][data-value="italic"]').addClass('active');
+                                        break;
+
+                                    case 'a' :
+                                        _this._$toolbar.find('[data-action="insert"]').removeClass('active');
+                                        _this._$toolbar.find('[data-action="insert"][data-value="link"]').addClass('active');
+                                        break;
+
+                                    case 'p' :
+                                        _this._$toolbar.find('[data-action="align"]').removeClass('active');
+
+                                        if ($target.css('text-align') == 'center')
+                                            _this._$toolbar.find('[data-action="align"][data-value="center"]').addClass('active');
+                                        else if ($target.css('text-align') == 'right')
+                                            _this._$toolbar.find('[data-action="align"][data-value="right"]').addClass('active');
+                                        else if ($target.css('text-align') == 'justify')
+                                            _this._$toolbar.find('[data-action="align"][data-value="justify"]').addClass('active');
+                                        else
+                                            _this._$toolbar.find('[data-action="align"][data-value="left"]').addClass('active');
+
+                                        break;
+
+                                    default :
+                                        _this._$toolbar.find('[data-action="text"]').removeClass('active');
+                                        _this._$toolbar.find('[data-action="align"]').removeClass('active');
+                                        _this._$toolbar.find('[data-action="insert"]').removeClass('active');
+                                        break;
+                                }
+                            } else {
+                                _this._$toolbar.find('button[data-action]').removeClass('active');
+                            }
+                            _this._$statusbar.path.text(pathInfo['path']);
+                            _this._$statusbar.stat.text('Length: ' + statInfo['length'] + ', chars: ' + statInfo['chars'] + ', words: ' +  statInfo['words']);
+
+                        } else {
+
+                            var position = _this._getTextPosition(_this._$content.get(0));
+                            _this._$statusbar.path.empty();
+                            _this._$statusbar.stat.text('Line: ' + position['line'] + ', column: ' + position['end']);
+
+                        }
+
+                        return _this._$element;
+
                     }
                 },
             }, {
