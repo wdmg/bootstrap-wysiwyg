@@ -34,6 +34,16 @@
   text-align: center;
   min-width: 34px;
 }
+.wysiwyg-editor .btn-toolbar .btn-group > .btn[data-value="bg-color"],
+.wysiwyg-editor .btn-toolbar .btn-group > .btn[data-value="font-color"] {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+.wysiwyg-editor .btn-toolbar .btn-group > .btn[data-value="bg-color"] > span,
+.wysiwyg-editor .btn-toolbar .btn-group > .btn[data-value="font-color"] > span {
+  min-width: 18px;
+  border-bottom: 3px solid transparent;
+}
 .wysiwyg-editor .btn-toolbar .popover .popover-content {
   min-width: 96px;
   padding: 5px;

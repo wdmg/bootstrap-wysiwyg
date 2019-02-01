@@ -28,7 +28,16 @@
       & > .btn {
         padding: 5px 10px;
         text-align: center;
-        min-width: 34px
+        min-width: 34px;
+        &[data-value="bg-color"],
+        &[data-value="font-color"] {
+          padding-left: 4px;
+          padding-right: 4px;
+          & > span {
+            min-width: 18px;
+            border-bottom: 3px solid transparent;
+          }
+        }
       }
     }
     .popover {

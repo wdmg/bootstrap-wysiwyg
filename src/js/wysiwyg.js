@@ -490,6 +490,8 @@
                                             selection.anchorNode.parentElement.removeAttribute("style");
 
                                     } else {
+                                        //_this._$toolbar.find('[data-action="text"][data-value="font-color"]').css('color', value);
+                                        _this._$toolbar.find('[data-action="text"][data-value="font-color"] > span').css('border-bottom-color', value);
                                         _this._formatDoc('foreColor', value);
                                     }
                                     break;
@@ -505,6 +507,8 @@
                                             selection.anchorNode.parentElement.removeAttribute("style");
 
                                     } else {
+                                        //_this._$toolbar.find('[data-action="text"][data-value="bg-color"]').css('color', value);
+                                        _this._$toolbar.find('[data-action="text"][data-value="bg-color"] > span').css('border-bottom-color', value);
                                         _this._formatDoc('hiliteColor', value);
                                     }
                                     break;
