@@ -41,7 +41,7 @@
                 ['operations', ['undo', 'rendo', 'cut', 'copy', 'paste']],
                 ['styles'],
                 ['fonts', ['select', 'size']],
-                ['text', ['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript', 'color']],
+                ['text', ['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript', 'font-color', 'bg-color']],
                 ['align', ['left', 'center', 'right', 'justify']],
                 ['lists', ['unordered', 'ordered', 'indent', 'outdent']],
                 ['components', ['table', 'chart']],
@@ -55,6 +55,7 @@
             fontSizeDefault: ['12px'],
             fontFamilies: ['Open Sans', 'Arial', 'Arial Black', 'Courier', 'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times', 'Times New Roman', 'Verdana'],
             fontFamilyDefault: ['Open Sans'],
+            colorPalette: [["rgb(0, 0, 0)","rgb(67, 67, 67)","rgb(102, 102, 102)","rgb(153, 153, 153)","rgb(183, 183, 183)","rgb(204, 204, 204)","rgb(217, 217, 217)","rgb(239, 239, 239)","rgb(243, 243, 243)","rgb(255, 255, 255)"],["rgb(152, 0, 0)","rgb(255, 0, 0)","rgb(255, 153, 0)","rgb(255, 255, 0)","rgb(0, 255, 0)","rgb(0, 255, 255)","rgb(74, 134, 232)","rgb(0, 0, 255)","rgb(153, 0, 255)","rgb(255, 0, 255)"],["rgb(230, 184, 175)","rgb(244, 204, 204)","rgb(252, 229, 205)","rgb(255, 242, 204)","rgb(217, 234, 211)","rgb(208, 224, 227)","rgb(201, 218, 248)","rgb(207, 226, 243)","rgb(217, 210, 233)","rgb(234, 209, 220)","rgb(221, 126, 107)","rgb(234, 153, 153)","rgb(249, 203, 156)","rgb(255, 229, 153)","rgb(182, 215, 168)","rgb(162, 196, 201)","rgb(164, 194, 244)","rgb(159, 197, 232)","rgb(180, 167, 214)","rgb(213, 166, 189)","rgb(204, 65, 37)","rgb(224, 102, 102)","rgb(246, 178, 107)","rgb(255, 217, 102)","rgb(147, 196, 125)","rgb(118, 165, 175)","rgb(109, 158, 235)","rgb(111, 168, 220)","rgb(142, 124, 195)","rgb(194, 123, 160)","rgb(166, 28, 0)","rgb(204, 0, 0)","rgb(230, 145, 56)","rgb(241, 194, 50)","rgb(106, 168, 79)","rgb(69, 129, 142)","rgb(60, 120, 216)","rgb(61, 133, 198)","rgb(103, 78, 167)","rgb(166, 77, 121)","rgb(133, 32, 12)","rgb(153, 0, 0)","rgb(180, 95, 6)","rgb(191, 144, 0)","rgb(56, 118, 29)","rgb(19, 79, 92)","rgb(17, 85, 204)","rgb(11, 83, 148)","rgb(53, 28, 117)","rgb(116, 27, 71)","rgb(91, 15, 0)","rgb(102, 0, 0)","rgb(120, 63, 4)","rgb(127, 96, 0)","rgb(39, 78, 19)","rgb(12, 52, 61)","rgb(28, 69, 135)","rgb(7, 55, 99)","rgb(32, 18, 77)","rgb(76, 17, 48)"]]
         };
 
         var Editor = (function() {
@@ -219,8 +220,15 @@
                             if(elem[1].indexOf('superscript', 0) !== -1)
                                 $toolbar.append(_this._buildTollbarButton('text', 'superscript', "fa fa-superscript", null));
 
-                            if(elem[1].indexOf('color', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('text', 'color', "fa fa-font", null));
+                            if(elem[1].indexOf('bg-color', 0) !== -1)
+                                $toolbar.append(_this._buildTollbarButton('text', 'font-color', "fa fa-font", null, "Lines interval", function() {
+                                    return _this._buildColorPalette(_this._config.colorPalette, "font-color", null);
+                                }));
+
+                            if(elem[1].indexOf('bg-color', 0) !== -1)
+                                $toolbar.append(_this._buildTollbarButton('text', 'bg-color', "fa fa-paint-brush", null, "Lines interval", function() {
+                                    return _this._buildColorPalette(_this._config.colorPalette, "bg-color", true);
+                                }));
 
                         } else if(elem[0] === 'align') { // Text aligment
 
@@ -468,9 +476,36 @@
                                             _this._formatDoc('superscript');
                                             break;
 
-                                        case 'color':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
-                                            break;
+                                    }
+                                    break;
+
+                                case 'font-color':
+                                    if(value == 'unset') {
+
+                                        var selection = document.getSelection();
+                                        if(selection.anchorNode)
+                                            selection.anchorNode.parentElement.style.backgroundColor = "";
+
+                                        if(selection.anchorNode.parentElement.style.length)
+                                            selection.anchorNode.parentElement.removeAttribute("style");
+
+                                    } else {
+                                        _this._formatDoc('foreColor', value);
+                                    }
+                                    break;
+
+                                case 'bg-color':
+                                    if(value == 'unset') {
+
+                                        var selection = document.getSelection();
+                                        if(selection.anchorNode)
+                                            selection.anchorNode.parentElement.style.backgroundColor = "";
+
+                                        if(selection.anchorNode.parentElement.style.length)
+                                            selection.anchorNode.parentElement.removeAttribute("style");
+
+                                    } else {
+                                        _this._formatDoc('hiliteColor', value);
                                     }
                                     break;
 
@@ -529,8 +564,6 @@
 
                                 case 'line-height':
 
-                                    console.log(parseFloat(value));
-
                                     var selection = document.getSelection();
                                     var lineHeight = parseFloat(value) * 100 + "%";
 
@@ -543,8 +576,6 @@
                                     break;
 
                                 case 'letter-spacing':
-
-                                    console.log(parseFloat(value));
 
                                     var selection = document.getSelection();
                                     var letterSpacing = parseFloat(value) + "px";
@@ -1009,6 +1040,25 @@
                         $dropdown.append($dropdownBtn);
                         $dropdown.append($dropdownMenu);
                         return $dropdown;
+                    }
+                },
+                _buildColorPalette: {
+                    value: function buildColorPalette(palette, action, reset) {
+                        var content = '';
+                        $.each(palette, function (outer, colors) {
+                            content += '<table class="color-palette"><tr>';
+                            $.each(colors, function (inner, color) {
+                                content += '<td><a href="#" data-action="' + action + '" data-value="' + color + '" style="background-color: ' + color + '">&nbsp</a></td>'
+                                content += ((parseInt(inner) + 1)%10 ? '' : '</tr>');
+                                content += ((parseInt(inner) + 1)%10 ? '' : '<tr>');
+                            });
+                            content += '</tr></table>';
+                        });
+
+                        if(reset)
+                            content += '<p><a href="#" class="btn btn-sm btn-block" data-action="' + action + '" data-value="unset">Reset color</a></p>';
+
+                        return content;
                     }
                 },
                 _updateState: {

@@ -41,6 +41,25 @@
 .wysiwyg-editor .btn-toolbar .popover .popover-content .nav > li > a {
   padding: 5px 8px;
 }
+.wysiwyg-editor .btn-toolbar .popover .popover-content .color-palette {
+  border-spacing: 2px 2px;
+}
+.wysiwyg-editor .btn-toolbar .popover .popover-content .color-palette td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.wysiwyg-editor .btn-toolbar .popover .popover-content .color-palette td > a {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  text-decoration: none;
+  border: 1px solid #fff;
+}
+.wysiwyg-editor .btn-toolbar .popover .popover-content .color-palette td > a:hover,
+.wysiwyg-editor .btn-toolbar .popover .popover-content .color-palette td > a:focus {
+  border: 1px solid #000;
+}
 .wysiwyg-editor .editor-content {
   min-height: 120px;
   padding: 15px;
