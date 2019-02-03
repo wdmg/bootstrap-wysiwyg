@@ -82,6 +82,8 @@
                 _this._$element.before(_this._$content);
                 _this._source = _this._$element.val();
 
+                _this._popoverIsVisible = false;
+
                 // Add toolbar to editor
                 _this._$toolbar = $('<div class="wysiwyg-toolbar btn-toolbar" />');
                 _this._$content.before(_this._$toolbar);
@@ -261,7 +263,9 @@
                         } else if(elem[0] === 'components') { // Components
 
                             if(elem[1].indexOf('table', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('components', 'table', "fa fa-table", null));
+                                $toolbar.append(_this._buildTollbarButton('components', 'table', "fa fa-table", null, "Insert table", function() {
+                                    return _this._buildTableGrid();
+                                }));
 
                             if(elem[1].indexOf('chart', 0) !== -1)
                                 $toolbar.append(_this._buildTollbarButton('components', 'chart', "fa fa-pie-chart", null));
@@ -507,7 +511,6 @@
                                             selection.anchorNode.parentElement.removeAttribute("style");
 
                                     } else {
-                                        //_this._$toolbar.find('[data-action="text"][data-value="bg-color"]').css('color', value);
                                         _this._$toolbar.find('[data-action="text"][data-value="bg-color"] > span').css('border-bottom-color', value);
                                         _this._formatDoc('hiliteColor', value);
                                     }
@@ -554,11 +557,19 @@
                                     }
                                     break;
 
+                                case 'insert-table':
+                                    var selection = document.getSelection();
+                                    if(selection.anchorNode) {
+                                        var options = value.split('|', 2);
+                                        var $parent = $(selection.anchorNode.parentElement);
+                                        var content = _this._generateTable(parseFloat(options[0]), parseFloat(options[2]));
+                                        $parent.after(content);
+                                        console.log(content);
+                                    }
+                                    break;
+
                                 case 'components':
                                     switch (value) {
-                                        case 'table':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
-                                            break;
 
                                         case 'chart':
                                             console.log('Fire action: ' + action + ' with value: ' + value);
@@ -569,28 +580,28 @@
                                 case 'line-height':
 
                                     var selection = document.getSelection();
-                                    var lineHeight = parseFloat(value) * 100 + "%";
+                                    if(selection.anchorNode.parentElement) {
+                                        var lineHeight = parseFloat(value) * 100 + "%";
 
-                                    if(parseFloat(value) == 0)
-                                        selection.anchorNode.parentElement.style.letterSpacing = "inherit";
-
-                                    if(selection.anchorNode)
-                                        selection.anchorNode.parentElement.style.lineHeight = lineHeight;
-
+                                        if (parseFloat(value) == 0)
+                                            selection.anchorNode.parentElement.style.lineHeight = "inherit";
+                                        else
+                                            selection.anchorNode.parentElement.style.lineHeight = lineHeight;
+                                    }
                                     break;
 
                                 case 'letter-spacing':
 
                                     var selection = document.getSelection();
-                                    var letterSpacing = parseFloat(value) + "px";
+                                    if(selection.anchorNode.parentElement) {
+                                        var letterSpacing = parseFloat(value) + "px";
 
-                                    if(parseFloat(value) == 0)
-                                        selection.anchorNode.parentElement.style.letterSpacing = "inherit";
+                                        if (parseFloat(value) == 0)
+                                            selection.anchorNode.parentElement.style.letterSpacing = "inherit";
+                                        else
+                                            selection.anchorNode.parentElement.style.letterSpacing = letterSpacing;
 
-                                    if(selection.anchorNode)
-                                        selection.anchorNode.parentElement.style.letterSpacing = letterSpacing;
-
-
+                                    }
                                     break;
 
                                 case 'insert':
@@ -732,66 +743,55 @@
                         return _this._$element;
                     }
                 },
+                _replaceAll: {
+                    value: function replaceAll(search, replace, string) {
+                        return string.split(search).join(replace);
+                    }
+                },
                 _stripTags: {
-                    value: function stripTags(str, allowed_tags) {
-                        var key = '', allowed = false;
-                        var matches = [];
-                        var allowed_array = [];
-                        var allowed_tag = '';
-                        var i = 0;
-                        var k = '';
-                        var html = '';
+                    value: function stripTags(string, tags) {
 
-                        var replacer = function(search, replace, str) {
-                            return str.split(search).join(replace);
-                        };
+                        var key, allowed_tags = [];
+                        if (tags)
+                            allowed_tags = tags.match(/([a-zA-Z]+)/gi);
 
-                        // Build allowes tags associative array
-                        if (allowed_tags) {
-                            allowed_array = allowed_tags.match(/([a-zA-Z]+)/gi);
-                        }
+                        if (typeof (string) !== 'string')
+                            string = string.toString();
 
-                        str += '';
+                        var matches = string.match(/(<\/?[\S][^>]*>)/gi);
 
-                        // Match tags
-                        matches = str.match(/(<\/?[\S][^>]*>)/gi);
-
-                        // Go through all HTML tags
                         for (key in matches) {
-                            if (isNaN(key)) {
-                                // IE7 Hack
+
+                            if (isNaN(key))
                                 continue;
-                            }
 
-                            // Save HTML tag
-                            html = matches[key].toString();
+                            var html = matches[key].toString();
+                            var allowed = false;
 
-                            // Is tag not in allowed list? Remove from str!
-                            allowed = false;
+                            for (key in allowed_tags) {
 
-                            // Go through all allowed tags
-                            for (k in allowed_array) {
-                                // Init
-                                allowed_tag = allowed_array[k];
-                                i = -1;
+                                var tag = allowed_tags[key];
+                                var i = html.toLowerCase().indexOf('<'+ tag +'>');
 
-                                if (i != 0) { i = html.toLowerCase().indexOf('<'+allowed_tag+'>');}
-                                if (i != 0) { i = html.toLowerCase().indexOf('<'+allowed_tag+' ');}
-                                if (i != 0) { i = html.toLowerCase().indexOf('</'+allowed_tag)   ;}
+                                if (i != 0)
+                                    i = html.toLowerCase().indexOf('<'+ tag +' ');
 
-                                // Determine
+                                if (i != 0)
+                                    i = html.toLowerCase().indexOf('</'+ tag );
+
                                 if (i == 0) {
                                     allowed = true;
                                     break;
                                 }
+
                             }
 
-                            if (!allowed) {
-                                str = replacer(html, "", str); // Custom replace. No regexing
-                            }
+                            if (!allowed)
+                                string = this._replaceAll(html, "", string);
+
                         }
 
-                        return str;
+                        return string;
                     }
                 },
                 _trimSource: {
@@ -943,9 +943,25 @@
                         print.document.close();
                     }
                 },
+                _hideAllPopovers: {
+                    value: function hideAllPopovers() {
+                        console.log('_hideAllPopovers');
+
+                        this._$toolbar.find('.popover').each(function() {
+                            $(this).popover('hide');
+                        });
+
+                        /*$('.popover').each(function() {
+                            $(this).popover('hide');
+                        });*/
+
+                        this._popoverIsVisible = false;
+                    }
+                },
                 _buildTollbarButton: {
                     value: function buildTollbarButton(action, value, icon, hotkey, tooltip, popover) {
 
+                        var _this = this;
                         var $button = $('<button type="button" class="btn btn-default" tabindex="-1" />');
 
                         if (action)
@@ -966,13 +982,50 @@
                         }
 
                         if (popover) {
+
                             $button.popover({
                                 html: true,
+                                trigger: 'manual',
                                 placement: 'bottom',
                                 content: popover
+                            }).on('shown.bs.popover', function(event) {
+
+                                var popoverId = $(event.target).attr('aria-describedby');
+                                var $popover = _this._$toolbar.find('#'+popoverId);
+
+                                $popover.on('click', function() {
+                                    $popover.popover('hide');
+                                });
+
+                                if($popover.find('.table-grid').length) {
+                                    $popover.find('.table-grid tr > td').hover(function() {
+                                        $(this).addClass('selected');
+                                        $(this).prevAll().addClass('selected');
+                                        $(this).parent().prevAll().find('td:lt('+ ($(this).index() + 1) + ')').addClass('selected');
+                                    }, function() {
+                                        $(this).removeClass('selected');
+                                        $(this).prevAll().removeClass('selected');
+                                        $(this).parent().prevAll().find('td:lt('+ ($(this).index() + 1) + ')').removeClass('selected');
+                                    });
+                                }
+
+                            }).on('click', function(e) {
+
+                                console.log(_this._popoverIsVisible);
+
+                                if(_this._popoverIsVisible)
+                                    _this._hideAllPopovers();
+
+                                $button.popover('show');
+                                _this._popoverIsVisible = true;
+                                e.stopPropagation();
+                            });
+
+                        } else {
+                            $button.on('click', function(e) {
+                                _this._hideAllPopovers();
                             });
                         }
-
 
                         if (icon)
                             $button.append('<span class="' + icon + '" />');
@@ -1052,7 +1105,7 @@
                         $.each(palette, function (outer, colors) {
                             content += '<table class="color-palette"><tr>';
                             $.each(colors, function (inner, color) {
-                                content += '<td><a href="#" data-action="' + action + '" data-value="' + color + '" style="background-color: ' + color + '">&nbsp</a></td>'
+                                content += '<td><a href="#" data-action="' + action + '" data-value="' + color + '" style="background-color: ' + color + '">&nbsp;</a></td>'
                                 content += ((parseInt(inner) + 1)%10 ? '' : '</tr>');
                                 content += ((parseInt(inner) + 1)%10 ? '' : '<tr>');
                             });
@@ -1062,6 +1115,65 @@
                         if(reset)
                             content += '<p><a href="#" class="btn btn-sm btn-block" data-action="' + action + '" data-value="unset">Reset color</a></p>';
 
+                        return content;
+                    }
+                },
+                _buildTableGrid: {
+                    value: function buildColorPalette() {
+
+                        var content = '<table class="table-grid">';
+
+                        for(var row = 1; row <= 6; row++) {
+
+                            content += '<tr>';
+
+                            for(var column = 1; column <= 8; column++) {
+                                content += '<td><a href="#" data-action="insert-table" data-value="' + row + '|'+ column +'">&nbsp;</a></td>'
+                            }
+
+                            content += '</tr>';
+                        }
+
+                        content += '</table>';
+                        return content;
+                    }
+                },
+                _generateTable: {
+                    value: function generateTable(rows, columns) {
+
+                        rows = parseInt(rows) + 1;
+                        columns = parseInt(rows);
+
+                        if(!columns) columns = 1;
+
+                        var content = '<table class="table">';
+
+                        for(var row = 1; row <= rows; row++) {
+
+                            if (row == 1)
+                                content += '<thead>';
+                            else if (row == ((rows - row) - 1))
+                                content += '<tbody>';
+
+                            content += '<tr>';
+
+                            for(var column = 1; column <= columns; column++) {
+
+                                if (row == 1)
+                                    content += '<th>Header ' + column + '</th>'
+                                else
+                                    content += '<td>&nbsp;</td>'
+                            }
+
+                            content += '</tr>';
+
+                            if (row == 1)
+                                content += '</thead>';
+                            else if (row == rows)
+                                content += '</tbody>';
+                        }
+
+                        content += '</table>';
                         return content;
                     }
                 },

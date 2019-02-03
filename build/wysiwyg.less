@@ -67,7 +67,32 @@
               text-decoration: none;
               border: 1px solid #fff;
               &:hover, &:focus {
-                border: 1px solid #000;
+                border: 1px solid #373737;
+              }
+            }
+          }
+        }
+        .table-grid {
+          border-spacing: 0px 0px;
+          td {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            & > a {
+              display: inline-block;
+              width: 22px;
+              height: 22px;
+              text-decoration: none;
+              border: 1px solid #c7c7c7;
+              &:hover, &:focus {
+                background: rgba(0, 119, 170, 0.32);
+                border: 1px solid #07a;
+              }
+            }
+            &.selected {
+              a {
+                background: rgba(0, 119, 170, 0.32);
+                border: 1px solid #07a;
               }
             }
           }

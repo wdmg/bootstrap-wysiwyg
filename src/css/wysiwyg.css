@@ -68,7 +68,31 @@
 }
 .wysiwyg-editor .btn-toolbar .popover .popover-content .color-palette td > a:hover,
 .wysiwyg-editor .btn-toolbar .popover .popover-content .color-palette td > a:focus {
-  border: 1px solid #000;
+  border: 1px solid #373737;
+}
+.wysiwyg-editor .btn-toolbar .popover .popover-content .table-grid {
+  border-spacing: 0px 0px;
+}
+.wysiwyg-editor .btn-toolbar .popover .popover-content .table-grid td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.wysiwyg-editor .btn-toolbar .popover .popover-content .table-grid td > a {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  text-decoration: none;
+  border: 1px solid #c7c7c7;
+}
+.wysiwyg-editor .btn-toolbar .popover .popover-content .table-grid td > a:hover,
+.wysiwyg-editor .btn-toolbar .popover .popover-content .table-grid td > a:focus {
+  background: rgba(0, 119, 170, 0.32);
+  border: 1px solid #07a;
+}
+.wysiwyg-editor .btn-toolbar .popover .popover-content .table-grid td.selected a {
+  background: rgba(0, 119, 170, 0.32);
+  border: 1px solid #07a;
 }
 .wysiwyg-editor .editor-content {
   min-height: 120px;
