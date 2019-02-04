@@ -82,7 +82,9 @@
                 _this._$element.before(_this._$content);
                 _this._source = _this._$element.val();
 
+                _this._selection = document.getSelection();
                 _this._popoverIsVisible = false;
+                _this._$lastFocus = null;
 
                 // Add toolbar to editor
                 _this._$toolbar = $('<div class="wysiwyg-toolbar btn-toolbar" />');
@@ -102,7 +104,7 @@
                 // Build toolbar by config
                 if(typeof (_this._config.toolbar) == 'object') {
                     $.each(_this._config.toolbar, function (index, elem) {
-                        //console.log(elem + ' comes at ' + index);
+                        ////console.log(elem + ' comes at ' + index);
                         var $toolbar = $('<div class="btn-group" role="group" aria-label="..." />');
 
                         if(elem[0] === 'mode') { // Editor mode switcher
@@ -316,13 +318,13 @@
                                 $toolbar.append(_this._buildTollbarButton('insert', 'emoji', "fa fa-smile-o", null));
 
                             if(elem[1].indexOf('link', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('insert', 'link', "fa fa-link", null));
+                                $toolbar.append(_this._buildTollbarButton('insert', 'link', "fa fa-link", null, "Add URL", _this._buildUrlForm()));
 
                             if(elem[1].indexOf('image', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('insert', 'image', "fa fa-image", null));
+                                $toolbar.append(_this._buildTollbarButton('insert', 'image', "fa fa-image", null, "Add image", _this._buildUrlForm('image')));
 
                             if(elem[1].indexOf('video', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('insert', 'video', "fa fa-video-camera", null));
+                                $toolbar.append(_this._buildTollbarButton('insert', 'video', "fa fa-video-camera", null, "Add video", _this._buildUrlForm('video')));
 
                             if(elem[1].indexOf('symbol', 0) !== -1)
                                 $toolbar.append(_this._buildTollbarButton('insert', 'symbol', "fa fa-hashtag", null));
@@ -359,6 +361,7 @@
                     _this._$toolbar.on('click', '[data-action]', function(event) {
                         var $target = $(event.currentTarget);
                         var action = $target.data('action');
+                        var selection = _this._selection;
                         var value = $target.data('value');
 
                         if (typeof (action) !== 'undefined' && typeof (value) !== 'undefined') {
@@ -409,26 +412,24 @@
                                     break;
 
                                 case 'fontsize':
-                                    var selection = document.getSelection();
-                                    selection.anchorNode.parentElement.removeAttribute("size");
-                                    selection.anchorNode.parentElement.style.fontSize = value;
+                                    _this._selection.anchorNode.parentElement.removeAttribute("size");
+                                    _this._selection.anchorNode.parentElement.style.fontSize = value;
                                     break;
 
                                 case 'style':
-                                    var selection = document.getSelection();
-                                    var styles = selection.anchorNode.parentElement.style.cssText;
+                                    var styles = _this._selection.anchorNode.parentElement.style.cssText;
 
                                     if(styles)
                                         styles += value;
                                     else
                                         styles = value;
 
-                                    selection.anchorNode.parentElement.removeAttribute("style");
-                                    selection.anchorNode.parentElement.style = styles;
+                                    _this._selection.anchorNode.parentElement.removeAttribute("style");
+                                    _this._selection.anchorNode.parentElement.style = styles;
                                     break;
 
                                 case 'fullscreen':
-                                    console.log('Fire action: ' + action + ' with value: ' + value);
+                                    //console.log('Fire action: ' + action + ' with value: ' + value);
                                     break;
 
                                 case 'operations':
@@ -486,12 +487,11 @@
                                 case 'font-color':
                                     if(value == 'unset') {
 
-                                        var selection = document.getSelection();
-                                        if(selection.anchorNode)
-                                            selection.anchorNode.parentElement.style.backgroundColor = "";
+                                        if(_this._selection.anchorNode)
+                                            _this._selection.anchorNode.parentElement.style.backgroundColor = "";
 
-                                        if(selection.anchorNode.parentElement.style.length)
-                                            selection.anchorNode.parentElement.removeAttribute("style");
+                                        if(_this._selection.anchorNode.parentElement.style.length)
+                                            _this._selection.anchorNode.parentElement.removeAttribute("style");
 
                                     } else {
                                         //_this._$toolbar.find('[data-action="text"][data-value="font-color"]').css('color', value);
@@ -503,12 +503,11 @@
                                 case 'bg-color':
                                     if(value == 'unset') {
 
-                                        var selection = document.getSelection();
-                                        if(selection.anchorNode)
-                                            selection.anchorNode.parentElement.style.backgroundColor = "";
+                                        if(_this._selection.anchorNode)
+                                            _this._selection.anchorNode.parentElement.style.backgroundColor = "";
 
-                                        if(selection.anchorNode.parentElement.style.length)
-                                            selection.anchorNode.parentElement.removeAttribute("style");
+                                        if(_this._selection.anchorNode.parentElement.style.length)
+                                            _this._selection.anchorNode.parentElement.removeAttribute("style");
 
                                     } else {
                                         _this._$toolbar.find('[data-action="text"][data-value="bg-color"] > span').css('border-bottom-color', value);
@@ -558,13 +557,12 @@
                                     break;
 
                                 case 'insert-table':
-                                    var selection = document.getSelection();
-                                    if(selection.anchorNode) {
+                                    if(_this._selection.anchorNode) {
                                         var options = value.split('|', 2);
-                                        var $parent = $(selection.anchorNode.parentElement);
+                                        var $parent = $(_this._selection.anchorNode.parentElement);
                                         var content = _this._generateTable(parseFloat(options[0]), parseFloat(options[2]));
                                         $parent.after(content);
-                                        console.log(content);
+                                        //console.log(content);
                                     }
                                     break;
 
@@ -572,62 +570,79 @@
                                     switch (value) {
 
                                         case 'chart':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            //console.log('Fire action: ' + action + ' with value: ' + value);
                                             break;
                                     }
                                     break;
 
                                 case 'line-height':
-
-                                    var selection = document.getSelection();
-                                    if(selection.anchorNode.parentElement) {
+                                    if(_this._selection.anchorNode) {
                                         var lineHeight = parseFloat(value) * 100 + "%";
 
                                         if (parseFloat(value) == 0)
-                                            selection.anchorNode.parentElement.style.lineHeight = "inherit";
+                                            _this._selection.anchorNode.parentElement.style.lineHeight = "inherit";
                                         else
-                                            selection.anchorNode.parentElement.style.lineHeight = lineHeight;
+                                            _this._selection.anchorNode.parentElement.style.lineHeight = lineHeight;
                                     }
                                     break;
 
                                 case 'letter-spacing':
-
-                                    var selection = document.getSelection();
-                                    if(selection.anchorNode.parentElement) {
+                                    if(_this._selection.anchorNode) {
                                         var letterSpacing = parseFloat(value) + "px";
 
                                         if (parseFloat(value) == 0)
-                                            selection.anchorNode.parentElement.style.letterSpacing = "inherit";
+                                            _this._selection.anchorNode.parentElement.style.letterSpacing = "inherit";
                                         else
-                                            selection.anchorNode.parentElement.style.letterSpacing = letterSpacing;
+                                            _this._selection.anchorNode.parentElement.style.letterSpacing = letterSpacing;
 
+                                    }
+                                    break;
+
+                                case 'add-url':
+                                    var text = _this._selection.toString();
+                                    //console.log(text);
+                                    if(_this._selection && text) {
+
+                                        var $link = $('<a href="' + value + '" />');
+                                        $link.text(text);
+
+                                        var range = _this._selection.getRangeAt(0);
+                                        range.deleteContents();
+                                        range.insertNode($link.get(0));
+                                        
+                                    }
+                                    break;
+
+                                case 'add-image':
+                                    if(_this._selection && value) {
+                                        var $image = $('<img src="' + value + '" />');
+                                        var range = _this._selection.getRangeAt(0);
+                                        range.deleteContents();
+                                        range.insertNode($image.get(0));
+                                    }
+                                    break;
+
+                                case 'add-video':
+                                    if(_this._selection && value) {
+                                        var $embed = $('<div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="' + value + '"></iframe></div>');
+                                        var range = _this._selection.getRangeAt(0);
+                                        range.deleteContents();
+                                        range.insertNode($embed.get(0));
                                     }
                                     break;
 
                                 case 'insert':
                                     switch (value) {
                                         case 'emoji':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
-                                            break;
-
-                                        case 'link':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
-                                            break;
-
-                                        case 'image':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
-                                            break;
-
-                                        case 'video':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            //console.log('Fire action: ' + action + ' with value: ' + value);
                                             break;
 
                                         case 'symbol':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            //console.log('Fire action: ' + action + ' with value: ' + value);
                                             break;
 
                                         case 'bookmark':
-                                            console.log('Fire action: ' + action + ' with value: ' + value);
+                                            //console.log('Fire action: ' + action + ' with value: ' + value);
                                             break;
                                     }
                                     break;
@@ -666,49 +681,54 @@
                 }
 
                 // On selected content
-                _this._$content.on('mouseup keyup', function (event) {
-                    var sel = window.getSelection();
+                _this._$content.on('mouseup click', function (event) {
 
-                    if (sel.getRangeAt && sel.rangeCount) {
+                    if(_this._popoverIsVisible)
+                        _this._hideAllPopovers();
 
-                        /*if (sel.parentElement) {
-                            var $target = $(sel.parentElement);
-                            _this._updateState($target);
-                        } else if (sel.parentNode) {
-                            var $target = $(sel.parentNode);
-                            _this._updateState($target);
-                        }*/
+                    if(event.target.type !== "text")
+                        _this._selection = document.getSelection();
 
-                        if (sel.parentNode) {
-                            var $target = $(sel.parentNode);
-                            _this._updateState($target);
-                        } else if (sel.parentElement) {
-                            var $target = $(sel.parentElement);
-                            _this._updateState($target);
-                        }/* else {
-                            _this._$toolbar.find('[data-action="text"]').removeClass('active');
-                            _this._$toolbar.find('[data-action="align"]').removeClass('active');
-                            _this._$toolbar.find('[data-action="insert"]').removeClass('active');
-                        }*/
+                    if (_this._selection.getRangeAt && _this._selection.rangeCount) {
 
-                        //return sel.getRangeAt(0);
+                        if (_this._selection.parentNode) {
+                            var $target = $(_this._selection.parentNode);
+                            _this._updateState($target);
+                        } else if (_this._selection.parentElement) {
+                            var $target = $(_this._selection.parentElement);
+                            _this._updateState($target);
+                        }
                     }
-
-                    //var $parents = $(sel.parentElement).parentsUntil('#' + _this._editorId);
-                    //var $parents = $(sel.parentElement).parentsUntil('#' + _this._editorId);
-
-                });
-
-                // On click or keyup from content area
-                _this._$content.on('click keyup', function (event) {
-                    const $this = $(this);
-
-                    var sel = window.getSelection();
 
                     var $target = $(event.target);
                     _this._updateState($target);
-                    $this.focus();
+                });
 
+                // On click or keyup from content area
+                _this._$content.on('keyup', function (event) {
+                    const $this = $(this);
+
+                    if(_this._popoverIsVisible)
+                        _this._hideAllPopovers();
+
+                    //console.log(event.target);
+
+                    if(event.target.type !== "text")
+                        _this._selection = document.getSelection();
+
+                    if (_this._selection.getRangeAt && _this._selection.rangeCount) {
+
+                        if (_this._selection.parentNode) {
+                            var $target = $(_this._selection.parentNode);
+                            _this._updateState($target);
+                        } else if (_this._selection.parentElement) {
+                            var $target = $(_this._selection.parentElement);
+                            _this._updateState($target);
+                        }
+                    }
+
+                    var $target = $(event.target);
+                    _this._updateState($target);
                     $this.trigger('change');
 
                 });
@@ -726,13 +746,17 @@
 
                 });
 
-                // On content change
-                /*_this._$element.on('click keyup', function(event) {
-                    const $this = $(this);
+                // On content focus
+                _this._$content.on('focus', function(event) {
+                    _this._selection = document.getSelection();
+                });
 
-                    var position2 = _this._getTextPosition(_this._$element.get(0));
-                    console.log(position2);
-                });*/
+                // On content lost focus
+                _this._$content.on('blur', function() {
+                    _this._$lastFocus = this;
+                    _this._selection = document.getSelection();
+
+                });
 
             }
 
@@ -891,7 +915,7 @@
 
                         } else {
 
-                            range = document.selection.createRange();
+                            range = document._this._selection.createRange();
 
                             if (range && range.parentElement() == el) {
                                 len = el.value.length;
@@ -945,7 +969,7 @@
                 },
                 _hideAllPopovers: {
                     value: function hideAllPopovers() {
-                        console.log('_hideAllPopovers');
+                        //console.log('_hideAllPopovers');
 
                         this._$toolbar.find('.popover').each(function() {
                             $(this).popover('hide');
@@ -962,6 +986,7 @@
                     value: function buildTollbarButton(action, value, icon, hotkey, tooltip, popover) {
 
                         var _this = this;
+                        var selection = _this._selection;
                         var $button = $('<button type="button" class="btn btn-default" tabindex="-1" />');
 
                         if (action)
@@ -986,6 +1011,7 @@
                             $button.popover({
                                 html: true,
                                 trigger: 'manual',
+                                viewport: 'body',
                                 placement: 'bottom',
                                 content: popover
                             }).on('shown.bs.popover', function(event) {
@@ -993,8 +1019,36 @@
                                 var popoverId = $(event.target).attr('aria-describedby');
                                 var $popover = _this._$toolbar.find('#'+popoverId);
 
-                                $popover.on('click', function() {
-                                    $popover.popover('hide');
+
+                                var selection = _this._selection;
+                                console.log(selection);
+
+                                var range = selection.getRangeAt(0);
+                                console.log(range);
+
+                                $popover.find('input').on('blur', function(event) {
+
+                                    if (event.target.type == "text") {
+                                        console.log('blur on input');
+                                        if (_this._$lastFocus) {
+                                            setTimeout(function() {
+                                                _this._$lastFocus.focus();
+                                                _this._selectText(selection, range);
+
+                                                /*selection.removeAllRanges();
+                                                selection.addRange(range);*/
+
+                                            }, 10);
+                                        }
+                                    }
+                                    return false;
+                                });
+
+                                $popover.on('click', function(event) {
+
+                                    if(event.target.type !== "text")
+                                        $popover.popover('hide');
+
                                 });
 
                                 if($popover.find('.table-grid').length) {
@@ -1010,8 +1064,6 @@
                                 }
 
                             }).on('click', function(e) {
-
-                                console.log(_this._popoverIsVisible);
 
                                 if(_this._popoverIsVisible)
                                     _this._hideAllPopovers();
@@ -1138,6 +1190,61 @@
                         return content;
                     }
                 },
+                _addUrl: {
+                    value: function addUrl(target) {
+                        //console.log('addUrl', target);
+                    }
+                },
+                _selectText: {
+                    value: function selectText(selection, range) {
+
+                        if(!selection)
+                            selection = document.getSelection();
+
+                        if(!range)
+                            range = selection.getRangeAt(0);
+
+                        /*var parent = selection.anchorNode;
+                        var offset = selection.anchorOffset;
+                        selection.setPosition(parent, offset);*/
+
+                        selection.removeAllRanges();
+                        selection.addRange(range);
+                    }
+                },
+                _buildUrlForm: {
+                    value: function buildUrlForm(type) {
+                        var content = '<form class="form-inline">';
+
+                        content += '<div class="form-group">';
+                        content += '<div class="input-group input-group-sm">';
+
+                        if(type == "image")
+                            content += '<span class="input-group-addon">Image:</span>';
+                        else if(type == "video")
+                            content += '<span class="input-group-addon">YouTube:</span>';
+                        else
+                            content += '<span class="input-group-addon">URL:</span>';
+
+                        content += '<input type="text" class="form-control" id="urlInput" placeholder="http://" />';
+                        content += '<span class="input-group-btn">';
+
+                        if(type == "image")
+                            content += '<button type="button" data-action="add-image" onclick="javascript: this.setAttribute(\'data-value\', document.getElementById(\'urlInput\').value);" class="btn btn-block btn-primary">Add</button>';
+                        else if(type == "video")
+                            content += '<button type="button" data-action="add-video" onclick="javascript: this.setAttribute(\'data-value\', document.getElementById(\'urlInput\').value);" class="btn btn-block btn-primary">Add</button>';
+                        else
+                            content += '<button type="button" data-action="add-url" onclick="javascript: this.setAttribute(\'data-value\', document.getElementById(\'urlInput\').value);" class="btn btn-block btn-primary">Add</button>';
+
+                        content += '</span>';
+
+                        content += '</div>';
+                        content += '</div>';
+
+                        content += '</form>';
+                        return content;
+                    }
+                },
                 _generateTable: {
                     value: function generateTable(rows, columns) {
 
@@ -1240,8 +1347,7 @@
                                 _this._$toolbar.find('button[data-action]').removeClass('active');
                             }
 
-                            if (pathInfo['path'].search(this._editorId) == -1)
-                                _this._$statusbar.path.text(pathInfo['path']);
+                            _this._$statusbar.path.text(pathInfo['path']);
 
                             _this._$statusbar.stat.text('Length: ' + statInfo['length'] + ', chars: ' + statInfo['chars'] + ', words: ' +  statInfo['words']);
 

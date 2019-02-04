@@ -44,12 +44,22 @@
   min-width: 18px;
   border-bottom: 3px solid transparent;
 }
+.wysiwyg-editor .btn-toolbar .popover {
+  max-width: initial;
+}
 .wysiwyg-editor .btn-toolbar .popover .popover-content {
   min-width: 96px;
   padding: 5px;
 }
 .wysiwyg-editor .btn-toolbar .popover .popover-content .nav > li > a {
   padding: 5px 8px;
+}
+.wysiwyg-editor .btn-toolbar .popover .popover-content .form-inline .input-group {
+  min-width: 320px;
+}
+.wysiwyg-editor .btn-toolbar .popover .popover-content .form-inline .input-group > .input-group-addon,
+.wysiwyg-editor .btn-toolbar .popover .popover-content .form-inline .input-group > .input-group-btn {
+  /*width: unset;*/
 }
 .wysiwyg-editor .btn-toolbar .popover .popover-content .color-palette {
   border-spacing: 2px 2px;
@@ -116,6 +126,10 @@
 
       letter-spacing: -0.05em;
       word-break: normal;*/
+}
+.wysiwyg-editor .editor-content table tr th,
+.wysiwyg-editor .editor-content table tr td {
+  border: 1px dashed #c7c7c7 !important;
 }
 .wysiwyg-editor .editor-statusbar {
   display: inline-block;

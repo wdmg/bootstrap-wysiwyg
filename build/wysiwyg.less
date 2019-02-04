@@ -41,6 +41,7 @@
       }
     }
     .popover {
+      max-width: initial;
       .popover-title {
 
       }
@@ -52,6 +53,13 @@
             & > a {
               padding: 5px 8px;
             }
+          }
+        }
+        .form-inline .input-group {
+          min-width: 320px;
+          & > .input-group-addon,
+          & > .input-group-btn {
+            /*width: unset;*/
           }
         }
         .color-palette {
@@ -121,6 +129,13 @@
 
       letter-spacing: -0.05em;
       word-break: normal;*/
+    }
+    table {
+      tr, {
+        th, td {
+          border: 1px dashed #c7c7c7 !important;
+        }
+      }
     }
   }
   .editor-statusbar {
