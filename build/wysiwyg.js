@@ -1,9 +1,9 @@
 /**
  *
  * Simple WYSIWYG editor for Bootstrap3
- * copyright 2019 W.D.M.Group, Ukraine
- * email: wdmg.com.ua@gmail.com
- * version: 1.0.1
+ * copyright 2019 W.D.M.Group, Ukraine <wdmg.com.ua@gmail.com>
+ * author: Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
+ * version: 1.0.2
  * license: MIT
  *
  */
@@ -45,11 +45,11 @@
                 ['text', ['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript', 'font-color', 'bg-color']],
                 ['align', ['left', 'center', 'right', 'justify']],
                 ['lists', ['unordered', 'ordered', 'indent', 'outdent']],
-                ['components', ['table', 'chart']],
+                ['components', ['table', /*'chart'*/]],
                 ['intervals', ['line-height', 'letter-spacing']],
-                ['insert', ['emoji', 'link', 'image', 'video', 'symbol', 'bookmark']],
+                ['insert', ['emoji', 'link', 'image', 'video', 'symbol', /*'bookmark'*/]],
                 ['special', ['print', 'unformat', 'clean']],
-                ['fullscreen'],
+                /*['fullscreen'],*/
             ],
             mode: 'editor',
             fontSizes: ['8px', '9px', '10px', '11px', '12px', '14px', '15px', '16px', '18px', '20px', '24px', '30px', '32px', '36px', '48px'],
