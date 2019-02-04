@@ -3,6 +3,7 @@
  * Simple WYSIWYG editor for Bootstrap3
  * copyright 2019 W.D.M.Group, Ukraine
  * email: wdmg.com.ua@gmail.com
+ * version: 1.0.1
  * license: MIT
  *
  */
