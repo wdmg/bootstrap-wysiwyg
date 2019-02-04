@@ -56,6 +56,8 @@
             fontSizeDefault: ['12px'],
             fontFamilies: ['Open Sans', 'Arial', 'Arial Black', 'Courier', 'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times', 'Times New Roman', 'Verdana'],
             fontFamilyDefault: ['Open Sans'],
+            emojiDefault: ["\u{1f600}", "\u{1f62c}", "\u{1f601}", "\u{1f602}", "\u{1f603}", "\u{1f604}", "\u{1f605}", "\u{1f606}", "\u{1f607}", "\u{1f609}", "\u{1f60a}", "\u{1f642}", "\u{1f643}", "\u{1f60b}", "\u{1f60c}", "\u{1f60d}", "\u{1f618}", "\u{1f617}", "\u{1f619}", "\u{1f61a}", "\u{1f61c}", "\u{1f61d}", "\u{1f61b}", "\u{1f911}", "\u{1f913}", "\u{1f60e}", "\u{1f917}", "\u{1f60f}", "\u{1f636}", "\u{1f610}", "\u{1f611}", "\u{1f612}", "\u{1f644}", "\u{1f914}", "\u{1f633}", "\u{1f61e}", "\u{1f61f}", "\u{1f620}", "\u{1f621}", "\u{1f614}", "\u{1f615}", "\u{1f641}", "\u{1f623}", "\u{1f616}", "\u{1f62b}", "\u{1f629}", "\u{1f624}", "\u{1f62e}", "\u{1f631}", "\u{1f628}", "\u{1f630}", "\u{1f62f}", "\u{1f626}", "\u{1f627}", "\u{1f622}", "\u{1f625}", "\u{1f62a}", "\u{1f613}", "\u{1f62d}", "\u{1f635}", "\u{1f632}", "\u{1f910}", "\u{1f637}", "\u{1f912}", "\u{1f915}", "\u{1f634}", "\u{1f4a4}"],
+            symbolsDefault: ["&lt;", "&gt;", "&laquo;", "&raquo;", "&lsaquo;", "&rsaquo;", "&quot;", "&prime;", "&Prime;", "&lsquo;", "&rsquo;", "&sbquo;", "&ldquo;", "&rdquo;", "&bdquo;", "&#10076;", "&#10075;", "&amp;", "&apos;", "&sect;", "&copy;", "&not;", "&reg;", "&macr;", "&deg;", "&plusmn;", "&sup1;", "&sup2;", "&sup3;", "&frac14;", "&frac12;", "&frac34;", "&acute;", "&micro;", "&para;", "&middot;", "&iquest;", "&fnof;", "&trade;", "&bull;", "&hellip;", "&oline;", "&ndash;", "&mdash;", "&permil;", "&#125;", "&#123;", "&#61;", "&ne;", "&cong;", "&asymp;", "&le;", "&ge;", "&ang;", "&perp;", "&radic;", "&sum;", "&int;", "&#8251;", "&divide;", "&infin;", "&#64;", "&#91;", "&#93;", "&larr;", "&uarr;", "&rarr;", "&darr;", "&harr;", "&crarr;", "&lArr;", "&uArr;", "&rArr;", "&dArr;", "&hArr;", "&#10144;", "&#10148;", "&#10149;", "&#10150;", "&#10163;", "&#8634;", "&#8635;", "&#8679;", "&#8617;", "&#11015;", "&#11014;", "&spades;", "&clubs;", "&hearts;", "&diams;", "&#9825;", "&#9826;", "&#9828;", "&#9831;", "&#8372;", "&euro;", "&dollar;", "&cent;", "&pound;", "&#8381;", "&yen;", "&#8377;", "&#22291;", "&#8376;"],
             colorPalette: [["rgb(0, 0, 0)","rgb(67, 67, 67)","rgb(102, 102, 102)","rgb(153, 153, 153)","rgb(183, 183, 183)","rgb(204, 204, 204)","rgb(217, 217, 217)","rgb(239, 239, 239)","rgb(243, 243, 243)","rgb(255, 255, 255)"],["rgb(152, 0, 0)","rgb(255, 0, 0)","rgb(255, 153, 0)","rgb(255, 255, 0)","rgb(0, 255, 0)","rgb(0, 255, 255)","rgb(74, 134, 232)","rgb(0, 0, 255)","rgb(153, 0, 255)","rgb(255, 0, 255)"],["rgb(230, 184, 175)","rgb(244, 204, 204)","rgb(252, 229, 205)","rgb(255, 242, 204)","rgb(217, 234, 211)","rgb(208, 224, 227)","rgb(201, 218, 248)","rgb(207, 226, 243)","rgb(217, 210, 233)","rgb(234, 209, 220)","rgb(221, 126, 107)","rgb(234, 153, 153)","rgb(249, 203, 156)","rgb(255, 229, 153)","rgb(182, 215, 168)","rgb(162, 196, 201)","rgb(164, 194, 244)","rgb(159, 197, 232)","rgb(180, 167, 214)","rgb(213, 166, 189)","rgb(204, 65, 37)","rgb(224, 102, 102)","rgb(246, 178, 107)","rgb(255, 217, 102)","rgb(147, 196, 125)","rgb(118, 165, 175)","rgb(109, 158, 235)","rgb(111, 168, 220)","rgb(142, 124, 195)","rgb(194, 123, 160)","rgb(166, 28, 0)","rgb(204, 0, 0)","rgb(230, 145, 56)","rgb(241, 194, 50)","rgb(106, 168, 79)","rgb(69, 129, 142)","rgb(60, 120, 216)","rgb(61, 133, 198)","rgb(103, 78, 167)","rgb(166, 77, 121)","rgb(133, 32, 12)","rgb(153, 0, 0)","rgb(180, 95, 6)","rgb(191, 144, 0)","rgb(56, 118, 29)","rgb(19, 79, 92)","rgb(17, 85, 204)","rgb(11, 83, 148)","rgb(53, 28, 117)","rgb(116, 27, 71)","rgb(91, 15, 0)","rgb(102, 0, 0)","rgb(120, 63, 4)","rgb(127, 96, 0)","rgb(39, 78, 19)","rgb(12, 52, 61)","rgb(28, 69, 135)","rgb(7, 55, 99)","rgb(32, 18, 77)","rgb(76, 17, 48)"]]
         };
 
@@ -104,6 +106,7 @@
 
                 // Build toolbar by config
                 if(typeof (_this._config.toolbar) == 'object') {
+
                     $.each(_this._config.toolbar, function (index, elem) {
                         ////console.log(elem + ' comes at ' + index);
                         var $toolbar = $('<div class="btn-group" role="group" aria-label="..." />');
@@ -316,7 +319,7 @@
                         } else if(elem[0] === 'insert') { // Inserts
 
                             if(elem[1].indexOf('emoji', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('insert', 'emoji', "fa fa-smile-o", null));
+                                $toolbar.append(_this._buildTollbarButton('insert', 'emoji', "fa fa-smile-o", null, "Add emoji", _this._buildEmojiList()));
 
                             if(elem[1].indexOf('link', 0) !== -1)
                                 $toolbar.append(_this._buildTollbarButton('insert', 'link', "fa fa-link", null, "Add URL", _this._buildUrlForm()));
@@ -328,7 +331,7 @@
                                 $toolbar.append(_this._buildTollbarButton('insert', 'video', "fa fa-video-camera", null, "Add video", _this._buildUrlForm('video')));
 
                             if(elem[1].indexOf('symbol', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('insert', 'symbol', "fa fa-hashtag", null));
+                                $toolbar.append(_this._buildTollbarButton('insert', 'symbol', "fa fa-hashtag", null, "Add symbol", _this._buildSymbolsList()));
 
                             if(elem[1].indexOf('bookmark', 0) !== -1)
                                 $toolbar.append(_this._buildTollbarButton('insert', 'bookmark', "fa fa-bookmark", null));
@@ -632,11 +635,12 @@
                                     }
                                     break;
 
+                                case 'insert-html':
+                                    _this._formatDoc('insertHTML', value);
+                                    break;
+
                                 case 'insert':
                                     switch (value) {
-                                        case 'emoji':
-                                            //console.log('Fire action: ' + action + ' with value: ' + value);
-                                            break;
 
                                         case 'symbol':
                                             //console.log('Fire action: ' + action + ' with value: ' + value);
@@ -828,25 +832,27 @@
                     }
                 },
                 _getPath: {
-                    value: function getPath(node, restrict) {
+                    value: function getPath(node, until, withNodes) {
                         var path, tags = [];
                         while (node.length) {
                             var realNode = node[0], name = realNode.localName;
-                            var parent = node.parentsUntil(restrict);
+                            var parent = node.parentsUntil(until);
 
                             if (!name)
                                 break;
                             else
                                 name = name.toLowerCase();
 
-                            /*var sameTagSiblings = parent.children(name);
-                            if (sameTagSiblings.length > 1) {
-                                var allSiblings = parent.children();
-                                var index = allSiblings.index(realNode) + 1;
-                                if (index > 1) {
-                                    name += ':nth-child(' + index + ')';
+                            if (withNodes) {
+                                var sameTagSiblings = parent.children(name);
+                                if (sameTagSiblings.length > 1) {
+                                    var allSiblings = parent.children();
+                                    var index = allSiblings.index(realNode) + 1;
+                                    if (index > 1) {
+                                        name += ':nth-child(' + index + ')';
+                                    }
                                 }
-                            }*/
+                            }
 
                             tags.push(name);
 
@@ -1020,30 +1026,28 @@
                                 var popoverId = $(event.target).attr('aria-describedby');
                                 var $popover = _this._$toolbar.find('#'+popoverId);
 
-
                                 var selection = _this._selection;
-                                console.log(selection);
+                                if(selection && range) {
+                                    var range = selection.getRangeAt(0);
 
-                                var range = selection.getRangeAt(0);
-                                console.log(range);
+                                    $popover.find('input').on('blur', function(event) {
 
-                                $popover.find('input').on('blur', function(event) {
+                                        if (event.target.type == "text") {
+                                            console.log('blur on input');
+                                            if (_this._$lastFocus) {
+                                                setTimeout(function() {
+                                                    _this._$lastFocus.focus();
+                                                    _this._selectText(selection, range);
 
-                                    if (event.target.type == "text") {
-                                        console.log('blur on input');
-                                        if (_this._$lastFocus) {
-                                            setTimeout(function() {
-                                                _this._$lastFocus.focus();
-                                                _this._selectText(selection, range);
+                                                    /*selection.removeAllRanges();
+                                                    selection.addRange(range);*/
 
-                                                /*selection.removeAllRanges();
-                                                selection.addRange(range);*/
-
-                                            }, 10);
+                                                }, 10);
+                                            }
                                         }
-                                    }
-                                    return false;
-                                });
+                                        return false;
+                                    });
+                                }
 
                                 $popover.on('click', function(event) {
 
@@ -1213,6 +1217,68 @@
                         selection.addRange(range);
                     }
                 },
+                _buildEmojiList: {
+                    value: function buildEmojiList() {
+
+                        var emojis = this._config.emojiDefault;
+
+                        if(emojis.length > 0) {
+                            var maxRows = Math.round(emojis.length / 8)+1;
+                            var content = '<table class="emojis-list">';
+                            for(var row = 1, index = 0; row <= maxRows; row++) {
+                                content += '<tr>';
+
+                                for(var column = 1; column <= 8; column++) {
+
+                                    if(index == emojis.length)
+                                        break;
+
+                                    content += '<td><a href="#" data-action="insert-html" data-value="' + emojis[index].toString() + '">'+ emojis[index] +'</a></td>';
+                                    index++;
+                                }
+                                content += '</tr>';
+                            }
+                            content += '</table>';
+
+                            return content;
+
+                        } else {
+                            return false;
+                        }
+
+                    }
+                },
+                _buildSymbolsList: {
+                    value: function buildSymbolsList() {
+
+                        var symbols = this._config.symbolsDefault;
+
+                        if(symbols.length > 0) {
+                            var maxRows = Math.round(symbols.length / 10);
+                            var content = '<table class="symbols-list">';
+                            for(var row = 1, index = 0; row <= maxRows; row++) {
+                                content += '<tr>';
+
+                                for(var column = 1; column <= 10; column++) {
+
+                                    if(index == symbols.length)
+                                        break;
+
+                                    content += '<td><a href="#" data-action="insert-html" data-value="' + symbols[index] + '">'+ symbols[index] +'</a></td>';
+                                    index++;
+                                }
+                                content += '</tr>';
+                            }
+                            content += '</table>';
+
+                            return content;
+
+                        } else {
+                            return false;
+                        }
+
+                    }
+                },
                 _buildUrlForm: {
                     value: function buildUrlForm(type) {
                         var content = '<form class="form-inline">';
@@ -1290,7 +1356,7 @@
                         var _this = this;
                         if (_this._config.mode == 'editor') {
                             var statInfo = _this._getTextStat(_this._$content.get(0));
-                            var pathInfo = _this._getPath($target, _this._$content);
+                            var pathInfo = _this._getPath($target, _this._$content, false);
 
                             if(!reset) {
                                 switch (pathInfo['tags'][0]) {
