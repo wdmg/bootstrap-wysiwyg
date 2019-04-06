@@ -24,7 +24,7 @@
     "grunt": "latest"
   },
   "repository": "https://github.com/wdmg/bootstrap-wysiwyg.git",
-  "homepage": "http://wdmg.github.io/bootstrap-wysiwyg/",
+  "homepage": "http://wdmg.github.io/bootstrap-wysiwyg",
   "bugs": {
     "url": "https://github.com/wdmg/bootstrap-wysiwyg/issues"
   },

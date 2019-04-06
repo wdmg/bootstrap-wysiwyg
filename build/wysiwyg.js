@@ -1,12 +1,15 @@
 /**
- *
  * Simple WYSIWYG editor for Bootstrap3
- * copyright 2019 W.D.M.Group, Ukraine <wdmg.com.ua@gmail.com>
- * author: Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
- * version: 1.0.2
- * license: MIT
+ *
+ * @category        jQuery Plugin
+ * @version         1.0.2
+ * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
+ * @link            http://wdmg.github.io/bootstrap-wysiwyg
+ * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
+ * @license         https://opensource.org/licenses/MIT Massachusetts Institute of Technology (MIT) License
  *
  */
+
 +function($) {
 
     "use strict";
