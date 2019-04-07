@@ -2,7 +2,7 @@
  * Simple WYSIWYG editor for Bootstrap3
  *
  * @category        jQuery Plugin
- * @version         1.0.2
+ * @version         1.0.4
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            http://wdmg.github.io/bootstrap-wysiwyg
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -121,8 +121,8 @@
 
                         } else if(elem[0] === 'operations') { // Operations editor controls
 
-                            $toolbar.append(_this._buildTollbarButton('operations', 'undo', "fa fa-mail-reply", null));
-                            $toolbar.append(_this._buildTollbarButton('operations', 'rendo', "fa fa-mail-forward", null));
+                            $toolbar.append(_this._buildTollbarButton('operations', 'undo', "fa fa-reply", null));
+                            $toolbar.append(_this._buildTollbarButton('operations', 'rendo', "fa fa-share", null));
                             $toolbar.append(_this._buildTollbarButton('operations', 'cut', "fa fa-cut", null));
                             $toolbar.append(_this._buildTollbarButton('operations', 'copy', "fa fa-copy", null));
                             $toolbar.append(_this._buildTollbarButton('operations', 'paste', "fa fa-clipboard", null));
@@ -232,14 +232,10 @@
                                 $toolbar.append(_this._buildTollbarButton('text', 'superscript', "fa fa-superscript", null));
 
                             if(elem[1].indexOf('bg-color', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('text', 'font-color', "fa fa-font", null, "Lines interval", function() {
-                                    return _this._buildColorPalette(_this._config.colorPalette, "font-color", null);
-                                }));
+                                $toolbar.append(_this._buildTollbarButton('text', 'font-color', "fa fa-font", null, "Lines interval", _this._buildColorPalette(_this._config.colorPalette, "font-color", null)));
 
                             if(elem[1].indexOf('bg-color', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('text', 'bg-color', "fa fa-paint-brush", null, "Lines interval", function() {
-                                    return _this._buildColorPalette(_this._config.colorPalette, "bg-color", true);
-                                }));
+                                $toolbar.append(_this._buildTollbarButton('text', 'bg-color', "fa fa-paint-brush", null, "Lines interval", _this._buildColorPalette(_this._config.colorPalette, "bg-color", true)));
 
                         } else if(elem[0] === 'align') { // Text aligment
 
@@ -272,9 +268,7 @@
                         } else if(elem[0] === 'components') { // Components
 
                             if(elem[1].indexOf('table', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('components', 'table', "fa fa-table", null, "Insert table", function() {
-                                    return _this._buildTableGrid();
-                                }));
+                                $toolbar.append(_this._buildTollbarButton('components', 'table', "fa fa-table", null, "Insert table", _this._buildTableGrid()));
 
                             if(elem[1].indexOf('chart', 0) !== -1)
                                 $toolbar.append(_this._buildTollbarButton('components', 'chart', "fa fa-pie-chart", null));
@@ -282,47 +276,15 @@
                         } else if(elem[0] === 'intervals') { // Text properties
 
                             if(elem[1].indexOf('line-height', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('interval', 'line-height', "fa fa-text-height", null, "Lines interval", function() {
-
-                                    var content = '<ul class="nav nav-pills nav-stacked">\n' +
-                                        '  <li role="presentation"><a href="#" data-action="line-height" data-value="0.5">0.5</a></li>\n' +
-                                        '  <li role="presentation"><a href="#" data-action="line-height" data-value="1.0">1.0</a></li>\n' +
-                                        '  <li role="presentation"><a href="#" data-action="line-height" data-value="1.15">1.15</a></li>\n' +
-                                        '  <li role="presentation"><a href="#" data-action="line-height" data-value="1.5">1.5</a></li>\n' +
-                                        '  <li role="presentation"><a href="#" data-action="line-height" data-value="2.0">2.0</a></li>\n' +
-                                        '</ul>';
-
-                                    return content;
-                                }));
+                                $toolbar.append(_this._buildTollbarButton('interval', 'line-height', "fa fa-text-height", null, "Lines interval", _this._buildLineHeightList()));
 
                             if(elem[1].indexOf('letter-spacing', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('interval', 'letter-spacing', "fa fa-text-width", null, "Letter spacing", function() {
-
-                                    var content = '<ul class="nav nav-pills nav-stacked">\n' +
-                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="-5">-5</a></li>\n' +
-                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="-3">-3</a></li>\n' +
-                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="-2">-2</a></li>\n' +
-                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="-1">-1</a></li>\n' +
-                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="0">0</a></li>\n' +
-                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="1">1</a></li>\n' +
-                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="2">2</a></li>\n' +
-                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="3">3</a></li>\n' +
-                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="5">5</a></li>\n' +
-                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="8">8</a></li>\n' +
-                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="10">10</a></li>\n' +
-                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="12">12</a></li>\n' +
-                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="15">15</a></li>\n' +
-                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="25">25</a></li>\n' +
-                                        '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="50">50</a></li>\n' +
-                                        '</ul>';
-
-                                    return content;
-                                }));
+                                $toolbar.append(_this._buildTollbarButton('interval', 'letter-spacing', "fa fa-text-width", null, "Letter spacing", _this._buildLetterSpacingList()));
 
                         } else if(elem[0] === 'insert') { // Inserts
 
                             if(elem[1].indexOf('emoji', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('insert', 'emoji', "fa fa-smile-o", null, "Add emoji", _this._buildEmojiList()));
+                                $toolbar.append(_this._buildTollbarButton('insert', 'emoji', "fa fa-smile fa-smile-o", null, "Add emoji", _this._buildEmojiList()));
 
                             if(elem[1].indexOf('link', 0) !== -1)
                                 $toolbar.append(_this._buildTollbarButton('insert', 'link', "fa fa-link", null, "Add URL", _this._buildUrlForm()));
@@ -331,7 +293,7 @@
                                 $toolbar.append(_this._buildTollbarButton('insert', 'image', "fa fa-image", null, "Add image", _this._buildUrlForm('image')));
 
                             if(elem[1].indexOf('video', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('insert', 'video', "fa fa-video-camera", null, "Add video", _this._buildUrlForm('video')));
+                                $toolbar.append(_this._buildTollbarButton('insert', 'video', "fa fa-video-camera fa-video", null, "Add video", _this._buildUrlForm('video')));
 
                             if(elem[1].indexOf('symbol', 0) !== -1)
                                 $toolbar.append(_this._buildTollbarButton('insert', 'symbol', "fa fa-hashtag", null, "Add symbol", _this._buildSymbolsList()));
@@ -348,7 +310,7 @@
                                 $toolbar.append(_this._buildTollbarButton('special', 'clean', "fa fa-eraser", null));
 
                             if(elem[1].indexOf('unformat', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('special', 'unformat', "fa fa-trash-o", null));
+                                $toolbar.append(_this._buildTollbarButton('special', 'unformat', "fa fa-trash-o fa-trash-alt", null));
 
                         } else if(elem[0] === 'fullscreen') { // Fullscreen mode
 
@@ -616,7 +578,7 @@
                                         var range = _this._selection.getRangeAt(0);
                                         range.deleteContents();
                                         range.insertNode($link.get(0));
-                                        
+
                                     }
                                     break;
 
@@ -993,7 +955,7 @@
                     }
                 },
                 _buildTollbarButton: {
-                    value: function buildTollbarButton(action, value, icon, hotkey, tooltip, popover) {
+                    value: function buildTollbarButton(action, value, icon, hotkey, tooltip, content) {
 
                         var _this = this;
                         var selection = _this._selection;
@@ -1016,14 +978,20 @@
                             });
                         }
 
-                        if (popover) {
-
+                        if (content) {
                             $button.popover({
                                 html: true,
                                 trigger: 'manual',
                                 viewport: 'body',
                                 placement: 'bottom',
-                                content: popover
+                                content: function() {
+
+                                    if(typeof (content) === "object")
+                                        return content;
+                                    else
+                                        return $(content);
+
+                                }
                             }).on('shown.bs.popover', function(event) {
 
                                 var popoverId = $(event.target).attr('aria-describedby');
@@ -1071,18 +1039,20 @@
                                     });
                                 }
 
-                            }).on('click', function(e) {
+                            }).on('click', function(event) {
+
+                                event.stopPropagation();
 
                                 if(_this._popoverIsVisible)
                                     _this._hideAllPopovers();
 
                                 $button.popover('show');
                                 _this._popoverIsVisible = true;
-                                e.stopPropagation();
                             });
 
                         } else {
-                            $button.on('click', function(e) {
+                            $button.on('click', function(event) {
+                                event.preventDefault();
                                 _this._hideAllPopovers();
                             });
                         }
@@ -1198,6 +1168,42 @@
                         return content;
                     }
                 },
+                _buildLetterSpacingList: {
+                    value: function buildLetterSpacingList() {
+                        var content = '<ul class="nav nav-pills nav-stacked">\n' +
+                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="-5">-5</a></li>\n' +
+                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="-3">-3</a></li>\n' +
+                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="-2">-2</a></li>\n' +
+                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="-1">-1</a></li>\n' +
+                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="0">0</a></li>\n' +
+                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="1">1</a></li>\n' +
+                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="2">2</a></li>\n' +
+                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="3">3</a></li>\n' +
+                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="5">5</a></li>\n' +
+                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="8">8</a></li>\n' +
+                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="10">10</a></li>\n' +
+                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="12">12</a></li>\n' +
+                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="15">15</a></li>\n' +
+                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="25">25</a></li>\n' +
+                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="50">50</a></li>\n' +
+                            '</ul>';
+
+                        return content;
+                    }
+                },
+                _buildLineHeightList: {
+                    value: function buildLineHeightList() {
+                        var content = '<ul class="nav nav-pills nav-stacked">\n' +
+                            '  <li role="presentation"><a href="#" data-action="line-height" data-value="0.5">0.5</a></li>\n' +
+                            '  <li role="presentation"><a href="#" data-action="line-height" data-value="1.0">1.0</a></li>\n' +
+                            '  <li role="presentation"><a href="#" data-action="line-height" data-value="1.15">1.15</a></li>\n' +
+                            '  <li role="presentation"><a href="#" data-action="line-height" data-value="1.5">1.5</a></li>\n' +
+                            '  <li role="presentation"><a href="#" data-action="line-height" data-value="2.0">2.0</a></li>\n' +
+                            '</ul>';
+
+                        return content;
+                    }
+                },
                 _addUrl: {
                     value: function addUrl(target) {
                         //console.log('addUrl', target);
@@ -1242,7 +1248,6 @@
                                 content += '</tr>';
                             }
                             content += '</table>';
-
                             return content;
 
                         } else {
