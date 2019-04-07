@@ -121,8 +121,8 @@
 
                         } else if(elem[0] === 'operations') { // Operations editor controls
 
-                            $toolbar.append(_this._buildTollbarButton('operations', 'undo', "fa fa-mail-reply", null));
-                            $toolbar.append(_this._buildTollbarButton('operations', 'rendo', "fa fa-mail-forward", null));
+                            $toolbar.append(_this._buildTollbarButton('operations', 'undo', "fa fa-reply", null));
+                            $toolbar.append(_this._buildTollbarButton('operations', 'rendo', "fa fa-share", null));
                             $toolbar.append(_this._buildTollbarButton('operations', 'cut', "fa fa-cut", null));
                             $toolbar.append(_this._buildTollbarButton('operations', 'copy', "fa fa-copy", null));
                             $toolbar.append(_this._buildTollbarButton('operations', 'paste', "fa fa-clipboard", null));
@@ -322,7 +322,7 @@
                         } else if(elem[0] === 'insert') { // Inserts
 
                             if(elem[1].indexOf('emoji', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('insert', 'emoji', "fa fa-smile-o", null, "Add emoji", _this._buildEmojiList()));
+                                $toolbar.append(_this._buildTollbarButton('insert', 'emoji', "fa fa-smile fa-smile-o", null, "Add emoji", _this._buildEmojiList()));
 
                             if(elem[1].indexOf('link', 0) !== -1)
                                 $toolbar.append(_this._buildTollbarButton('insert', 'link', "fa fa-link", null, "Add URL", _this._buildUrlForm()));
@@ -331,7 +331,7 @@
                                 $toolbar.append(_this._buildTollbarButton('insert', 'image', "fa fa-image", null, "Add image", _this._buildUrlForm('image')));
 
                             if(elem[1].indexOf('video', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('insert', 'video', "fa fa-video-camera", null, "Add video", _this._buildUrlForm('video')));
+                                $toolbar.append(_this._buildTollbarButton('insert', 'video', "fa fa-video-camera fa-video", null, "Add video", _this._buildUrlForm('video')));
 
                             if(elem[1].indexOf('symbol', 0) !== -1)
                                 $toolbar.append(_this._buildTollbarButton('insert', 'symbol', "fa fa-hashtag", null, "Add symbol", _this._buildSymbolsList()));
@@ -348,7 +348,7 @@
                                 $toolbar.append(_this._buildTollbarButton('special', 'clean', "fa fa-eraser", null));
 
                             if(elem[1].indexOf('unformat', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('special', 'unformat', "fa fa-trash-o", null));
+                                $toolbar.append(_this._buildTollbarButton('special', 'unformat', "fa fa-trash-o fa-trash-alt", null));
 
                         } else if(elem[0] === 'fullscreen') { // Fullscreen mode
 
