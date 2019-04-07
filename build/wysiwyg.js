@@ -2,7 +2,7 @@
  * Simple WYSIWYG editor for Bootstrap3
  *
  * @category        jQuery Plugin
- * @version         1.0.4
+ * @version         1.1.0
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            http://wdmg.github.io/bootstrap-wysiwyg
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -111,7 +111,7 @@
                 if(typeof (_this._config.toolbar) == 'object') {
 
                     $.each(_this._config.toolbar, function (index, elem) {
-                        ////console.log(elem + ' comes at ' + index);
+
                         var $toolbar = $('<div class="btn-group" role="group" aria-label="..." />');
 
                         if(elem[0] === 'mode') { // Editor mode switcher
@@ -398,7 +398,7 @@
                                     break;
 
                                 case 'fullscreen':
-                                    //console.log('Fire action: ' + action + ' with value: ' + value);
+                                    console.log('Fire action: ' + action + ' with value: ' + value);
                                     break;
 
                                 case 'operations':
@@ -531,7 +531,6 @@
                                         var $parent = $(_this._selection.anchorNode.parentElement);
                                         var content = _this._generateTable(parseFloat(options[0]), parseFloat(options[2]));
                                         $parent.after(content);
-                                        //console.log(content);
                                     }
                                     break;
 
@@ -539,7 +538,7 @@
                                     switch (value) {
 
                                         case 'chart':
-                                            //console.log('Fire action: ' + action + ' with value: ' + value);
+                                            console.log('Fire action: ' + action + ' with value: ' + value);
                                             break;
                                     }
                                     break;
@@ -569,16 +568,12 @@
 
                                 case 'add-url':
                                     var text = _this._selection.toString();
-                                    //console.log(text);
                                     if(_this._selection && text) {
-
                                         var $link = $('<a href="' + value + '" />');
                                         $link.text(text);
-
                                         var range = _this._selection.getRangeAt(0);
                                         range.deleteContents();
                                         range.insertNode($link.get(0));
-
                                     }
                                     break;
 
@@ -602,19 +597,6 @@
 
                                 case 'insert-html':
                                     _this._formatDoc('insertHTML', value);
-                                    break;
-
-                                case 'insert':
-                                    switch (value) {
-
-                                        case 'symbol':
-                                            //console.log('Fire action: ' + action + ' with value: ' + value);
-                                            break;
-
-                                        case 'bookmark':
-                                            //console.log('Fire action: ' + action + ' with value: ' + value);
-                                            break;
-                                    }
                                     break;
 
                                 case 'special':
@@ -651,7 +633,7 @@
                 }
 
                 // On selected content
-                _this._$content.on('mouseup click', function (event) {
+                _this._$content.on('mouseup click focus', function (event) {
 
                     if(_this._popoverIsVisible)
                         _this._hideAllPopovers();
@@ -680,8 +662,6 @@
 
                     if(_this._popoverIsVisible)
                         _this._hideAllPopovers();
-
-                    //console.log(event.target);
 
                     if(event.target.type !== "text")
                         _this._selection = document.getSelection();
@@ -716,17 +696,14 @@
 
                 });
 
-                // On content focus
-                _this._$content.on('focus', function(event) {
-                    _this._selection = document.getSelection();
-                });
-
                 // On content lost focus
                 _this._$content.on('blur', function() {
                     _this._$lastFocus = this;
                     _this._selection = document.getSelection();
-
                 });
+
+                // Set focus on content
+                _this._$content.focus();
 
             }
 
@@ -864,7 +841,7 @@
                 _getTextPosition: {
                     value: function getCursorPosition(el) {
 
-                        var line = 0, start = 0, end = 0, normalizedValue, range, textInputRange, len, endRange;
+                        var line = 0, start = 0, end = 0, selected = 0, normalizedValue, range, textInputRange, len, endRange;
                         var isContentEditable = el && el.contentEditable;
 
                         if ("selectionStart" in el && document.activeElement == el) {
@@ -887,7 +864,7 @@
 
                         } else {
 
-                            range = document._this._selection.createRange();
+                            range = this._selection.createRange();
 
                             if (range && range.parentElement() == el) {
                                 len = el.value.length;
@@ -918,10 +895,14 @@
                                 }
                             }
                         }
+
+                        selected = (this._selection.toString()).length;
+
                         return {
                             line: line,
                             start: start,
-                            end: end
+                            end: end,
+                            selected: selected
                         }
                     }
                 },
@@ -941,16 +922,9 @@
                 },
                 _hideAllPopovers: {
                     value: function hideAllPopovers() {
-                        //console.log('_hideAllPopovers');
-
                         this._$toolbar.find('.popover').each(function() {
                             $(this).popover('hide');
                         });
-
-                        /*$('.popover').each(function() {
-                            $(this).popover('hide');
-                        });*/
-
                         this._popoverIsVisible = false;
                     }
                 },
@@ -996,24 +970,16 @@
 
                                 var popoverId = $(event.target).attr('aria-describedby');
                                 var $popover = _this._$toolbar.find('#'+popoverId);
-
                                 var selection = _this._selection;
+                                var range = selection.getRangeAt(0);
                                 if(selection && range) {
-                                    var range = selection.getRangeAt(0);
-
                                     $popover.find('input').on('blur', function(event) {
-
                                         if (event.target.type == "text") {
-                                            console.log('blur on input');
                                             if (_this._$lastFocus) {
                                                 setTimeout(function() {
                                                     _this._$lastFocus.focus();
                                                     _this._selectText(selection, range);
-
-                                                    /*selection.removeAllRanges();
-                                                    selection.addRange(range);*/
-
-                                                }, 10);
+                                                }, 50);
                                             }
                                         }
                                         return false;
@@ -1204,11 +1170,6 @@
                         return content;
                     }
                 },
-                _addUrl: {
-                    value: function addUrl(target) {
-                        //console.log('addUrl', target);
-                    }
-                },
                 _selectText: {
                     value: function selectText(selection, range) {
 
@@ -1218,19 +1179,13 @@
                         if(!range)
                             range = selection.getRangeAt(0);
 
-                        /*var parent = selection.anchorNode;
-                        var offset = selection.anchorOffset;
-                        selection.setPosition(parent, offset);*/
-
                         selection.removeAllRanges();
                         selection.addRange(range);
                     }
                 },
                 _buildEmojiList: {
                     value: function buildEmojiList() {
-
                         var emojis = this._config.emojiDefault;
-
                         if(emojis.length > 0) {
                             var maxRows = Math.round(emojis.length / 8)+1;
                             var content = '<table class="emojis-list">';
@@ -1253,7 +1208,6 @@
                         } else {
                             return false;
                         }
-
                     }
                 },
                 _buildSymbolsList: {
@@ -1272,7 +1226,7 @@
                                     if(index == symbols.length)
                                         break;
 
-                                    content += '<td><a href="#" data-action="insert-html" data-value="' + symbols[index] + '">'+ symbols[index] +'</a></td>';
+                                    content += '<td><a href="#" data-action="insert-html" data-value="' + symbols[index] + '" style="min-width:16px;text-align:center;">'+ symbols[index] +'</a></td>';
                                     index++;
                                 }
                                 content += '</tr>';
@@ -1342,9 +1296,9 @@
                             for(var column = 1; column <= columns; column++) {
 
                                 if (row == 1)
-                                    content += '<th>Header ' + column + '</th>'
+                                    content += '<th>Header ' + column + '</th>';
                                 else
-                                    content += '<td>&nbsp;</td>'
+                                    content += '<td>&nbsp;</td>';
                             }
 
                             content += '</tr>';
@@ -1423,14 +1377,17 @@
                             }
 
                             _this._$statusbar.path.text(pathInfo['path']);
-
                             _this._$statusbar.stat.text('Length: ' + statInfo['length'] + ', chars: ' + statInfo['chars'] + ', words: ' +  statInfo['words']);
 
                         } else {
 
                             var position = _this._getTextPosition(_this._$content.get(0));
                             _this._$statusbar.path.empty();
-                            _this._$statusbar.stat.text('Line: ' + position['line'] + ', column: ' + position['end']);
+
+                            if(parseInt(position['selected']) > 0)
+                                _this._$statusbar.stat.text('Line: ' + position['line'] + ', column: ' + position['end'] + ', selected: ' + position['selected']);
+                            else
+                                _this._$statusbar.stat.text('Line: ' + position['line'] + ', column: ' + position['end']);
 
                         }
 
