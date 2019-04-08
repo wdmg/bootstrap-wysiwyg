@@ -716,7 +716,7 @@
 
                         if ($(_this._$element).is("textarea"))
                             _this._$element.html(_this._source);
-                        else if ($(_this._$element).is("input[type=text]"))
+                        else
                             _this._$element.val(_this._source);
 
                         if (_this._config.debug)
@@ -1122,7 +1122,7 @@
                             $dropdownBtn.text(label + ' ');
                         else
                             $dropdownBtn.text('Dropdown ');
-                        
+
                         $dropdownBtn.append('<b class="caret" />');
 
                         if (tooltip) {

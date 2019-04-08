@@ -2,7 +2,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         concat: {
-            datepicker: {
+            wysiwyg: {
                 src: [
                     'build/wysiwyg.js'
                 ],
@@ -10,7 +10,7 @@ module.exports = function(grunt) {
             },
         },
         uglify: {
-            datepicker: {
+            wysiwyg: {
                 options: {
                     sourceMap: true,
                     sourceMapName: 'src/js/wysiwyg.js.map'
