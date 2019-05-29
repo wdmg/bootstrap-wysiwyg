@@ -2,7 +2,7 @@
  * Simple WYSIWYG editor for Bootstrap3
  *
  * @category        jQuery Plugin
- * @version         1.1.0
+ * @version         1.1.1
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            http://wdmg.github.io/bootstrap-wysiwyg
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
