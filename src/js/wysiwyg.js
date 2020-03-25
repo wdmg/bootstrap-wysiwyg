@@ -2,10 +2,10 @@
  * Simple WYSIWYG editor for Bootstrap3
  *
  * @category        jQuery Plugin
- * @version         1.1.1
+ * @version         1.1.2
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            http://wdmg.github.io/bootstrap-wysiwyg
- * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
+ * @copyright       Copyright (c) 2019 - 2020 W.D.M.Group, Ukraine
  * @license         https://opensource.org/licenses/MIT Massachusetts Institute of Technology (MIT) License
  *
  */
@@ -51,7 +51,7 @@
                 ['components', ['table', /*'chart'*/]],
                 ['intervals', ['line-height', 'letter-spacing']],
                 ['insert', ['emoji', 'link', 'image', 'video', 'symbol', /*'bookmark'*/]],
-                ['special', ['print', 'unformat', 'clean']],
+                ['special', ['print', 'unformat', 'visual', 'clean']],
                 /*['fullscreen'],*/
             ],
             fontSizes: ['8px', '9px', '10px', '11px', '12px', '14px', '15px', '16px', '18px', '20px', '24px', '30px', '32px', '36px', '48px'],
@@ -120,8 +120,16 @@
 
                         if(elem[0] === 'mode') { // Editor mode switcher
 
-                            $toolbar.append(_this._buildTollbarButton('mode', 'editor', "fa fa-eye", null, "Editor"));
-                            $toolbar.append(_this._buildTollbarButton('mode', 'source', "fa fa-code", null, "Source"));
+                            var editorButton = _this._buildTollbarButton('mode', 'editor', "fa fa-eye", null, "Editor");
+                            var sourceButton = _this._buildTollbarButton('mode', 'source', "fa fa-code", null, "Source");
+
+                            if(_this._config.mode == 'editor')
+                                editorButton.addClass('active');
+                            else
+                                sourceButton.addClass('active');
+
+                            $toolbar.append(editorButton);
+                            $toolbar.append(sourceButton);
 
                         } else if(elem[0] === 'operations') { // Operations editor controls
 
@@ -313,6 +321,9 @@
                             if(elem[1].indexOf('clean', 0) !== -1)
                                 $toolbar.append(_this._buildTollbarButton('special', 'clean', "fa fa-eraser", null, "Erase style"));
 
+                            if(elem[1].indexOf('visual', 0) !== -1)
+                                $toolbar.append(_this._buildTollbarButton('special', 'visual', "fa fa-solar-panel", null, "Visual blocks"));
+
                             if(elem[1].indexOf('unformat', 0) !== -1)
                                 $toolbar.append(_this._buildTollbarButton('special', 'unformat', "fa fa-trash-o fa-trash-alt", null, "Clear HTML"));
 
@@ -355,6 +366,7 @@
                                                 _this._$content.addClass('editor-mode').removeClass('source-mode');
                                                 _this._$content.focus();
                                             }
+
                                             break;
 
                                         case 'source':
@@ -619,6 +631,18 @@
 
                                         case 'clean':
                                             _this._formatDoc('removeFormat');
+                                            break;
+
+                                        case 'visual':
+                                            if (_this._$content.hasClass('visual')) {
+                                                _this._$toolbar.find('[data-action="special"][data-value="visual"]').removeClass('active');
+                                                _this._$content.removeClass('visual');
+                                                _this._$content.focus();
+                                            } else {
+                                                _this._$toolbar.find('[data-action="special"][data-value="visual"]').addClass('active');
+                                                _this._$content.addClass('visual');
+                                                _this._$content.focus();
+                                            }
                                             break;
 
                                         case 'unformat':
@@ -983,6 +1007,7 @@
                             $button.tooltip({
                                 html: true,
                                 placement: 'top',
+                                container: 'body',
                                 title: tooltip.toString().trim()
                             });
                         }
@@ -1023,6 +1048,8 @@
 
                                 $popover.on('click', function(event) {
 
+                                    event.preventDefault();
+
                                     if(event.target.type !== "text")
                                         $popover.popover('hide');
 
@@ -1042,6 +1069,7 @@
 
                             }).on('click', function(event) {
 
+                                event.preventDefault();
                                 event.stopPropagation();
 
                                 if(_this._popoverIsVisible)

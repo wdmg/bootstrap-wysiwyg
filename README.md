@@ -33,7 +33,7 @@ For example use the input-group:
                     ['components', ['table']],
                     ['intervals', ['line-height', 'letter-spacing']],
                     ['insert', ['emoji', 'link', 'image', 'video', 'symbol']],
-                    ['special', ['print', 'unformat', 'clean']],
+                    ['special', ['print', 'unformat', 'visual', 'clean']],
                 ],
                 fontSizes: ['8px', ... '48px'],
                 fontSizeDefault: '12px',
@@ -65,5 +65,6 @@ For example use the input-group:
 
 
 # Status and version
+* v.1.1.2 - Added visual blocks view mode, fixed some bugs
 * v.1.1.1 - Bugfix
 * v.1.1.0 - Plugin in progress development
