@@ -2,7 +2,7 @@
  * Simple WYSIWYG editor for Bootstrap3
  *
  * @category        jQuery Plugin
- * @version         1.1.2
+ * @version         1.1.3
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            http://wdmg.github.io/bootstrap-wysiwyg
  * @copyright       Copyright (c) 2019 - 2020 W.D.M.Group, Ukraine
@@ -834,8 +834,13 @@
                 },
                 _getPath: {
                     value: function getPath(node, until, withNodes) {
+
                         var path, tags = [];
                         while (node.length) {
+
+                            if (node[0].isEqualNode(until[0]))
+                                break;
+
                             var realNode = node[0], name = realNode.localName;
                             var parent = node.parentsUntil(until);
 

@@ -65,6 +65,7 @@ For example use the input-group:
 
 
 # Status and version
+* v.1.1.3 - Fixed path info in footer
 * v.1.1.2 - Added visual blocks view mode, fixed some bugs
 * v.1.1.1 - Bugfix
 * v.1.1.0 - Plugin in progress development
