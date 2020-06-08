@@ -64,7 +64,8 @@
             mode: 'editor',
             language: 'en-us',
             translations: {},
-            debug: true
+            highlight: true,
+            debug: false
         };
 
         var Editor = (function() {
@@ -377,9 +378,17 @@
 
                                                 var $source = $('<pre />');
                                                 $source.text(_this._source);
-                                                //_this._$content.html($source.get(0).outerHTML);
-                                                //_this._$content.html($source.html());
+
                                                 _this._$content.html(_this._trimSource($source.html()));
+
+                                                if (_this._config.highlight) {
+                                                    hljs.initHighlighting.called = false;
+                                                    hljs.configure({
+                                                        useBR: true,
+                                                        languages: ['html', 'javascript', 'css']
+                                                    });
+                                                    hljs.highlightBlock(_this._$content.get(0));
+                                                }
 
                                                 _this._$toolbar.find('[data-action="mode"]').removeClass('active');
                                                 _this._$toolbar.find('[data-action="mode"][data-value="source"]').addClass('active');

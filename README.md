@@ -43,6 +43,7 @@ For example use the input-group:
                 symbolsDefault: [...],
                 colorPalette: [...],
                 mode: 'editor',
+                highlight: true,
                 debug: false
             });
         });

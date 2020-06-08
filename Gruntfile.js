@@ -7,7 +7,37 @@ module.exports = function(grunt) {
                     'build/wysiwyg.js'
                 ],
                 dest: 'src/js/wysiwyg.js'
-            },
+            }
+        },
+        copy: {
+            highlight: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: 'node_modules/@highlightjs/cdn-assets/highlight.js',
+                        dest: 'src/js/',
+                        filter: 'isFile'
+                    },
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: 'node_modules/@highlightjs/cdn-assets/highlight.min.js',
+                        dest: 'src/js/',
+                        filter: 'isFile'
+                    },
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: 'node_modules/@highlightjs/cdn-assets/styles/default.min.css',
+                        dest: 'src/css/',
+                        filter: 'isFile',
+                        rename: function(dest, src) {
+                            return dest + src.replace('default', 'highlight');
+                        }
+                    }
+                ]
+            }
         },
         uglify: {
             wysiwyg: {
@@ -67,8 +97,9 @@ module.exports = function(grunt) {
     });
 
     // Load npm packages
-    // npm install grunt-contrib-concat grunt-contrib-uglify-es grunt-contrib-less grunt-autoprefixer grunt-css grunt-contrib-cssmin grunt-contrib-watch
+    // npm install grunt-contrib-concat grunt-contrib-copy grunt-contrib-uglify-es grunt-contrib-less grunt-contrib-sass grunt-autoprefixer grunt-css grunt-contrib-cssmin grunt-contrib-watch
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-uglify-es');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-autoprefixer');
@@ -77,5 +108,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Grunt task`s
-    grunt.registerTask('default', ['concat', 'uglify', 'less', 'autoprefixer', 'cssmin', 'watch']);
+    grunt.registerTask('default', ['concat', 'copy', 'uglify', 'less', 'autoprefixer', 'cssmin', 'watch']);
 };
