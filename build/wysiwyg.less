@@ -43,9 +43,13 @@
             border-bottom: 3px solid transparent;
           }
         }
-        &:hover,
-        &:focus {
-          border-radius: inherit;
+        &:first-child {
+          border-top-left-radius: 3px;
+          border-bottom-left-radius: 3px;
+        }
+        &:last-child {
+          border-top-right-radius: 3px;
+          border-bottom-right-radius: 3px;
         }
       }
     }
@@ -64,11 +68,12 @@
               }
             }
           }
-          .form-inline .input-group {
+          form .input-group,
+          form .form-group {
             min-width: 320px;
-            & > .input-group-addon,
-            & > .input-group-btn {
-              /*width: unset;*/
+            margin-bottom: 8px;
+            &:last-child {
+              margin-bottom: 0px;
             }
           }
           .color-palette {
@@ -161,12 +166,19 @@
     }
 
     &.visual {
+      & > *:not(div) {
+        position: relative;
+        margin-top: 20px;
+        border: 1px dashed #8c8c8c !important;
+        padding: 6px;
+        overflow: visible;
+      }
       br {
         display: block;
         content: "";
         &:before {
-          content: "↩";
-          color: #e06666;
+          content: "↩ ";
+          color: #db6464;
           font-size: small;
         }
       }
@@ -174,6 +186,7 @@
         position: relative;
         margin-top: 20px;
         border: 1px dashed #b4a7d6 !important;
+        overflow: visible;
         &:before {
           display: inline;
           position: absolute;
@@ -214,10 +227,79 @@
           content: "h6";
         }
       }
+      div {
+        position: relative;
+        margin-top: 20px;
+        border: 1px dashed #2e6da4 !important;
+        overflow: visible;
+        &:before {
+          display: inline-block;
+          position: absolute;
+          content: "div";
+          color: #2e6da4;
+          font-size: small;
+          top: -20px;
+          left: 0px;
+        }
+      }
+      img {
+        position: relative;
+        margin-top: 20px;
+        border: 1px dashed #2b8233 !important;
+        padding: 6px;
+      }
+      blockquote {
+        position: relative;
+        margin-top: 20px;
+        border: 1px dashed #5050a0 !important;
+        overflow: visible;
+        &:before {
+          display: inline-block;
+          position: absolute;
+          content: "blockquote";
+          color: #5050a0;
+          font-size: small;
+          top: -20px;
+          left: 0px;
+        }
+      }
+      pre {
+        position: relative;
+        margin-top: 20px;
+        border: 1px dashed #3c763d !important;
+        background: none;
+        overflow: visible;
+        &:before {
+          display: inline-block;
+          position: absolute;
+          content: "pre";
+          color: #3c763d;
+          font-size: small;
+          top: -20px;
+          left: 0px;
+        }
+      }
+      code {
+        position: relative;
+        display: block;
+        margin-top: 20px;
+        border: 1px dashed #a34169 !important;
+        overflow: visible;
+        &:before {
+          display: inline-block;
+          position: absolute;
+          content: "code";
+          color: #a34169;
+          font-size: small;
+          top: -20px;
+          left: 0px;
+        }
+      }
       p {
         position: relative;
         margin-top: 20px;
         border: 1px dashed #f6b26b !important;
+        overflow: visible;
         &:before {
           display: inline;
           position: absolute;
@@ -236,6 +318,7 @@
         margin-top: 20px;
         border-top: 1px dashed #a4c2f4 !important;
         height: 1px;
+        overflow: visible;
         &:before {
           display: inline;
           position: absolute;
@@ -246,23 +329,46 @@
           left: 0px;
         }
       }
+      iframe {
+        position: relative;
+        margin-top: 20px;
+        border: 1px dashed #ac2925 !important;
+        padding: 6px;
+      }
       ul, ol, dl {
         position: relative;
         margin-top: 20px;
         border: 1px dashed #93c47d !important;
+        overflow: visible;
         &:before {
           display: inline;
           position: absolute;
-          content: "list";
+          content: "";
           color: #93c47d;
           font-size: small;
           top: -20px;
           left: 0px;
         }
       }
+      ul {
+        &:before {
+          content: "ul:list";
+        }
+      }
+      ol {
+        &:before {
+          content: "ol:list";
+        }
+      }
+      dl {
+        &:before {
+          content: "dl:list";
+        }
+      }
       table {
         position: relative;
         margin-top: 20px;
+        overflow: visible;
         tr {
           th, td {
             border: 1px dashed #c7c7c7 !important;

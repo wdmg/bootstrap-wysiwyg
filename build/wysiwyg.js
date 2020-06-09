@@ -68,6 +68,127 @@
             debug: false
         };
 
+        const Styles = {
+            'Header H1': {
+                'action': 'formatblock',
+                'value': 'h1',
+                'wrap': '<h1 />',
+            },
+            'Header H2': {
+                'action': 'formatblock',
+                'value': 'h2',
+                'wrap': '<h2 />',
+            },
+            'Header H3': {
+                'action': 'formatblock',
+                'value': 'h3',
+                'wrap': '<h3 />',
+            },
+            'Header H4': {
+                'action': 'formatblock',
+                'value': 'h4',
+                'wrap': '<h4 />',
+            },
+            'Header H5': {
+                'action': 'formatblock',
+                'value': 'h5',
+                'wrap': '<h5 />',
+            },
+            'Header H6': {
+                'action': 'formatblock',
+                'value': 'h6',
+                'wrap': '<h6 />',
+            },
+            'Paragraph': {
+                'action': 'formatblock',
+                'value': 'p',
+                'wrap': '<p />',
+            },
+            'Blockquote': {
+                'action': 'formatblock',
+                'value': 'blockquote',
+                'wrap': '<blockquote />',
+            },
+            'Preformatted': {
+                'action': 'formatblock',
+                'value': 'pre',
+                'wrap': '<pre />',
+            },
+            'Div block': {
+                'action': 'formatblock',
+                'value': 'div',
+                'wrap': '<div />',
+            }
+        }
+
+        const videoServices = {
+            youtube: 'YouTube',
+            vimeo: 'Vimeo',
+            dailymotion: 'Dailymotion',
+            /*hulu: 'Hulu',
+            twitch: 'Twitch',
+            facebook: 'Facebook',
+            vkontakte: 'vKontakte',
+            twitter: 'Twitter',
+            ustream: 'Ustream',*/
+            source: 'Source media',
+            /*embed: 'Embed code'*/
+        };
+
+        const urlSchemes = {
+            https: 'https://',
+            http: 'http://',
+            mailto: 'mailto://',
+            ftp: 'ftp://',
+            feed: 'feed://',
+            news: 'news://',
+            tel: 'tel:',
+            skype: 'skype:',
+            telegram: 'tg://',
+            whatsapp: 'whatsapp:',
+            viber: 'viber:',
+            other: 'other'
+        };
+
+        const urlLinkTarget = {
+            blank: 'New tab',
+            top: 'Main tab',
+            self: 'Current tab',
+            parent: 'Parent tab',
+            /*iframe: 'Iframe',
+            popup: 'PopUp',*/
+        };
+
+        const urlLinkRel = {
+            nofollow: 'Do not follow (for robots)',
+            noreferrer: 'Do not pass HTTP-referrer',
+            /*archives: 'Link to the site archive',
+            author: 'Link to the page about the author on the same domain',
+            bookmark: 'Permalink to a section or post',
+            first: 'Link to the first page',
+            help: 'Help document link',
+            index: 'Content Link',
+            last: 'Link to the last page',
+            license: 'Link to page with license agreement or copyright',
+            me: 'Link to the author’s page on another domain',
+            next: 'Link to the next page or section',
+            prefetch: 'Indicates that the specified resource must be cached in advance.',
+            prev: 'Link to previous page or section',
+            search: 'Search Link',
+            sidebar: 'Add link to browser favorites',
+            tag: 'Indicates that the label (tag) is related to the current document.',
+            up: 'Link to the parent page',
+            answer: 'Answer to the question',
+            chapter: 'Section or chapter of the current document',
+            co-worker: 'Link to colleague’s page',
+            colleague: 'Link to colleague’s page (not for work)',
+            contact: 'Link to the page with contact information',
+            details: 'Link to the page with details',
+            edit: 'Editable version of the current document',
+            friend: 'Link to friend’s page',
+            question: 'Link to the question page',*/
+        };
+
         var Editor = (function() {
 
             function Editor($element, config) {
@@ -118,7 +239,7 @@
                 if(typeof (_this._config.toolbar) == 'object') {
                     $.each(_this._config.toolbar, function (index, elem) {
 
-                        var $toolbar = $('<div class="btn-group" role="group" aria-label="..." />');
+                        var $toolbar = $('<div id="toolbarGroup-' + elem[0] + '" class="btn-group" role="group" />');
 
                         if(elem[0] === 'mode') { // Editor mode switcher
 
@@ -143,60 +264,7 @@
 
                         } else if(elem[0] === 'styles') { // Editor mode switcher
 
-                            var styles = {
-                                'Header H1': {
-                                    'action': 'formatblock',
-                                    'value': 'h1',
-                                    'wrap': '<h1 />',
-                                },
-                                'Header H2': {
-                                    'action': 'formatblock',
-                                    'value': 'h2',
-                                    'wrap': '<h2 />',
-                                },
-                                'Header H3': {
-                                    'action': 'formatblock',
-                                    'value': 'h3',
-                                    'wrap': '<h3 />',
-                                },
-                                'Header H4': {
-                                    'action': 'formatblock',
-                                    'value': 'h4',
-                                    'wrap': '<h4 />',
-                                },
-                                'Header H5': {
-                                    'action': 'formatblock',
-                                    'value': 'h5',
-                                    'wrap': '<h5 />',
-                                },
-                                'Header H6': {
-                                    'action': 'formatblock',
-                                    'value': 'h6',
-                                    'wrap': '<h6 />',
-                                },
-                                'Paragraph': {
-                                    'action': 'formatblock',
-                                    'value': 'p',
-                                    'wrap': '<p />',
-                                },
-                                'Blockquote': {
-                                    'action': 'formatblock',
-                                    'value': 'blockquote',
-                                    'wrap': '<blockquote />',
-                                },
-                                'Preformatted': {
-                                    'action': 'formatblock',
-                                    'value': 'pre',
-                                    'wrap': '<pre />',
-                                },
-                                'Div block': {
-                                    'action': 'formatblock',
-                                    'value': 'div',
-                                    'wrap': '<div />',
-                                }
-                            }
-
-                            $toolbar.append(_this._buildTollbarDropdown('select-style', styles, "Paragraph", "Text style"));
+                            $toolbar.append(_this._buildTollbarDropdown('select-style', Styles, "Paragraph", "Text style"));
 
                         } else if(elem[0] === 'fonts') { // Font select and size
 
@@ -301,7 +369,7 @@
                                 $toolbar.append(_this._buildTollbarButton('insert', 'emoji', "fa fa-smile fa-smile-o", null, "Add emoji", _this._buildEmojiList()));
 
                             if(elem[1].indexOf('link', 0) !== -1)
-                                $toolbar.append(_this._buildTollbarButton('insert', 'link', "fa fa-link", null, "Add URL", _this._buildUrlForm()));
+                                $toolbar.append(_this._buildTollbarButton('insert', 'link', "fa fa-link", null, "Add URL", _this._buildUrlForm('link')));
 
                             if(elem[1].indexOf('image', 0) !== -1)
                                 $toolbar.append(_this._buildTollbarButton('insert', 'image', "fa fa-image", null, "Add image", _this._buildUrlForm('image')));
@@ -348,6 +416,7 @@
                         var action = $target.data('action');
                         var selection = _this._selection;
                         var value = $target.data('value');
+                        var data = $target.data();
 
                         if (typeof (action) !== 'undefined' && typeof (value) !== 'undefined') {
 
@@ -368,9 +437,13 @@
                                                 _this._$content.focus();
                                             }
 
+                                            _this._$toolbar.find('.btn-group').removeClass('hide');
                                             break;
 
                                         case 'source':
+
+                                            _this._$toolbar.find('.btn-group').not('#toolbarGroup-' + action).addClass('hide');
+
                                             if (_this._config.mode !== value) {
 
                                                 _this._config.mode = value;
@@ -494,7 +567,6 @@
                                             _this._selection.anchorNode.parentElement.removeAttribute("style");
 
                                     } else {
-                                        //_this._$toolbar.find('[data-action="text"][data-value="font-color"]').css('color', value);
                                         _this._$toolbar.find('[data-action="text"][data-value="font-color"] > span').css('border-bottom-color', value);
                                         _this._formatDoc('foreColor', value);
                                     }
@@ -602,11 +674,125 @@
                                 case 'add-url':
                                     var text = _this._selection.toString();
                                     if(_this._selection && text) {
-                                        var $link = $('<a href="' + value + '" />');
+
+                                        var url = value;
+                                        console.log(data);
+
+                                        if (data.scheme) {
+                                            if (data.scheme == 'https')
+                                                url = 'https://' + url;
+                                            else if (data.scheme == 'http')
+                                                url = 'http://' + url;
+                                            else if (data.scheme == 'mailto')
+                                                url = 'mailto://' + url;
+                                            else if (data.scheme == 'ftp')
+                                                url = 'ftp://' + url;
+                                            else if (data.scheme == 'feed')
+                                                url = 'feed://' + url;
+                                            else if (data.scheme == 'news')
+                                                url = 'news://' + url;
+                                            else if (data.scheme == 'tel')
+                                                url = 'tel:' + url;
+                                            else if (data.scheme == 'skype')
+                                                url = 'skype:' + url;
+                                            else if (data.scheme == 'tg')
+                                                url = 'tg://' + url;
+                                            else if (data.scheme == 'whatsapp')
+                                                url = 'whatsapp:' + url;
+                                            else if (data.scheme == 'viber')
+                                                url = 'viber:' + url;
+                                        }
+
+                                        var title = '';
+                                        if (data.title) {
+                                            title = ' title="' + data.title + '"';
+                                        }
+
+                                        var className = '';
+                                        if (data.class) {
+                                            className = ' class="' + data.class + '"';
+                                        }
+
+                                        var target = '';
+                                        if (data.target) {
+                                            if (data.target == 'blank')
+                                                target = ' target="_blank"';
+                                            else if (data.target == 'top')
+                                                target = ' target="_top"';
+                                            else if (data.target == 'self')
+                                                target = ' target="_self"';
+                                            else if (data.target == 'parent')
+                                                target = ' target="_parent"';
+                                        }
+
+                                        var rel = '';
+                                        if (data.relation) {
+                                            if (data.relation == 'nofollow')
+                                                rel = ' rel="nofollow"';
+                                            else if (data.relation == 'noreferrer')
+                                                rel = ' rel="noreferrer"';
+                                        }
+
+                                        var $link = $('<a href="' + url + '"' + title + className + target + rel + ' />');
                                         $link.text(text);
+
                                         var range = _this._selection.getRangeAt(0);
                                         range.deleteContents();
                                         range.insertNode($link.get(0));
+                                    }
+                                    break;
+
+                                case 'add-video':
+                                    if(_this._selection && value) {
+
+                                        var url = value;
+                                        if (data.service) {
+                                            if (data.service == 'youtube') {
+                                                var videoId = null;
+                                                var regExp = /^.*(youtube\/|youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                                                var match = url.match(regExp);
+
+                                                if (match !== null && match[2].length == 11)
+                                                    videoId = match[2];
+
+                                                if (videoId)
+                                                    url = 'https://www.youtube.com/embed/' + videoId;
+
+                                            } else if (data.service == 'vimeo') {
+                                                var videoId = null;
+                                                var regExp = /(?:www\.|player\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)(?:[a-zA-Z0-9_\-]+)?/i;
+                                                var match = url.match(regExp);
+
+                                                if (match !== null && match[1].length == 9)
+                                                    videoId = match[1];
+
+                                                if (videoId)
+                                                    url = 'https://player.vimeo.com/video/' + match[1];
+
+                                            } else if (data.service == 'dailymotion') {
+                                                var videoId = null;
+                                                var regExp = /^.+dailymotion.com\/(video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?/;
+                                                var match = url.match(regExp);
+
+                                                if (match !== null) {
+                                                    if (match[4] !== undefined) {
+                                                        videoId = match[4];
+                                                    }
+                                                    videoId = match[2];
+                                                }
+
+                                                if (videoId)
+                                                    url = 'https://www.dailymotion.com/embed/video/' + videoId;
+
+                                            }
+                                        }
+
+                                        var $embed = $('<div class="embed-responsive embed-responsive-16by9">' +
+                                            '<iframe class="embed-responsive-item" src="' + url + '"></iframe>' +
+                                        '</div>');
+                                        var range = _this._selection.getRangeAt(0);
+                                        range.deleteContents();
+                                        range.insertNode($embed.get(0));
                                     }
                                     break;
 
@@ -616,15 +802,6 @@
                                         var range = _this._selection.getRangeAt(0);
                                         range.deleteContents();
                                         range.insertNode($image.get(0));
-                                    }
-                                    break;
-
-                                case 'add-video':
-                                    if(_this._selection && value) {
-                                        var $embed = $('<div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="' + value + '"></iframe></div>');
-                                        var range = _this._selection.getRangeAt(0);
-                                        range.deleteContents();
-                                        range.insertNode($embed.get(0));
                                     }
                                     break;
 
@@ -682,10 +859,10 @@
                 _this._$content.on('mouseup click focus', function (event) {
                     const $this = $(this);
 
-                    if(_this._popoverIsVisible)
+                    if (_this._popoverIsVisible)
                         _this._hideAllPopovers();
 
-                    if(event.target.type !== "text")
+                    if (event.target.type !== "text")
                         _this._selection = document.getSelection();
 
                     if (_this._selection.getRangeAt && _this._selection.rangeCount) {
@@ -1065,7 +1242,7 @@
                                 placement: 'bottom',
                                 content: function() {
 
-                                    if(typeof (content) === "object")
+                                    if (typeof (content) === "object")
                                         return content;
                                     else
                                         return $(content);
@@ -1075,6 +1252,8 @@
 
                                 var popoverId = $(event.target).attr('aria-describedby');
                                 var $popover = _this._$toolbar.find('#'+popoverId);
+
+
                                 var selection = _this._selection;
                                 var range = selection.getRangeAt(0);
                                 if(selection && range) {
@@ -1092,15 +1271,23 @@
                                 }
 
                                 $popover.on('click', function(event) {
-
                                     event.preventDefault();
 
-                                    if(event.target.type !== "text")
+                                    if (_this._config.debug) {
+                                        console.log('Popover event target type: ' + event.target.type);
+                                        console.log('Popover event target tag: ' + event.target.tagName);
+                                    }
+
+                                    if (!(event.target.type) && !(event.target.tagName.toLowerCase() == 'a'))
+                                        return;
+
+                                    if ($(event.target).get(0).hasAttribute('data-action')) {
                                         $popover.popover('hide');
+                                    }
 
                                 });
 
-                                if($popover.find('.table-grid').length) {
+                                if ($popover.find('.table-grid').length) {
                                     $popover.find('.table-grid tr > td').hover(function() {
                                         $(this).addClass('selected');
                                         $(this).prevAll().addClass('selected');
@@ -1113,6 +1300,11 @@
                                 }
 
                             }).on('click', function(event) {
+
+                                if (_this._config.debug) {
+                                    console.log('Element event target type: ' + event.target.type);
+                                    console.log('Element event target tag: ' + event.target.tagName);
+                                }
 
                                 event.preventDefault();
                                 event.stopPropagation();
@@ -1361,37 +1553,195 @@
 
                     }
                 },
+                _buildDdropdown: {
+                    value: function buildDdropdown(dropdownId, buttonText, buttonCaret, menuItems, defaultValue, dataAttr) {
+
+                        if (buttonText == null)
+                            buttonText = 'Not set';
+
+                        if (buttonCaret == null)
+                            buttonCaret = '<span class="caret"></span>';
+
+                        if (menuItems == null)
+                            buttonCaret = {};
+
+                        if (dataAttr == null)
+                            dataAttr = 'data-value';
+
+                        var $dropdown = $('<div class="dropdown" />');
+                        var $dropdownButton = $('<button type="button" class="btn btn-block btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />');
+                        $dropdownButton.attr('id', dropdownId);
+                        $dropdownButton.html(buttonText + ' ' + buttonCaret);
+
+                        // Build dropdown menu
+                        var $dropdownMenu = $('<ul class="dropdown-menu" aria-labelledby="' + dropdownId + '" />');
+
+                        if (!defaultValue)
+                            $dropdownMenu.append('<li class="active"><a href="#">' + buttonText + '</a></li>');
+
+                        for (let [id, name] of Object.entries(menuItems)) {
+                            if (id.toString() == 'separator') {
+                                $dropdownMenu.append('<li role="separator" class="divider"></li>');
+                            } else if (defaultValue == id.toString()) {
+                                $dropdownMenu.append('<li class="active"><a href="#" ' + dataAttr + '="' + id + '">' + name + '</a></li>');
+                            } else {
+                                $dropdownMenu.append('<li><a href="#" ' + dataAttr + '="' + id + '">' + name + '</a></li>');
+                            }
+                        }
+
+                        // Click by dropdown menu items
+                        $dropdownMenu.find('li').on('click', function(event) {
+                            $dropdownMenu.find('li').removeClass('active');
+                            $(this).addClass('active');
+                            $dropdownButton.html($(this).text() + ' ' + buttonCaret);
+                        });
+
+                        $dropdown.append($dropdownButton);
+                        $dropdown.append($dropdownMenu);
+                        return $dropdown;
+                    }
+                },
                 _buildUrlForm: {
                     value: function buildUrlForm(type) {
-                        var content = '<form class="form-inline">';
 
-                        content += '<div class="form-group">';
-                        content += '<div class="input-group input-group-sm">';
+                        var _this = this;
 
-                        if(type == "image")
-                            content += '<span class="input-group-addon">Image:</span>';
-                        else if(type == "video")
-                            content += '<span class="input-group-addon">YouTube:</span>';
-                        else
-                            content += '<span class="input-group-addon">URL:</span>';
+                        if (this._config.debug)
+                            console.log('Build URL form for type: ' + type);
 
-                        content += '<input type="text" class="form-control" id="urlInput" placeholder="http://" />';
-                        content += '<span class="input-group-btn">';
 
-                        if(type == "image")
-                            content += '<button type="button" data-action="add-image" onclick="javascript: this.setAttribute(\'data-value\', document.getElementById(\'urlInput\').value);" class="btn btn-block btn-primary">Add</button>';
-                        else if(type == "video")
-                            content += '<button type="button" data-action="add-video" onclick="javascript: this.setAttribute(\'data-value\', document.getElementById(\'urlInput\').value);" class="btn btn-block btn-primary">Add</button>';
-                        else
-                            content += '<button type="button" data-action="add-url" onclick="javascript: this.setAttribute(\'data-value\', document.getElementById(\'urlInput\').value);" class="btn btn-block btn-primary">Add</button>';
+                        var $form = $('<form class="form-horizontal" />');
+                        var $formGroup = $('<div class="form-group" />');
+                        var $container = $('<div class="col-xs-12 col-sm-12" />');
+                        var $inputGroup = $('<div class="input-group input-group-sm" />');
+                        var $dropdown = $('<div class="dropdown" />');
+                        var $dropdownButton = $('<button type="button" class="btn btn-block btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />');
 
-                        content += '</span>';
+                        if (type == "image") {
+                            $inputGroup.append('<span class="input-group-addon">Image:</span>');
+                        } else if (type == "video") {
+                            var $dropdown = _this._buildDdropdown('videoServices', 'YouTube', null, videoServices, 'youtube', 'data-service');
+                            $dropdown.attr('class', 'input-group-btn');
+                            $dropdown.find('.btn[data-toggle="dropdown"]').toggleClass('btn-default', 'btn-secondary');
+                            $inputGroup.append($dropdown);
+                        } else if (type == "link") {
+                            var $dropdown = _this._buildDdropdown('urlSchemes', 'https://', null, urlSchemes, 'https', 'data-scheme');
+                            $dropdown.attr('class', 'input-group-btn');
+                            $dropdown.find('.btn[data-toggle="dropdown"]').toggleClass('btn-default', 'btn-secondary');
+                            $inputGroup.append($dropdown);
+                        }
 
-                        content += '</div>';
-                        content += '</div>';
+                        var $input = $('<input type="text" class="form-control" placeholder="Type your URL..." />');
+                        if (type == "image") {
+                            $input.attr('id', "imageUrl");
+                        } else if (type == "video") {
+                            $input.attr('id', "videoUrl");
+                        } else if (type == "link") {
+                            $input.attr('id', "urlInput");
+                        }
+                        $inputGroup.append($input);
 
-                        content += '</form>';
-                        return content;
+                        var $buttonWrap = $('<span class="input-group-btn" />');
+                        var $button = $('<button type="button" class="btn btn-block btn-primary">Add</button>');
+
+                        if (type == "image") {
+                            $button.attr('data-action', "add-image");
+                        } else if (type == "video") {
+                            $button.attr('data-action', "add-video");
+                        } else {
+                            $button.attr('data-action', "add-url");
+                        }
+
+                        $button.on('click', function (event) {
+
+                            var action = $(event.target).data('action');
+                            $(event.target).data('value', $input.val());
+
+                            if (action == "add-url") {
+                                var urlScheme = $form.find('[aria-labelledby="urlSchemes"] li.active a[data-scheme]').first().data('scheme');
+                                $(event.target).data('scheme', (urlScheme) ? urlScheme : null);
+
+                                var urlTile = $form.find('#urlTile').val();
+                                $(event.target).data('title', (urlTile) ? urlTile : null);
+
+                                var urlClass = $form.find('#urlClass').val();
+                                $(event.target).data('class', (urlClass) ? urlClass : null);
+
+                                var urlLinkTarget = $form.find('[aria-labelledby="urlLinkTarget"] li.active a[data-target]').first().data('target');
+                                $(event.target).data('target', (urlLinkTarget) ? urlLinkTarget : null);
+
+                                var urlLinkRel = $form.find('[aria-labelledby="urlLinkRel"] li.active a[data-rel]').first().data('rel');
+                                $(event.target).data('relation', (urlLinkRel) ? urlLinkRel : null);
+
+                            } else if (action == "add-video") {
+                                var videoService = $form.find('[aria-labelledby="videoServices"] li.active a[data-service]').first().data('service');
+                                $(event.target).data('service', (videoService) ? videoService : null);
+                            }
+
+                            console.log($button.data());
+                        });
+
+                        $buttonWrap.append($button);
+                        $inputGroup.append($buttonWrap);
+                        $container.append($inputGroup);
+                        $formGroup.append($container);
+                        $form.append($formGroup);
+
+                        if (type == "link") {
+                            var content = '';
+                            content += '<div class="form-group form-group-sm">';
+                            content += '    <div class="form-row">';
+                            content += '        <label class="col-xs-12 col-sm-4">Tile:</label>';
+                            content += '        <div class="col-xs-12 col-sm-8">';
+                            content += '            <input type="text" class="form-control" id="urlTile" placeholder="Title of link..." />';
+                            content += '        </div>';
+                            content += '    </div>';
+                            content += '</div>';
+
+                            content += '<div class="form-group form-group-sm">';
+                            content += '    <div class="form-row">';
+                            content += '        <label class="col-xs-12 col-sm-4">Class:</label>';
+                            content += '        <div class="col-xs-12 col-sm-8">';
+                            content += '            <input type="text" class="form-control" id="urlClass" placeholder="CSS class name..." />';
+                            content += '        </div>';
+                            content += '    </div>';
+                            content += '</div>';
+
+                            $form.append(content);
+
+                            // Link target
+                            var $formGroup = $('<div class="form-group form-group-sm" />');
+                            var $inputGroup = $('<div class="form-row input-group-sm" />');
+                            var $inputLabel = $('<label class="col-xs-12 col-sm-4" />');
+                            $inputLabel.text('Target:');
+                            $inputGroup.append($inputLabel);
+
+                            var $dropdown = _this._buildDdropdown('urlLinkTarget', 'Not set', null, urlLinkTarget, null, 'data-target');
+                            $dropdown.addClass('col-xs-12 col-sm-8');
+                            $dropdown.find('.btn[data-toggle="dropdown"]').addClass('btn-sm');
+
+                            $inputGroup.append($dropdown);
+                            $formGroup.append($inputGroup);
+                            $form.append($formGroup);
+
+                            // Link rel
+                            var $formGroup = $('<div class="form-group form-group-sm" />');
+                            var $inputGroup = $('<div class="form-row input-group-sm" />');
+                            var $inputLabel = $('<label class="col-xs-12 col-sm-4" />');
+                            $inputLabel.text('Relation:');
+                            $inputGroup.append($inputLabel);
+
+                            var $dropdown = _this._buildDdropdown('urlLinkRel', 'Not set', null, urlLinkRel, null, 'data-rel')
+                            $dropdown.addClass('col-xs-12 col-sm-8');
+                            $dropdown.find('.btn[data-toggle="dropdown"]').addClass('btn-sm');
+
+                            $inputGroup.append($dropdown);
+                            $formGroup.append($inputGroup);
+                            $form.append($formGroup);
+
+                        }
+
+                        return $form;
                     }
                 },
                 _generateTable: {
