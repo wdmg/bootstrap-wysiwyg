@@ -1873,11 +1873,22 @@
                 },
                 _jQueryInterface: {
                     value: function _jQueryInterface(config) {
-                        var _this = this;
+                        let _this = this;
                         config = config || {};
+
+                        if (/destroy|hide/.test(config)) {
+                            let element = $(_this);
+                            element.removeClass('hide');
+
+                            let editor = element.parent('.wysiwyg-editor');
+                            editor.replaceWith(element);
+
+                            return;
+                        }
+
                         return _this.each(function() {
-                            var $this = $(_this);
-                            var _config = $.extend({}, WYSIWYG.Default, $this.data(), typeof config === "object" && config);
+                            let $this = $(_this);
+                            let _config = $.extend({}, WYSIWYG.Default, $this.data(), typeof config === "object" && config);
                             new Editor(_this, _config);
                         });
                     }

@@ -2,6 +2,7 @@ Changelog
 =========
  
 ## 1.1.*
+ * Added destroy method
  * Added Gulp.js toolkit and change project structure
  
 ## 1.1.3 (2020-04-14)

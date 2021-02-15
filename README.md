@@ -21,6 +21,8 @@ For example use the input-group:
 
     <script type="text/javascript">
         $(document).ready(function () {
+        
+            // For init plugin use:
             $('#editor').wysiwyg({
                 toolbar: [
                     ['mode'],
@@ -46,6 +48,10 @@ For example use the input-group:
                 highlight: true,
                 debug: false
             });
+            
+            // To destroy plugin use:
+            $('#editor').wysiwyg('destroy');
+            
         });
     </script>
 
@@ -66,6 +72,7 @@ For example use the input-group:
 
 
 # Status and version
+* v.1.1.4 - Gulp, added destroy method
 * v.1.1.3 - Fixed path info in footer
 * v.1.1.2 - Added visual blocks view mode, fixed some bugs
 * v.1.1.1 - Bugfix
