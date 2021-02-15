@@ -4,7 +4,6 @@
   "main": "build/wysiwyg.js",
   "ignore": [
     "**/.*",
-    "LICENSE",
     "*.json",
     "src",
     "*.yml",
@@ -15,7 +14,6 @@
     "node_modules",
     "test",
     "composer.json",
-    "Gruntfile.js",
     "package.json",
     "package-lock.json"
   ],

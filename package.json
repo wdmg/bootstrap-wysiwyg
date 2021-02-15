@@ -7,29 +7,50 @@
     "wysiwyg",
     "editor"
   ],
-  "author": "W.D.M.Group, Ukraine <wdmg.com.ua@gmail.com> (https://wdmg.com.ua/)",
-  "main": "build/wysiwyg.js",
-  "dependencies": {
-    "@highlightjs/cdn-assets": "^10.0.3",
-    "bootstrap": "^3.4.0",
-    "grunt-autoprefixer": "^3.0.4",
-    "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-cssmin": "^3.0.0",
-    "grunt-contrib-less": "^1.4.1",
-    "grunt-contrib-uglify-es": "^3.3.0",
-    "grunt-contrib-watch": "^1.1.0",
-    "grunt-css": "^0.5.4",
-    "jquery": "^3.3.1"
+  "scripts": {
+    "start": "gulp",
+    "dev": "gulp watch"
   },
-  "devDependencies": {
-    "grunt": "latest"
+  "version": "1.1.3",
+  "author": {
+    "name": "W.D.M.Group, Ukraine",
+    "email": "office@wdmg.com.ua",
+    "url": "https://wdmg.com.ua/"
   },
-  "repository": "https://github.com/wdmg/bootstrap-wysiwyg.git",
-  "homepage": "http://wdmg.github.io/bootstrap-wysiwyg",
+  "contributors": [
+    {
+      "name": "Alexsander Vyshnyvetskyy",
+      "email": "alex.vyshnyvetskyy@gmail.com",
+      "url": "https://vyshnyvetskyy.com/"
+    }
+  ],
+  "main": "src/js/wysiwyg.js",
+  "homepage": "https://github.com/wdmg/bootstrap-wysiwyg",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wdmg/bootstrap-wysiwyg.git"
+  },
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/wdmg/bootstrap-wysiwyg/issues"
   },
-  "license": "MIT",
-  "version": "1.1.3"
+  "dependencies": {
+    "@highlightjs/cdn-assets": "^10.6.0",
+    "bootstrap": "^3.4.0",
+    "highlight.js": "^10.6.0",
+    "jquery": "^3.3.1"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.3",
+    "cross-env": "^7.0.2",
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-include": "^2.4.1",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-terser": "^2.0.0"
+  }
 }
