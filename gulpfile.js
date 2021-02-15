@@ -21,7 +21,6 @@ function js() {
         .pipe(jsConcat('wysiwyg.js'))
         .pipe(sourceMaps.write())
         .pipe(gulp.src('./node_modules/highlight.js/lib/highlight.js', { since: gulp.lastRun(js) }))
-        //.pipe(gulp.src('dist/js/highlight.js', { since: gulp.lastRun(js) }))
         .pipe(gulp.dest('dist/js'));
 }
 
@@ -32,15 +31,19 @@ function js_minify() {
         .pipe(gulp.dest('dist/js'));
 }
 
+function highlight_css() {
+    return gulp.src('./node_modules/highlight.js/styles/default.css', { since: gulp.lastRun(js) })
+        .pipe(renameIt('highlight.css'))
+        .pipe(gulp.dest('dist/css'));
+}
+
 function css() {
-    return gulp.src('src/scss/*.scss')
+    return highlight_css() && gulp.src('src/scss/*.scss')
         .pipe(sourceMaps.init())
         .pipe(gulpSass({
             includePaths: ['node_modules']
         }).on('error', gulpSass.logError))
         .pipe(sourceMaps.write())
-        .pipe(gulp.src('./node_modules/highlight.js/styles/default.css', { since: gulp.lastRun(js) }))
-        //.pipe(gulp.src('dist/css/default.css', { since: gulp.lastRun(js) }))
         .pipe(gulp.dest('dist/css'));
 }
 
