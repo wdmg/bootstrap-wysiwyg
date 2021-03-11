@@ -9,8 +9,15 @@ const cleanCSS = require('gulp-clean-css');
 const browserSync = require('browser-sync');
 const sourceMaps = require('gulp-sourcemaps');
 
+
+function highlight_js() {
+    return gulp.src('./node_modules/highlightjs/highlight.pack.js', { since: gulp.lastRun(js) })
+        .pipe(renameIt('highlight.js'))
+        .pipe(gulp.dest('dist/js'));
+}
+
 function js() {
-    return gulp.src('src/js/*.js')
+    return highlight_js() && gulp.src('src/js/*.js')
         .pipe(sourceMaps.init())
         .pipe(jsInclude({
             extensions: 'js',
@@ -20,7 +27,6 @@ function js() {
         .on('error', console.log)
         .pipe(jsConcat('wysiwyg.js'))
         .pipe(sourceMaps.write())
-        .pipe(gulp.src('./node_modules/highlight.js/lib/highlight.js', { since: gulp.lastRun(js) }))
         .pipe(gulp.dest('dist/js'));
 }
 
@@ -32,7 +38,7 @@ function js_minify() {
 }
 
 function highlight_css() {
-    return gulp.src('./node_modules/highlight.js/styles/default.css', { since: gulp.lastRun(js) })
+    return gulp.src('./node_modules/highlightjs/styles/default.css', { since: gulp.lastRun(js) })
         .pipe(renameIt('highlight.css'))
         .pipe(gulp.dest('dist/css'));
 }

@@ -1,7 +1,8 @@
 Changelog
 =========
  
-## 1.1.*
+## 1.1.4 (2021-03-11)
+ * Update Highlight.js
  * Added destroy method
  * Added Gulp.js toolkit and change project structure
  
