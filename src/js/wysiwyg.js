@@ -1243,6 +1243,7 @@
                                 html: true,
                                 trigger: 'manual',
                                 viewport: 'body',
+                                container: this._$toolbar,
                                 placement: 'bottom',
                                 content: function() {
 
