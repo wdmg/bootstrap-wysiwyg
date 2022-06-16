@@ -1451,22 +1451,22 @@
                 },
                 _buildLetterSpacingList: {
                     value: function buildLetterSpacingList() {
-                        var content = '<ul class="nav nav-pills nav-stacked">\n' +
-                            '  <li role="presentation"><a class="dropdown-item" href="#" data-action="letter-spacing" data-value="-5">-5</a></li>\n' +
-                            '  <li role="presentation"><a class="dropdown-item" href="#" data-action="letter-spacing" data-value="-3">-3</a></li>\n' +
-                            '  <li role="presentation"><a class="dropdown-item" href="#" data-action="letter-spacing" data-value="-2">-2</a></li>\n' +
-                            '  <li role="presentation"><a class="dropdown-item" href="#" data-action="letter-spacing" data-value="-1">-1</a></li>\n' +
-                            '  <li role="presentation"><a class="dropdown-item" href="#" data-action="letter-spacing" data-value="0">0</a></li>\n' +
-                            '  <li role="presentation"><a class="dropdown-item" href="#" data-action="letter-spacing" data-value="1">1</a></li>\n' +
-                            '  <li role="presentation"><a class="dropdown-item" href="#" data-action="letter-spacing" data-value="2">2</a></li>\n' +
-                            '  <li role="presentation"><a class="dropdown-item" href="#" data-action="letter-spacing" data-value="3">3</a></li>\n' +
-                            '  <li role="presentation"><a class="dropdown-item" href="#" data-action="letter-spacing" data-value="5">5</a></li>\n' +
-                            '  <li role="presentation"><a class="dropdown-item" href="#" data-action="letter-spacing" data-value="8">8</a></li>\n' +
-                            '  <li role="presentation"><a class="dropdown-item" href="#" data-action="letter-spacing" data-value="10">10</a></li>\n' +
-                            '  <li role="presentation"><a class="dropdown-item" href="#" data-action="letter-spacing" data-value="12">12</a></li>\n' +
-                            '  <li role="presentation"><a class="dropdown-item" href="#" data-action="letter-spacing" data-value="15">15</a></li>\n' +
-                            '  <li role="presentation"><a class="dropdown-item" href="#" data-action="letter-spacing" data-value="25">25</a></li>\n' +
-                            '  <li role="presentation"><a class="dropdown-item" href="#" data-action="letter-spacing" data-value="50">50</a></li>\n' +
+                        var content = '<ul class="dropdown-menu show" style="min-width: inherit;">\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="-5">-5</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="-3">-3</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="-2">-2</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="-1">-1</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="0">0</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="1">1</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="2">2</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="3">3</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="5">5</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="8">8</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="10">10</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="12">12</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="15">15</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="25">25</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="50">50</a></li>\n' +
                             '</ul>';
 
                         return content;
@@ -1474,12 +1474,12 @@
                 },
                 _buildLineHeightList: {
                     value: function buildLineHeightList() {
-                        var content = '<ul class="nav nav-pills nav-stacked">\n' +
-                            '  <li role="presentation"><a class="dropdown-item" href="#" data-action="line-height" data-value="0.5">0.5</a></li>\n' +
-                            '  <li role="presentation"><a class="dropdown-item" href="#" data-action="line-height" data-value="1.0">1.0</a></li>\n' +
-                            '  <li role="presentation"><a class="dropdown-item" href="#" data-action="line-height" data-value="1.15">1.15</a></li>\n' +
-                            '  <li role="presentation"><a class="dropdown-item" href="#" data-action="line-height" data-value="1.5">1.5</a></li>\n' +
-                            '  <li role="presentation"><a class="dropdown-item" href="#" data-action="line-height" data-value="2.0">2.0</a></li>\n' +
+                        var content = '<ul class="dropdown-menu show" style="min-width: inherit;">\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="line-height" data-value="0.5">0.5</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="line-height" data-value="1.0">1.0</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="line-height" data-value="1.15">1.15</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="line-height" data-value="1.5">1.5</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="line-height" data-value="2.0">2.0</a></li>\n' +
                             '</ul>';
 
                         return content;
