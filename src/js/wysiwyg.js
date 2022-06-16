@@ -437,12 +437,12 @@
                                                 _this._$content.focus();
                                             }
 
-                                            _this._$toolbar.find('.btn-group').removeClass('hide');
+                                            _this._$toolbar.find('.btn-group').removeClass('invisible hide');
                                             break;
 
                                         case 'source':
 
-                                            _this._$toolbar.find('.btn-group').not('#toolbarGroup-' + action).addClass('hide');
+                                            _this._$toolbar.find('.btn-group').not('#toolbarGroup-' + action).addClass('invisible hide');
 
                                             if (_this._config.mode !== value) {
 
@@ -1881,7 +1881,7 @@
 
                         if (/destroy|hide/.test(config)) {
                             let element = $(_this);
-                            element.removeClass('hide');
+                            element.removeClass('hide invisible');
 
                             let editor = element.parent('.wysiwyg-editor');
                             editor.replaceWith(element);
