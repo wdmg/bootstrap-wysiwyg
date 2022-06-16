@@ -1,6 +1,8 @@
 # Bootstrap WYSIWYG
 Simple editor plugin for Bootstrap
 
+Demo - https://www.jqueryscript.net/demo/wysiwyg-editor-bootstrap/
+
 # Installation
 
     $ npm install bootstrap-wysiwyg-editor
