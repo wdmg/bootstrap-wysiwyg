@@ -1214,7 +1214,7 @@
 
                         var _this = this;
                         var selection = _this._selection;
-                        var $button = $('<button type="button" class="btn btn-default" tabindex="-1" />');
+                        var $button = $('<button type="button" class="btn btn-outline-secondary" tabindex="-1" />');
 
                         if (action)
                             $button.attr('data-action', action);
@@ -1335,7 +1335,7 @@
                     value: function buildTollbarDropdown(action, list, label, tooltip) {
                         let dropdownId = 'action-'+action
                         var $dropdown = $('<div class="dropdown" />');
-                        var $dropdownBtn = $('<button id="'+dropdownId+'" type="button" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" />');
+                        var $dropdownBtn = $('<button id="'+dropdownId+'" type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" />');
                         var $dropdownMenu = $('<ul class="dropdown-menu" aria-labelledby="'+dropdownId+'" />');
                         var $dropdownItem = $('<li />');
                         var $dropdownLink = $('<a href="#" tabindex="-1" class="dropdown-item" />');
@@ -1572,7 +1572,7 @@
                             dataAttr = 'data-value';
 
                         var $dropdown = $('<div class="dropdown" />');
-                        var $dropdownButton = $('<button type="button" class="btn btn-block btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />');
+                        var $dropdownButton = $('<button type="button" class="btn btn-block btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />');
                         $dropdownButton.attr('id', dropdownId);
                         $dropdownButton.html(buttonText + ' ' + buttonCaret);
 
@@ -1625,12 +1625,12 @@
                         } else if (type == "video") {
                             var $dropdown = _this._buildDdropdown('videoServices', 'YouTube', null, videoServices, 'youtube', 'data-service');
                             $dropdown.attr('class', 'input-group-btn');
-                            $dropdown.find('.btn[data-toggle="dropdown"]').toggleClass('btn-default', 'btn-secondary');
+                            $dropdown.find('.btn[data-toggle="dropdown"]').toggleClass('btn-outline-secondary', 'btn-secondary');
                             $inputGroup.append($dropdown);
                         } else if (type == "link") {
                             var $dropdown = _this._buildDdropdown('urlSchemes', 'https://', null, urlSchemes, 'https', 'data-scheme');
                             $dropdown.attr('class', 'input-group-btn');
-                            $dropdown.find('.btn[data-toggle="dropdown"]').toggleClass('btn-default', 'btn-secondary');
+                            $dropdown.find('.btn[data-toggle="dropdown"]').toggleClass('btn-outline-secondary', 'btn-secondary');
                             $inputGroup.append($dropdown);
                         }
 
