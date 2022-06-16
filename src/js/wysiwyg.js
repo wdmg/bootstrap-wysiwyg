@@ -107,7 +107,7 @@
             'Blockquote': {
                 'action': 'formatblock',
                 'value': 'blockquote',
-                'wrap': '<blockquote />',
+                'wrap': '<blockquote class="blockquote"/>',
             },
             'Preformatted': {
                 'action': 'formatblock',
@@ -233,7 +233,7 @@
                 _this._$content.after(_this._$statusbar);
 
                 // Hide input editor
-                _this._$element.addClass('hide');
+                _this._$element.addClass('hide d-none');
 
                 // Build toolbar by config
                 if(typeof (_this._config.toolbar) == 'object') {
@@ -437,12 +437,12 @@
                                                 _this._$content.focus();
                                             }
 
-                                            _this._$toolbar.find('.btn-group').removeClass('hide');
+                                            _this._$toolbar.find('.btn-group').removeClass('invisible hide');
                                             break;
 
                                         case 'source':
 
-                                            _this._$toolbar.find('.btn-group').not('#toolbarGroup-' + action).addClass('hide');
+                                            _this._$toolbar.find('.btn-group').not('#toolbarGroup-' + action).addClass('invisible hide');
 
                                             if (_this._config.mode !== value) {
 
@@ -1214,7 +1214,7 @@
 
                         var _this = this;
                         var selection = _this._selection;
-                        var $button = $('<button type="button" class="btn btn-default" tabindex="-1" />');
+                        var $button = $('<button type="button" class="btn btn-outline-secondary" tabindex="-1" />');
 
                         if (action)
                             $button.attr('data-action', action);
@@ -1225,20 +1225,25 @@
                         if (hotkey)
                             $button.attr('data-hotkey', hotkey);
 
-                        if (tooltip) {
-                            $button.tooltip({
-                                html: true,
-                                placement: 'top',
-                                container: 'body',
-                                title: _this._translate(tooltip.toString().trim())
-                            });
-                        }
+                        if (icon)
+                            $button.append('<span class="' + icon + '" />');
+
+                        //! JB Removed
+                        ////if (tooltip) {
+                        ////    $button.find('span').tooltip({
+                        ////        html: true,
+                        ////        placement: 'top',
+                        ////        container: 'body',
+                        ////        title: _this._translate(tooltip.toString().trim())
+                        ////    });
+                        ////}
 
                         if (content) {
                             $button.popover({
                                 html: true,
                                 trigger: 'manual',
                                 viewport: 'body',
+                                container: this._$toolbar,
                                 placement: 'bottom',
                                 content: function() {
 
@@ -1323,20 +1328,17 @@
                             });
                         }
 
-                        if (icon)
-                            $button.append('<span class="' + icon + '" />');
-
                         return $button;
                     }
                 },
                 _buildTollbarDropdown: {
                     value: function buildTollbarDropdown(action, list, label, tooltip) {
-
+                        let dropdownId = 'action-'+action
                         var $dropdown = $('<div class="dropdown" />');
-                        var $dropdownBtn = $('<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" />');
-                        var $dropdownMenu = $('<ul class="dropdown-menu" />');
+                        var $dropdownBtn = $('<button id="'+dropdownId+'" type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" />');
+                        var $dropdownMenu = $('<ul class="dropdown-menu" aria-labelledby="'+dropdownId+'" />');
                         var $dropdownItem = $('<li />');
-                        var $dropdownLink = $('<a href="#" tabindex="-1" />');
+                        var $dropdownLink = $('<a href="#" tabindex="-1" class="dropdown-item" />');
 
                         if (typeof (list) == "object") {
 
@@ -1394,8 +1396,9 @@
 
                         $dropdownBtn.append('<b class="caret" />');
 
+                        //! JB Removed
                         if (tooltip) {
-                            $dropdownBtn.tooltip({
+                            $dropdownBtn.find('span').tooltip({
                                 html: true,
                                 placement: 'top',
                                 title: this._translate(tooltip.toString().trim())
@@ -1448,22 +1451,22 @@
                 },
                 _buildLetterSpacingList: {
                     value: function buildLetterSpacingList() {
-                        var content = '<ul class="nav nav-pills nav-stacked">\n' +
-                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="-5">-5</a></li>\n' +
-                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="-3">-3</a></li>\n' +
-                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="-2">-2</a></li>\n' +
-                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="-1">-1</a></li>\n' +
-                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="0">0</a></li>\n' +
-                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="1">1</a></li>\n' +
-                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="2">2</a></li>\n' +
-                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="3">3</a></li>\n' +
-                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="5">5</a></li>\n' +
-                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="8">8</a></li>\n' +
-                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="10">10</a></li>\n' +
-                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="12">12</a></li>\n' +
-                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="15">15</a></li>\n' +
-                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="25">25</a></li>\n' +
-                            '  <li role="presentation"><a href="#" data-action="letter-spacing" data-value="50">50</a></li>\n' +
+                        var content = '<ul class="dropdown-menu show" style="min-width: inherit;">\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="-5">-5</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="-3">-3</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="-2">-2</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="-1">-1</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="0">0</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="1">1</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="2">2</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="3">3</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="5">5</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="8">8</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="10">10</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="12">12</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="15">15</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="25">25</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="letter-spacing" data-value="50">50</a></li>\n' +
                             '</ul>';
 
                         return content;
@@ -1471,12 +1474,12 @@
                 },
                 _buildLineHeightList: {
                     value: function buildLineHeightList() {
-                        var content = '<ul class="nav nav-pills nav-stacked">\n' +
-                            '  <li role="presentation"><a href="#" data-action="line-height" data-value="0.5">0.5</a></li>\n' +
-                            '  <li role="presentation"><a href="#" data-action="line-height" data-value="1.0">1.0</a></li>\n' +
-                            '  <li role="presentation"><a href="#" data-action="line-height" data-value="1.15">1.15</a></li>\n' +
-                            '  <li role="presentation"><a href="#" data-action="line-height" data-value="1.5">1.5</a></li>\n' +
-                            '  <li role="presentation"><a href="#" data-action="line-height" data-value="2.0">2.0</a></li>\n' +
+                        var content = '<ul class="dropdown-menu show" style="min-width: inherit;">\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="line-height" data-value="0.5">0.5</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="line-height" data-value="1.0">1.0</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="line-height" data-value="1.15">1.15</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="line-height" data-value="1.5">1.5</a></li>\n' +
+                            '  <li role="presentation"><a class="dropdown-item text-center" href="#" data-action="line-height" data-value="2.0">2.0</a></li>\n' +
                             '</ul>';
 
                         return content;
@@ -1569,7 +1572,7 @@
                             dataAttr = 'data-value';
 
                         var $dropdown = $('<div class="dropdown" />');
-                        var $dropdownButton = $('<button type="button" class="btn btn-block btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />');
+                        var $dropdownButton = $('<button type="button" class="btn btn-block btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />');
                         $dropdownButton.attr('id', dropdownId);
                         $dropdownButton.html(buttonText + ' ' + buttonCaret);
 
@@ -1622,12 +1625,12 @@
                         } else if (type == "video") {
                             var $dropdown = _this._buildDdropdown('videoServices', 'YouTube', null, videoServices, 'youtube', 'data-service');
                             $dropdown.attr('class', 'input-group-btn');
-                            $dropdown.find('.btn[data-toggle="dropdown"]').toggleClass('btn-default', 'btn-secondary');
+                            $dropdown.find('.btn[data-toggle="dropdown"]').toggleClass('btn-outline-secondary', 'btn-secondary');
                             $inputGroup.append($dropdown);
                         } else if (type == "link") {
                             var $dropdown = _this._buildDdropdown('urlSchemes', 'https://', null, urlSchemes, 'https', 'data-scheme');
                             $dropdown.attr('class', 'input-group-btn');
-                            $dropdown.find('.btn[data-toggle="dropdown"]').toggleClass('btn-default', 'btn-secondary');
+                            $dropdown.find('.btn[data-toggle="dropdown"]').toggleClass('btn-outline-secondary', 'btn-secondary');
                             $inputGroup.append($dropdown);
                         }
 
@@ -1691,7 +1694,7 @@
                             var content = '';
                             content += '<div class="form-group form-group-sm">';
                             content += '    <div class="form-row">';
-                            content += '        <label class="col-xs-12 col-sm-4">Tile:</label>';
+                            content += '        <label class="col-xs-12 col-sm-4">Title:</label>';
                             content += '        <div class="col-xs-12 col-sm-8">';
                             content += '            <input type="text" class="form-control" id="urlTile" placeholder="Title of link..." />';
                             content += '        </div>';
@@ -1878,7 +1881,7 @@
 
                         if (/destroy|hide/.test(config)) {
                             let element = $(_this);
-                            element.removeClass('hide');
+                            element.removeClass('hide invisible');
 
                             let editor = element.parent('.wysiwyg-editor');
                             editor.replaceWith(element);
